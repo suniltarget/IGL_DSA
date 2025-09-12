@@ -1,0 +1,23 @@
+.ccc
+{
+    height:100vh!important;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#myProgress {
+    width: 40%;
+    margin: auto;
+    margin-top: 25%;
+    align-items: center;
+    display: flex;
+  }
+  .myBar {
+    font-size: 15px;
+    padding-top: 2px;
+    text-align: center;
+    border: solid;
+    border-radius: 15px;
+    height: 35px;
+    background-color: rgb(5, 90, 8);
+    background-image: linear-gradient(to right, yellow, green, #124e0a);
+  }

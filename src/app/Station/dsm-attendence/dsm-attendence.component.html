@@ -1,0 +1,93 @@
+<div class="main_heading">
+    <span class="heading_span"><h1>DSM Attendance</h1>
+    </span>
+</div>
+<div class="mycard">
+    <form class="stn_form">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Attendance Date <span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_input date_inuput">
+                        <ng-datepicker name="DateAttendece" [(ngModel)]="DateAttendece" [options]="options" class=" date_first dt_for-rep" (ngModelChange)="OnDateChnageFrom($event)" ></ng-datepicker>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Shift </label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_select">
+                        <select class="form-control" name="optShiftId" [(ngModel)]='SelectedShiftId'  (change)="onShiftSelect($event.target.value)">
+                            <option>--Select Shift--</option>
+                            <option *ngFor="let itm of ShiftList" [value]="itm.ShiftId">{{itm.ShiftDetails}}</option>
+                        </select>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Sub Shift </label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_select">
+                        <select class="form-control" name="optSubShiftId" [(ngModel)]='SubShiftId'>
+                            <option>--Select Sub-Shift--</option>
+                            <option *ngFor="let itm of SubShiftList" [value]="itm.SubShiftId">{{itm.SubShiftDetails}}</option>
+                        </select>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Finger Hash Code<span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="only_input">
+               <input type="text" class="form-control" name = "FHCode" [(ngModel)] = "FHCode" placeholder="">
+            </div>  
+           </div>  
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Remark<span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_input">
+                        <textarea class="form-control" [value]="Remark" (input)="Remark=$event.target.value"></textarea>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont"></div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_button">
+                        <button class="mybtn" (click)="insertRecord();" >Submit</button>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont"></div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_button">
+                        <button class="mybtn" (click)="VarifyFinger();" >Verify fingerprint</button>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </form>
+</div>

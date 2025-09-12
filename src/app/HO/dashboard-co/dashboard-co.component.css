@@ -1,0 +1,18 @@
+.last_cell i
+{
+    margin-left: 3px;
+}
+.last_cell i.fa-exclamation-triangle
+{
+    margin-left: 3px;
+    color: #ffd525;
+}
+.last_cell i.fa-check-circle
+{
+    margin-left: 3px;
+    color: white;
+}
+.divTableBody>.divTableRow:hover 
+{
+    color: black;
+}

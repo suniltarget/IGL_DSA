@@ -1,0 +1,95 @@
+.mypopup
+{
+    display:block;
+}
+.summryheader{
+    position: relative;
+    top: 6px;
+}
+.main_form_container
+{
+    padding-top:20px;
+}
+.main_form_container>.row
+{
+    margin-bottom: 15px;
+}
+.ngx-datepicker-container
+{
+    position: absolute;
+    background: #fff;
+    z-index: 10 !important;
+    display: block;
+    border-radius: 0px;
+    height: auto;
+    box-shadow: none;
+}
+.input_container input,.input_container select
+{
+    width:100%;
+}
+.label_container
+{
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+.report_row
+{
+    width:100%;
+    display: flex;
+    padding:0px 5px;
+}
+.report_row>div
+{
+    flex:1;
+    padding:5px;
+}
+.date_icon
+{
+    font-size: 18px;
+}
+.ngx-datepicker-container .ngx-datepicker-position-bottom-right
+{
+    right:0 !important;
+    left:auto !important;
+}
+.txtbold{
+    font-weight: bold;
+    font-size: 14px;
+}
+.txtnormal{
+    font-weight: normal;
+}
+.table-fixed {
+    width: 100%;
+  }
+  .table-fixed thead {
+      background-color:black;
+      color:white;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+  }
+  .table-fixed thead th {
+    background-color:black;
+    color:white;
+      position: sticky;
+      position: -webkit-sticky;
+      top: 0;
+  }
+  th {
+    background: var(--green_clr);
+    position: sticky;
+    top: 0; 
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+    color: var(--white_clr);
+  }
+  #btn1, #btn2
+{
+    width:20%;
+    float:left;
+}
+/* input:nth-child(3)
+{
+    display:none;
+} */

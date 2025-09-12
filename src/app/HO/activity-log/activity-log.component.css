@@ -1,0 +1,31 @@
+.marBotdate {
+    margin-bottom: 45px!important;
+}
+.summryheader
+{
+    position: relative;
+    top: 6px;
+}
+/* .ngx-datepicker-container
+{
+    position: absolute;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,.08);
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,.08);
+    border: 1px solid #dfe3e9;
+    border-radius: 4px;
+    z-index: 10 !important;
+} */
+.label_container
+{
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+.main_form_container
+{
+    padding-top:35px;
+}
+.date_icon
+{
+    font-size: 18px;
+}

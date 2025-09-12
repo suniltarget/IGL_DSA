@@ -1,0 +1,95 @@
+<div class="main_heading">
+    <span class="heading_span"><h1>Region Management </h1></span>
+    <span class="search_span">
+        <input type="text"  [value]="searchText" (input)="searchText = $event.target.value" placeholder="Search" class="form-control" autocomplete="off">  
+    </span>
+    <div class="head_right_div">
+        <span class="switch_span">
+            <div class="t_state_btn">
+                <div class="floating_div" id="tgt_div"></div>
+                <label>
+                    <input type="radio" id="ab"  name="swth" (change)="OnChangeStatus($event, 'swthActive')"/> 
+                    <span>Active</span>
+                </label>
+                <label>
+                    <input type="radio" id="regionCheck" name="swth" [checked]="Status == ''" (change)="OnChangeStatus($event, 'swthAll')"/> 
+                    <span>All</span>
+                </label>
+                <label>
+                    <input type="radio" id="ef" name="swth" (change)="OnChangeStatus($event, 'swthInActive')"/> 
+                    <span>InActive</span>
+                </label>
+            </div>
+        </span> 
+        <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+                <button><i class="fas fa-download"></i></button>
+        </span>
+        <span class="pop_btn_span">
+            <a title="Add New" (click)="addRegion();"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </span>
+    </div>  
+</div>
+<div class="mycard">
+    <div class="main_table_container">
+        <div class="vertScrollTbl">
+            <div class="divTableHeader">
+                <div class="divTableRow">
+                    <div class="divTableCell">
+                        Sr No.
+                    </div>
+                    <div [ngClass]="sortingColumn == 'RegionName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('RegionName')">
+                        Region Name <i [className]="sortingColumn == 'RegionName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'Status' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Status')">
+                        Status <i [className]="sortingColumn == 'Status' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div *ngFor="let itm of listRegion | orderBy: key: reverse | filterSearch : searchText: 'RegionSearch' ; let i = index"  [ngClass]="itm.RegionId == uniquePopupId ? 'divTableRow table_row_highlight':'divTableRow'" (click)="openPopupForUpdate(itm.RegionId,itm.Popup)">
+                    <div class="divTableCell">{{i+1}}</div>
+                    <div class="divTableCell">{{itm.RegionName}}</div>
+                    <div class="divTableCell">{{itm.Status}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div  class="regionMngeaddregoinpoup mypopup" *ngIf=(RegionPopup)>
+    <div class="popup_container popup_container_add_region" id="pop">
+        <div class="trigger_div">
+            <span class="mypop_heading_span">
+                <h4>{{title}}</h4>
+            </span>
+            <div class="mypop_head_right_div">
+                <span class="mypop_savebtn_sapn" title="Save">
+                    <i class="fa fa-floppy-o" aria-hidden="true" (click)="saveRegion();"></i>
+                </span>
+                <span class="mypop_closebtn_span" title="Close">
+                    <i class="fas fa-times" id="pass_close" (click)="RegionPopup = false"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div">
+            <form>
+                <div class="form-group">
+                    <label for="title">Region Name</label>
+                    <div class="inp_cont">
+                        <input type="text" placeholder="Region Name" class="form-control uppercase" name = "RegionName" [(ngModel)] = "RegionName" >
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <label for="firstName" class="col-3 control-label">Status</label>
+                        <div class="col-9">
+                            <div class="toggle-pnl">
+                                <input class="tgl tgl-ios ng-pristine ng-untouched ng-valid ng-not-empty" id="InvstUnMap_66" type="checkbox"  name = "DS" [(ngModel)] = "DS">
+                                <label class="tgl-btn" for="InvstUnMap_66"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

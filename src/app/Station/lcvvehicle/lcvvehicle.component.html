@@ -1,0 +1,98 @@
+<div class="main_heading">
+	<span class="heading_span"><h1>LCV  Vehicle </h1></span>
+	<span class="date_span" style="margin-right:auto;border:1px solid #ccc;">
+		 <ng-datepicker  [(ngModel)]="LCVEntryDate" [options]="options" class="ngx-datepicker-container dt_for-rep" (ngModelChange)="OnDateChnagefrom($event)"></ng-datepicker>
+	</span>
+</div>
+<div class="mycard">
+  <div class="main_form_container" style="background-color: #f7f7f7;">
+    <div class="row">
+        <div class="col-12">
+            <div class="report_row" style="padding: 1px 10px 10px 10px;margin-left: 0px;margin-right: 0px;background-color: #f7f7f7;">
+                <div>
+                    <div class="label_container" style="font-size: 14px;font-weight: bold;">From Station <span class="star">*</span> </div>
+                    <div class="input_container">
+                      <input type="text" name="Stationfrom" [(ngModel)] = "Stationfrom" class="form-control" [disabled]="isstationfrom">
+                   </div>
+                </div>
+                <div>
+                    <div class="label_container"style="font-size: 14px;font-weight: bold;">To Station <span class="star">*</span></div>                   
+                    <div class="filer_container">
+                      <form class="custom_dropdown">
+                          <input class="form-control filter_input" type="text" name="stCodeMy" [(ngModel)] = "stCodeMy" (click)="filterBoxShow($event)"  readonly placeholder="--Select Station Name--" />
+                      </form>
+                      <div class="filter_box" *ngIf=(fiterBox)>
+                          <input class="form-control" name="search" [(ngModel)] ="filterdd" type="search" placeholder="Search.." autocomplete="off" >
+                          <ul class="list-group fiter_ul" id="myList">
+                              <li class="list-group-item" *ngFor="let itm of listStation | filter:filterdd" (click)="filterBoxShow(itm)" [value]="itm.StationCode">{{itm.StationName}}</li>
+                          </ul>
+                      </div> 
+                  </div>
+                </div>                
+            </div>
+        </div>
+        <div class="col-12">
+          <div class="report_row" style="padding: 1px 10px 10px 10px;margin-left: 0px;margin-right: 0px;background-color: #f7f7f7;">
+              <div>
+                  <div class="label_container"style="font-size: 14px;font-weight: bold;">LCV KG <span class="star">*</span></div>
+                  <div class="input_container">
+                    <input type="text" name="LCVKG" [(ngModel)] = "LCVKG" class="form-control">
+                 </div>
+              </div>
+              <div>
+                  <div class="label_container"style="font-size: 14px;font-weight: bold;">NO. OF TRIPS <span class="star">*</span></div>                   
+                  <div class="input_container">
+                    <input type="text" name="Trips" [(ngModel)] = "Trips" class="form-control">
+                 </div>
+              </div>                
+          </div>
+      </div>
+      <div class="col-12">
+        <div class="report_row" style="padding: 1px 10px 10px 10px;margin-left: 0px;margin-right: 0px;background-color: #f7f7f7;">
+            <div>
+              <div class="label_container"style="font-size: 14px;font-weight: bold;">LCV NO <span class="star">*</span></div>
+              <div class="input_container">
+                <input type="text" name="LCVNO" [(ngModel)] = "LCVNO" class="form-control">
+             </div>
+          </div>   
+            <div class="row form_row">
+                <div class="input_container" style="padding-top: 18px;;">
+                  <button class="mybtn" (click)="InsertLCVVehicl()" >SAVE</button>
+                </div>
+            </div>              
+        </div>
+    </div>
+    </div>
+</div>
+<div class="mycard">  
+	<div class="main_table_container"style="height: 65%;overflow: auto;">
+	<div class="vertScrollTbl">
+		<div class="divTableHeader">
+			<div class="divTableRow">
+				<div class="divTableCell">Sr No.</div>
+				<div class="divTableCell">From Station</div>
+				<div class="divTableCell">To Station </div>
+				<div class="divTableCell">LCV KG</div>
+        <div class="divTableCell">NO. of Trips</div>
+        <div class="divTableCell">LCVNO</div>
+				<div class="divTableCell" style="width:150px;text-align:center;">Action</div>
+			</div>
+		</div>
+		<div class="divTableBody">
+			<div class="divTableRow" *ngFor = "let itm of lcvlist, let i = index">
+				<div class="divTableCell">{{i+1}}</div>
+				<div class="divTableCell">{{itm.Fromstation}}</div>
+				<div class="divTableCell">{{itm.Tostation}}</div>
+				<div class="divTableCell">{{itm.LCVKG}}</div>
+        <div class="divTableCell">{{itm.Trips}}</div>
+        <div class="divTableCell">{{itm.LCVNO}}</div>
+				<div class="divTableCell" >
+					<button type="button" class="btn btn-xs btn-success width_50" (click) = "Edit(itm)">Edit</button>					
+					<button type="button" class="btn btn-xs btn-danger width_50" (click) ="Deletelcv(itm.id)">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+</div>

@@ -1,0 +1,311 @@
+<div class="main_heading" style="margin-bottom: 0px;">
+    <span class="heading_span"><h1>Dispenser Reading</h1></span>
+    <div class="head_right_div">
+        <span class="pop_btn_span">
+        </span>`
+    </div>  
+</div>
+<div class="mycont">
+    <form>
+        <div class="row shift_cont">
+            <div class="col-md-3">
+                <div class="label_container">
+                    <label>Shift</label>
+                </div>
+                <div class="input_container">
+                    <select  (change)="onSelectShift($event.target.value)" name="optShift" class="form-control" [(ngModel)]="selectedShiftId">
+                        <option value="-1" selected>--Select Shift--</option>
+                        <option *ngFor="let itm1 of cmbShiftData;" [value]="itm1.ShiftId">{{itm1.ShiftDetails}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="label_container">
+                    <label>Sub Shift</label>
+                </div>
+                <div class="input_container">
+                    <select (change)="onSelectSubShift($event.target.value)" name="optSubShift"  class="form-control"  [(ngModel)]="selectedSubShiftId">
+                        <option value="-1" selected>--Select Sub Shift--</option>
+                        <option *ngFor="let itm of cmbSubShiftData;" [value]="itm.SubShiftId">{{itm.SubShiftDetails}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-3">
+                <div class="label_container text-right" style="margin-top:22px;">
+                   <span class="rate_span"><label>Current Rate : </label> <span>{{CurrentRate}}</span></span> 
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="vertScrollTbl">
+        <div class="divTableHeader">
+            <div class="divTableRow">
+                <div class="divTableCell">
+                    Sr No.
+                </div><div class="divTableCell">
+                    Dispenser Name
+                </div>
+                <div class="divTableCell prevA_cell">
+                    Prev A
+                </div>
+                <div class="divTableCell armA_cell">
+                    Arm A
+                </div>
+                <div class="divTableCell prevB_cell">
+                    Prev B
+                </div>
+                <div class="divTableCell armB_cell">
+                    Arm B
+                </div>
+                <div class="divTableCell">
+                    Jump A/B
+                </div>
+                <div class="divTableCell ">
+                    Arm A Sale 
+                </div>
+                <div class="divTableCell">
+                    Arm B Sale 
+                </div>
+                <div class="divTableCell">
+                    Total Sale
+                </div>
+            </div>
+        </div>
+        <div class="divTableBody">
+            <div class="divTableRow" *ngFor="let itm of allDispenserData, let i=index">
+                <div class="divTableCell">{{i+1}}</div>
+                <div class="divTableCell">{{itm.DispenserName}}</div>
+                <div class="divTableCell">{{itm.PreArmReadingA}}</div>
+                <div class="divTableCell">
+                    <input type="text" placeholder="Arm A" class="inp_num" disabled  min="0" name = "ArmA" [(ngModel)] = "itm.ArmReadingA" (input)="OnchangeA(itm)" (focusout)="validation(itm,'ArmA')">
+                </div>
+                <div class="divTableCell">{{itm.PreArmReadingB}}</div>
+                <div class="divTableCell">
+                    <input  type="text" placeholder="Arm B" class="inp_num" min="0" name = "ArmB" [(ngModel)] = "itm.ArmReadingB" disabled (input)="OnchangeB(itm)" (focusout)="validation(itm,'ArmB')">
+                </div>
+                <div class="divTableCell">
+                    <button class="mybtn" data-toggle="modal" data-target="#myModal" [disabled]="jumppopup" (click)="getvalues(itm)">Jump Reading A/B</button></div>  
+                <div class="divTableCell">{{itm.TotA}}</div>
+                <div class="divTableCell">{{itm.TotB}}</div>
+                <div class="divTableCell">{{itm.FinalTot}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="modal mymodal" id="myModal">
+        <div class="popup_container" style="box-shadow: 0px 25px 18px -25px rgba(0, 0, 0, .5);
+        border: 1px solid var(--gray_clr);">
+            <div class="trigger_div">
+                <span class="mypop_heading_span"><h4>Jump Reading</h4></span>
+                <div class="mypop_head_right_div">
+                    <span class="mypop_closebtn_span"><i class="fas fa-times" data-dismiss="modal"></i></span>
+                </div>
+            </div>
+            <div class="content_div">
+                <form class="jump_reading_pop_form">
+                <div class="form_grp_row">
+                    <div class="left_label_cont">
+                        <label>Arms</label>
+                    </div>
+                    <div class="right_input_cont">
+                        <div class="for_input">
+                            <div class="only_select amrs_right radio" (change)="ArmSelection($event.target.value)">
+                                <label><input type="radio" name="Arms" value="ArmA" [checked]="armSide == 'armA'" > Arm 'A'</label>
+                                <label><input type="radio" name="Arms" value="ArmB" [checked]="armSide == 'armB'" > Arm 'B'</label>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+                <div class="form_grp_row">
+                    <div class="left_label_cont">
+                        <label>Jump/Reset</label>
+                    </div>
+                    <div class="right_input_cont">
+                        <div class="for_input">
+                            <div class="only_select">
+                                <select class="form-control" [(ngModel)]="FlagJumpType" name="FlagJumpSelect"  (change)="ChangeJumpType($event.target.value)" disabled>
+                                    <option value="Jump">Jump</option>
+                                    <option value="Reset">Reset/Change</option>
+                                </select>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+                <div class="form_grp_row">
+                    <div class="left_label_cont">
+                        <label>Before</label>
+                    </div>
+                    <div class="right_input_cont">
+                        <div class="for_input">
+                            <div class="only_input">
+                                <input type="text" placeholder="" class="form-control" [(ngModel)]="before" name="before" disabled>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+                <div class="form_grp_row">
+                    <div class="left_label_cont">
+                        <label>After</label>
+                    </div>
+                    <div class="right_input_cont">
+                        <div class="for_input">
+                            <div class="only_input">
+                                <input type="text" placeholder="" class="form-control" [(ngModel)]="after" name="after" disabled>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+                <div class="form_grp_row">
+                    <div class="left_label_cont">
+                        <label>Attachment</label>
+                    </div>
+                    <div class="right_input_cont" style="position:relative;">
+                        <div class="for_input">
+                            <input type="file" id="fileInput" name="fileInput" (change)="onChangeImage($event.target.files, $event)" [disabled]="IsJumpSelected" style="pointer-events:none;">
+                            <span *ngIf="!IsFileSelected" class="temp_file_name" style="right:-6px;">{{FileName}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form_grp_row">
+                    <div class="left_label_cont">
+                        <label>Remarks</label>
+                    </div>
+                    <div class="right_input_cont">
+                        <div class="for_input">
+                            <div class="only_txtarea">
+                                <input type="text" placeholder="Remark" class="form-control" name = "Remark" [(ngModel)] = "remark" disabled>
+                            </div>
+                        </div>  
+                    </div>
+                </div>
+            </form>
+            <div class="vertScrollTbl">
+                <div class="divTableHeader">
+                    <div class="divTableRow">
+                        <div class="divTableCell">Sr No.</div>
+                        <div class="divTableCell">Before</div>
+                        <div class="divTableCell">After</div>
+                        <div class="divTableCell">Jumped</div>
+                        <div class="divTableCell">JumpSide</div>
+                        <div class="divTableCell">Remark</div>
+                        <div class="divTableCell">Action</div>
+                    </div>
+                </div>
+                <div class="divTableBody">
+                    <div class="divTableRow" *ngFor = "let itm of listJumpedReading, let i = index">
+                        <div class="divTableCell">{{i+1}}</div>
+                        <div class="divTableCell">{{itm.DispanserBeforeJump}}</div>
+                        <div class="divTableCell">{{itm.DispanserAfterJump}}</div>
+                        <div class="divTableCell">{{itm.DispanserJump}}</div>
+                        <div class="divTableCell">{{itm.DispanserSide}}</div>
+                        <div class="divTableCell">{{itm.DispanserJumpRemark}}</div>
+                        <div class="divTableCell"><span (click) = "UpdateJumpReading(itm.DispanserJumpId, itm)">Edit</span></div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="popdiv" class="jump_read_pop" *ngIf="popupFlag">
+            <div class="popup_container">
+                <div class="trigger_div">
+                    <span class="mypop_heading_span">
+                        <h4>Jump Reading</h4>
+                    </span>
+                    <div class="mypop_head_right_div">
+                        <span class="mypop_savebtn_sapn"  title="Save">
+                            <i class="fa fa-floppy-o" (click)="saveJumpReading();"></i>
+                        </span>
+                        <span class="mypop_closebtn_span" title="Close">
+                            <i class="fas fa-times" (click)="closePopup();"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="panel-body content_div" id="form_area" style="overflow: auto">
+                <div class="row">
+                    <div class="col-12">
+                        <form class="form-horizontal marBot-10" role="form" >
+                            <div class="form-group">
+                            <label for="FlagJumpType" class="col-4 control-label">Jump/Reset</label>
+                            <div class="col-8">
+                                <select [(ngModel)]="FlagJumpType" name="FlagJumpSelect"  (change)="ChangeJumpType($event.target.value)" class="form-control">
+                                <option selected value="Jump">Jump</option>
+                                <option value="Reset">Reset/Change</option>
+                                </select>
+                            </div>
+                            </div>
+                            <div class="form-group">
+                            <label for="before" class="col-4 control-label">Before</label>
+                            <div class="col-8">
+                                <input type="text" placeholder="" class="form-control" [(ngModel)]="before" name="before">
+                            </div>
+                            </div>
+                            <div class="form-group">
+                            <label for="after" class="col-4 control-label">After</label>
+                            <div class="col-8">
+                                <input type="text" placeholder="" class="form-control" [(ngModel)]="after" name="after">
+                            </div>
+                            </div>
+                            <div class="form-group">
+                            <label for="after" class="col-4 control-label">Attachment</label>
+                            <div class="col-8" style="position:relative;">
+                                <input type="file" id="fileInput" [(ngModel)]="fileInput" name="fileInput" (change)="onChangeImage($event.target.files, $event)" [disabled]="IsJumpSelected">
+                                <span *ngIf="!IsFileSelected" class="temp_file_name">{{FileName}}</span>
+                            </div>
+                            </div>
+                            <div class="form-group">
+                            <label for="Remark" class="col-4 control-label">Remark</label>
+                            <div class="col-8">
+                                <input type="text" placeholder="Remark" class="form-control" name = "Remark" [(ngModel)] = "remark" >
+                            </div>
+                            <div class="col-4"></div>
+                            </div>
+                        </form>
+                        <div class="vertScrollTbl">
+                            <div class="tblHeaderContainer">
+                            <div class="divTable jumpReading">
+                                <div class="divTableHeader">
+                                    <div class="divTableRow">
+                                        <div class="divTableCell">
+                                        Sr No.
+                                        </div>
+                                        <div class="divTableCell">
+                                        Before
+                                        </div>
+                                        <div class="divTableCell">
+                                        After
+                                        </div>
+                                        <div class="divTableCell">
+                                        Jumped
+                                        </div>
+                                        <div class="divTableCell">
+                                        Remark
+                                        </div>
+                                        <div class="divTableCell">
+                                            Action
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="tblBodyContainer heightSetpoupdispenserreading" style="overflow-y:scroll ">
+                            <div class="divTable jumpReading hoverTable">
+                            <div class="divTableBody">
+                                <div class="divTableRow" *ngFor="let itm of listJumpedReading; let i = index">
+                                    <div class="divTableCell">{{i + 1}}</div>
+                                    <div class="divTableCell">{{itm.DispanserBeforeJump}}</div>
+                                    <div class="divTableCell">{{itm.DispanserAfterJump}}</div>
+                                    <div class="divTableCell">{{itm.DispanserJump}}</div>
+                                    <div class="divTableCell">{{itm.DispanserJumpRemark}}</div>
+                                    <div class="divTableCell"><span (click) = "UpdateJumpReading(itm.DispanserJumpId, itm)">Edit</span>&nbsp;&nbsp;<b>|</b><span><i (click) ="DeleteJumpReading(itm.DispanserJumpId, itm)" class="fa fa-close" style="color:red;margin-left: 9px;font-size: 16px;"></i></span></div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+    </div>

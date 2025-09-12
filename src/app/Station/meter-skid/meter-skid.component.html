@@ -1,0 +1,133 @@
+<div class="main_heading">
+    <span><h1>Meter Skid </h1></span>
+    <span class="stn_nama_span"><strong>Station Name :</strong> {{stationName}}</span>
+</div>
+<div class="mycard mycards">
+    <div class="main_table_container">
+        <div class="panelbody">
+            <div class="sap_no_div">
+                <div class="sap_1">SAP Equipment Number :</div>
+                <div class="sap_2">{{meterStationSkidData.MeterSkidCode}}</div>
+            </div>
+            <form class="stn_mtskid_form">
+                <div class="row form_row">
+					<div class="col-lg-3 col-md-12">
+						<div class="label_container">
+							<label for="colFormLabelSm">Flow Meter Totaliser <span class="star">*</span></label>
+						</div>
+					</div>
+					<div class="col-lg-5 col-xs-5">
+						<div class="input-group  input_container">
+							<input id="email" type="text" class="form-control" name="email" [value]="meterTotaliser" (input)="meterTotaliser = $event.target.value">
+							<span class="input-group-addon">Prev :{{((meterStationSkidData.FlowMeterTotaliserPrv == null)?'0.00':meterStationSkidData.FlowMeterTotaliserPrv)}}</span>   
+						</div>
+					</div>
+					<div class="col-lg-2 col-xs-2">
+						<button class="mybtn" data-toggle="modal" data-target="#myModal">Change/Reset</button>
+					</div>
+                </div>
+                <div class="row form_row">
+                    <div class="col-lg-3 col-md-12">
+                        <div class="label_container">
+                            <label for="colFormLabel">Jump</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-9">
+                        <div class="input_container">
+                            <input type="checkbox" class="check_zoom" id="Ischeckbox" (input)="OnCheckboxChange($event)">
+                        </div>
+                    </div>
+                </div>
+                <div class="row form_row" [hidden]="JumpVisible">
+					<div class="col-lg-3 col-md-12">
+						<div class="label_container">
+							<label for="colFormLabel">Jump Reading</label>
+						</div>
+					</div>
+					<div class="col-lg-5 col-xs-5">
+						<div class="input_container">
+							<input type="text" class="form-control" [value]="jumpReading" (input)="jumpreadingValue($event.target.value)">
+						</div>
+					</div>
+					<div class="col-lg-2 col-xs-2">
+						<input type="file" name="fileInput" id="fileInput" (change)="uploadJumpReadingImg($event.target.files, $event)" [disabled]="filevisible">
+					</div>
+                </div>
+                <div class="row form_row" [hidden]="JumpVisible">
+					<div class="col-lg-3 col-md-12">
+						<div class="label_container">
+							<label for="colFormLabel">Jump Reading Count</label>
+						</div>
+					</div>
+					<div class="col-lg-5 col-xs-7">
+						<div class="inupt_container">
+							<input type="text" class="form-control" id="colFormLabel" [value]="jumpReadingCount" (input)="jumpReadingCount = $event.target.value">
+						</div>
+                    </div> 
+                </div>
+                <div class="row form_row">
+					<div class="col-lg-3 col-md-12">
+						<div class="label_container">
+							<label for="colFormLabelLg">Remarks</label>
+						</div>
+					</div>
+					<div class="col-lg-5 col-xs-7">
+						<textarea class="form-control form-control-lg" [value]="remark" (input)="remark = $event.target.value"></textarea>
+					</div>
+                </div>
+                <div class="row form_row">  
+					<div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-0">
+						<div class="input_container">
+							<button class="mybtn" [hidden]="isStationSubmitted > 0  || isCRSentToHo > 0" (click)="insertStationSkid()">Save</button>
+						</div>
+					</div>  
+                </div>
+              </form>
+              <div class="msg">
+                <p class="data_submit_msg" [hidden]="isStationSubmitted == 0 ">* Data is submitted for the day</p>
+                <p class="data_submit_msg" [hidden]="isCRSentToHo == 0 ">* Submission is closed for Today from Control Room.</p>
+              </div>
+        </div>
+    </div>
+</div>
+    <div id="myModal" class="modal fade mypopup" >
+        <div class="popup_container popup_container_mtrskd_reset_meter">
+            <div class="trigger_div">
+                <span class="mypop_heading_span">
+                    <h4>Change / Reset Meter</h4>
+                </span>
+                <div class="mypop_head_right_div">
+                    <span class="mypop_savebtn_sapn"  title="Save">
+                        <i class="fa fa-floppy-o" (click)="changeresetpopup()"></i>
+                    </span>
+                    <span class="mypop_closebtn_span" title="Close">
+                        <i class="fas fa-times" data-dismiss="modal"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="content_div">
+                <form >
+                    <div class="form-group">
+                        <label><strong>Action</strong> </label>
+                        <select class="form-control" (change)="resetchange($event.target.value)">
+                            <option value='R'>Reset</option>
+                            <option value='C'>Change</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><strong>Old Meter Reading</strong> <span class="star">*</span></label>
+                        <input type="text"  class="form-control" [value]="OldMeterReading" (input)="OldMeterReading=$event.target.value"  placeholder="Old Meter Reading">
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-6">
+                            <label><strong>Jump Reading</strong><span class="star">*</span></label>
+                            <input type="text"  class="form-control" [value]="JReading" (input)="JReadingvalue($event.target.value)" placeholder="Jump Reading">
+                        </div>
+                        <div class="col-6">
+                            <input class="form-control" type="file" style="margin-top: 25px;margin-left: 10px;" name="fileInputreset" id="fileInputreset" (change)="fileuploadreset($event.target.files, $event)" [disabled]="popupfilevisible">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

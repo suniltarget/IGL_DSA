@@ -1,0 +1,10 @@
+.myckecinline
+{
+    padding-left:0px;
+}
+.myckecinline input
+{
+    height: 20px!important;
+    transform: scale(1.2,1.2);
+    margin-right:7px;
+}

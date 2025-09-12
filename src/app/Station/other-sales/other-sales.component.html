@@ -1,0 +1,89 @@
+<div class="main_heading" style="margin-bottom: 0px;">
+    <span class="heading_span"><h1> Other Sales</h1></span>
+    <div class="head_right_div">
+        <span class="pop_btn_span"*ngIf="submitButton">
+            <button title="Previous" *ngIf="(showPrevious)" (click)="onClickPrevious();" class="mybtn"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+            <button title="Save & Next" *ngIf="(showNext)" (click)="onClickNext();" class="mybtn">Save & Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+        </span>
+    </div>  
+</div>
+<div style="margin:28px 15px 15px 20px;">
+    <form role="form" class="form-horizontal">
+        <div class="form-group">
+            <label for="Shift" class="col-lg-3 col-sm-4 control-label">Shift<span class="star">*</span></label>
+            <div class="col-lg-4 col-sm-5" >
+                <select (change)="onSelectShift($event.target.value)"  name="optShift" class="form-control" [(ngModel)]="selectedShiftId">
+                    <option value="-1" selected>--Select Shift--</option>
+                    <option *ngFor="let itm of cmbShiftData" [value]="itm.ShiftId">{{itm.ShiftDetails}}</option>
+                </select>
+            </div>                           
+        </div>             
+        <div class="form-group" *ngFor="let pm of AddPaymentMode">
+            <label for="{{pm.PaymentMode}" class="col-lg-3 col-sm-4 control-label">{{pm.PaymentMode}} (&#8377;)</label>
+            <div class="col-lg-4 col-sm-5" >
+                <input class="form-control" style="padding-right:0px;" (input)="onPayemntEntry($event.target,pm.PaymentModeId)" value="{{pm.PaymentAmount}}"  type="number" value="0.0000" min="0" (blur)="checkout()"> 
+            </div>
+            <div class="col-1" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="ClusterSale" class="col-lg-3 col-sm-4 control-label">Cluster Sale</label>
+            <div class="col-lg-4 col-sm-5" >
+                <ng-multiselect-dropdown 
+                name = "ClusterDropdown" 
+                [placeholder]="'--Select Cluster Company--'"
+                [data]="CompanyClusterList" 
+                [(ngModel)]="selectedItems" 
+                [settings]="dropdownSettings"
+                (onSelect)="onItemSelect($event)"
+                (onDeSelect)="onItemDeSelect($event)"
+                (onDeSelectAll)="onDeSelectAll()"
+                (onSelectAll)="onSelectAll($event)"
+              >
+              </ng-multiselect-dropdown>
+            </div>                           
+        </div>  
+        <div class="form-group">
+            <label for="ClusterSale" class="col-lg-3 col-sm-4 control-label">No. of Cluster Bus</label>
+            <div class="col-lg-4 col-sm-5" >
+                <input type="text" [value]="NoOfClusterBus" (input)="NoOfClusterBus=$event.target.value" class="form-control"  placeholder="No. of Cluster Bus">
+            </div>      
+        </div>  
+        <div class="form-group">
+            <label for="ClusterSale" class="col-lg-3 col-sm-4 control-label">Sale Quantity</label>
+            <div class="col-lg-4 col-sm-5" >
+                <input type="text" [value]="SaleQty" (input)="SaleQty=$event.target.value" class="form-control"  placeholder="Sale Quantity">
+            </div>      
+        </div>  
+        <div class="form-group">
+            <label for="ClusterSale" class="col-lg-3 col-sm-4 control-label">Voucher Image</label>
+            <div class="col-lg-4 col-sm-5" >
+                <input type="file"  id="VoucherImageInput" name="VoucherImageInput" (change)="fileuploadreset($event.target.files, $event)" class="form-control" style="margin-top: 5px;">
+                &nbsp;&nbsp;&nbsp;&nbsp;<button data-toggle="modal" (click)="ViewVoucherImage()" [attr.data-target]="ModalName" class="btn btn-xs btn-success width_50" style="margin-left: 3px;margin-right: 3px;">View</button>
+            </div>      
+        </div>  
+    </form>
+</div>
+<div id="myModalImage" class="modal fade">
+    <div class="rateMnggemetnaddrate mypopup " >  
+        <div class="popup_container popup_container_jump_attc">
+            <div class="trigger_div">
+                <span class="mypop_heading_span">
+                    <h4>Voucher Image</h4>
+                </span>
+                <div class="mypop_head_right_div">
+                    <span class="mypop_closebtn_span" title="Close">
+                        <i class="fas fa-times" data-dismiss="modal"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="content_div content_div_jump_attc">
+                <div class="upld_img_cont" style="max-width:100%;">
+                    <span class="upload_span">
+                          <img [src]="DocumentImagePath" class="img-responsive" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/No_image_available_600_x_450.svg/600px-No_image_available_600_x_450.svg.png';"  />
+                    </span> 
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>

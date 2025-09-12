@@ -1,0 +1,127 @@
+.summryheader{
+    position: relative;
+    top: 6px;
+}
+.ngx-datepicker-container{
+    position: absolute;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,.08);
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,.08);
+    border: 1px solid #dfe3e9;
+    border-radius: 4px;
+    z-index: 10 !important;
+}
+.ngx-datepicker-container .ngx-datepicker-input{
+    padding: 5px 10px;
+    font-size: 14px;
+    width: 324px !important;
+    outline: 0;
+    border: 1px solid #dfe3e9;
+}
+.prg_row
+{
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 10px;
+}
+.prg_row>.col-md-2
+{
+    width:200px;
+}
+.progress_sec
+{
+    height:100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    padding-top:30px;
+}
+.progress
+{
+    width: 100%;
+    min-width: 535px;
+}
+.panel-heading-btns a[title="Save"]:hover
+{
+    background-color:white;
+    color:var(--black_clr);
+    opacity: 1;
+}
+.old_pop_form_div form .form-group label
+{
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 7px;
+    margin-top:5px;
+    display: block;
+}
+.panel-heading
+{
+    height: 37px!important;
+    min-height: unset;
+    padding: 0px;
+    padding-left: 12px;
+}
+.panel-heading-btns .btn
+{
+    height:37px;
+    line-height: 37px;
+}
+.mypopup
+{
+    display:block;
+}
+.popup_container_upd_dispenser
+{
+    width:750px;
+}
+.hgt
+{
+    height:75vh;
+}
+.popup_container_history_pop
+{
+    width:1100px;
+}
+.mypopup .popup_container .trigger_div.main_heading
+{
+    justify-content: unset!important;
+    margin-bottom: 0px!important;
+}
+.divTableBody>.divTableRow:hover .divTableCell:last-child a
+{
+    border: 1px solid white;
+    display: inline-block;
+    color: white;
+    border-radius: 2px;
+    padding: 0px 5px;
+    transition-duration: 0s;
+}
+@media (max-width: 1380px)
+{
+    .vertScrollTbl 
+    {
+        width: auto;
+    }
+}
+@media (max-width:980px)
+{
+    .popup_container_upd_dispenser
+    {
+        width:650px;
+    }
+}
+@media (max-width:700px)
+{
+    .popup_container_upd_dispenser
+    {
+        width:90%;
+    }
+}
+.list-group-item.active, .list-group-item.active:hover, .list-group-item:hover 
+{
+    border-right: none;
+    margin-right: 0px;
+}

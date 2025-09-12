@@ -1,0 +1,121 @@
+<div class="main_heading">
+  <span class="heading_span"><h1>DSM Management</h1></span>
+  <span class="search_span">
+      <input type="text"  name="search" [(ngModel)] ="filter" placeholder="Search" class="form-control" autocomplete="off">
+  </span>
+  <div class="head_right_div">
+    <span class="switch_span">
+        <div class="t_state_btn">
+            <div class="floating_div" id="tgt_div"></div>
+            <label>
+                <input type="radio" id="ab"  name="swth" (change)="OnChangeStatus($event, 'swthActive')"/> 
+                <span>Active</span>
+            </label>
+            <label>
+                <input type="radio" id="DSMCheck" name="swth" [checked]="Status == ''" (change)="OnChangeStatus($event, 'swthAll')"/> 
+                <span>All</span>
+            </label>
+            <label>
+                <input type="radio" id="ef" name="swth" (change)="OnChangeStatus($event, 'swthInActive')"/> 
+                <span>InActive</span>
+            </label>
+        </div>
+    </span> 
+      <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+          <button><i class="fas fa-download"></i></button>
+      </span>
+      <span class="pop_btn_span">
+          <a title="Add New"  data-toggle="modal" (click)="openAddDisp();"  data-target="#myModal">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+         </a>
+      </span>
+  </div>
+</div>
+<div class="mycard">
+  <div class="main_table_container">
+      <div class="vertScrollTbl">
+          <div class="divTableHeader">
+              <div class="divTableRow">
+                  <div class="divTableCell">
+                      Sr. No.
+                  </div>
+                  <div [ngClass]="sortingColumn == 'DSMCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DSMCode')">
+                      Emp Code <i [className]="sortingColumn == 'DSMCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+                  <div [ngClass]="sortingColumn == 'DSMName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DSMName')">
+                       Name <i [className]="sortingColumn == 'DSMName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+                  <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationName')">
+                      Station <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                  <div [ngClass]="sortingColumn == 'Status' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Status')">
+                      Status <i [className]="sortingColumn == 'Status' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                 </div>
+              </div>
+          </div>
+          <div class="divTableBody">
+              <div *ngFor="let itm of listDSM | filter : filter  | orderBy: key: reverse ; let i = index" data-toggle="modal" data-target="#myModal" (click)="openUpdatePopup(itm)" [ngClass]="itm.DSMId == uId ? 'divTableRow table_row_highlight' : 'divTableRow'">
+                  <div class="divTableCell">{{i+1}}</div>
+                  <div class="divTableCell">{{itm.DSMCode}}</div>
+                  <div class="divTableCell">{{itm.DSMName}}</div>
+                  <div class="divTableCell">{{itm.StationName}}</div>
+                  <div class="divTableCell">{{itm.Status}}</div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div id="myModal" class="modal fade mypopup" *ngIf=(DSMPopup) role="dialog">
+  <div class="popup_container popup_container_offc_ctr">
+      <div class="trigger_div">
+          <span class="mypop_heading_span">
+              <h4>{{title}} DSM</h4>
+          </span>
+          <div class="mypop_head_right_div">
+              <span class="mypop_savebtn_sapn"  title="Save">
+                  <i class="fa fa-floppy-o" aria-hidden="true" (click)="save();"></i>
+              </span>
+              <span class="mypop_closebtn_span" title="Close">
+                  <i class="fas fa-times" data-dismiss="modal"></i>
+              </span>
+          </div>
+      </div>
+      <div class="content_div">
+          <form >
+              <div class="form-group">
+                  <label for="exampleInputEmail1">DSM Code<span class="star">*</span></label>
+                  <input type="text" class="form-control" name = "DSMCode" [(ngModel)] = "DSMCode" placeholder="DSM Code">
+              </div>
+              <div class="form-group">
+                  <label for="exampleInputPassword1">Name<span class="star">*</span></label>
+                  <input type="text" class="form-control" name = "DSMName" [(ngModel)] = "DSMName" placeholder="DSM Name">
+              </div>
+              <div cclass="form-group">
+                <label for="StationName">Station<span class="star">*</span></label>
+                 <div class="filer_container">
+                    <form class="custom_dropdown">
+                        <input class="form-control filter_input" type="text" name="stCodeMy" [(ngModel)] = "stCodeMy" (click)="filterBoxShow()"  readonly />
+                    </form>
+                     <div class="filter_box" *ngIf=(fiterBox)>
+                        <input class="form-control" name="search" [(ngModel)] ="filterdd" type="search" placeholder="Search.." autocomplete="off" >
+                        <ul class="list-group fiter_ul" id="myList">
+                            <li class="list-group-item" *ngFor="let itm of StationList | filter:filterdd" (click)="filterBoxShow(itm)" [value]="itm.StationId">{{itm.StationName}}</li>
+                        </ul>
+                    </div> 
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                    <label for="firstName" class="col-3 control-label">Status</label>
+                    <div class="col-9">
+                        <div class="toggle-pnl">
+                            <input class="tgl tgl-ios ng-pristine ng-untouched ng-valid ng-not-empty" id="InvstUnMap_66" type="checkbox"  name = "DS" [(ngModel)] = "DS">
+                            <label class="tgl-btn" for="InvstUnMap_66"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </form>
+      </div>
+  </div>
+</div>

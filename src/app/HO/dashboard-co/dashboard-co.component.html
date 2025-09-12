@@ -1,0 +1,42 @@
+<div class="main_heading">
+	<span class="heading_span"><h1>Dashboard Control</h1></span>
+	<span class="date_span" style="margin-right:auto;">
+		<ng-datepicker [(ngModel)]="DPREntryDate" [options]="options" class="ngx-datepicker-container dt_for-rep" (ngModelChange)="OnDateChnagefrom($event)"></ng-datepicker>
+	 </span>
+</div>
+<div class="mycard">
+    <div class="main_table_container">
+        <div class="vertScrollTbl">
+			<div class="divTableHeader">
+				<div class="divTableRow">
+					<div class="divTableCell">
+                        Sr No.
+                    </div>
+					<div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationCode')">
+						Station Code <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>
+					<div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationName')">
+						Station Name <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>
+					<div [ngClass]="sortingColumn == 'Region' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Region')">
+						Station Region <i [className]="sortingColumn == 'Region' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>
+					<div [ngClass]="sortingColumn == 'DS' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DS')">
+						Status <i [className]="sortingColumn == 'DS' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>       
+				</div>
+			</div>  
+			<div class="divTableBody">
+				<div class="divTableRow" *ngFor="let dashCoItem of dashboardCoData | orderBy: key: reverse; let i = index" [ngStyle]="{'background-color':dashCoItem.DS === 'Not Submitted' ? '' : '' }">
+					<div class="divTableCell">{{i+1}}</div>
+					<div class="divTableCell" >{{dashCoItem.StationCode}}</div>
+					<div class="divTableCell" >{{dashCoItem.StationName}}</div>
+					<div class="divTableCell" >{{dashCoItem.Region}}</div>
+					<div class="divTableCell last_cell" [ngStyle]="{'background-color':dashCoItem.DS === 'Not Submitted' ? '#ffcaca' : '#86d886', 'font-size':dashCoItem.DS === 'Not Submitted' ? '13px' : '13px','color':dashCoItem.DS === 'Not Submitted' ? 'red' : 'green'}">
+						{{dashCoItem.DS}} 
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>

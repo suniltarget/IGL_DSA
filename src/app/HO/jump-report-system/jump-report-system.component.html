@@ -1,0 +1,106 @@
+<div class="main_heading">
+  <span class="heading_span"><h1>Jump Reading System</h1></span>
+</div>
+<div class="mycard">
+  <div style="height:70px;margin-bottom: 3px;">
+    <div class="row">
+      <div class="col-sm-3" style="width:auto;">
+        <div class="input-group">
+          <label class="date_label">From</label>
+            <ng-datepicker [(ngModel)]="DateFrom" [options]="options" (ngModelChange)="OnDateChnageFrom($event)"></ng-datepicker> 
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="input-group">
+          <label class="date_label">To</label>
+            <ng-datepicker [(ngModel)]="DateTo" [options]="options" (ngModelChange)="OnDateChnageTo($event)"></ng-datepicker>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main_table_container" style="height:calc(100% - 75px);">
+      <div class="vertScrollTbl">
+          <div class="divTableHeader">
+              <div class="divTableRow">
+                  <div class="divTableCell" style="text-align: center;">
+                      Action  
+                  </div>
+                  <div [ngClass]="sortingColumn == 'ApprovedDate' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('ApprovedDate')">
+                    Date <i [className]="sortingColumn == 'ApprovedDate' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+                  <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationName')">
+                       Station <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+                  <div [ngClass]="sortingColumn == 'DispenserName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DispenserName')">
+                      Equipment <i [className]="sortingColumn == 'DispenserName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                  <div [ngClass]="sortingColumn == 'Arms' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Arms')">
+                      Arms <i [className]="sortingColumn == 'Arms' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                 </div>
+                 <div [ngClass]="sortingColumn == 'ReadingBeforeJump' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('ReadingBeforeJump')">
+                  Reading Before Jump <i [className]="sortingColumn == 'ReadingBeforeJump' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                </div>
+                  <div [ngClass]="sortingColumn == 'ReadingAfterJump' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('ReadingAfterJump')">
+                    Reading After Jump <i [className]="sortingColumn == 'ReadingAfterJump' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+                <div [ngClass]="sortingColumn == 'TotalJump' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('TotalJump')">
+                  Total Jump <i [className]="sortingColumn == 'TotalJump' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                </div>
+                <div [ngClass]="sortingColumn == 'ApprovedByStation' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('ApprovedByStation')">
+                  Approved By Station <i [className]="sortingColumn == 'ApprovedByStation' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                </div>
+                <div [ngClass]="sortingColumn == 'IsApprovedByONM' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('IsApprovedByONM')">
+                  Approved By ONM <i [className]="sortingColumn == 'IsApprovedByONM' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                </div>
+                <div [ngClass]="sortingColumn == 'IsApprovedByMO' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('IsApprovedByMO')">
+                  Approved By AMO <i [className]="sortingColumn == 'IsApprovedByMO' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                </div>
+              </div>
+          </div>
+          <div class="divTableBody">
+              <div class="divTableRow" *ngFor="let itm of JumpReadingData | filter : filter  | orderBy: key: reverse ; let i = index" (click)="GetRowdata(itm)">
+                  <div class="divTableCell" *ngIf="itm.UserRole == 'SO'">
+                    <span  *ngIf="itm.ApprovedByStation== 1" class="btn_CRS_default">Accepted</span>
+                    <button type="button" data-toggle="modal" data-target="#myModal"  *ngIf="itm.ApprovedByStation== 2" class="btn btn-xs btn-danger">Rejected</button>
+                    <button type="button" *ngIf="itm.ApprovedByStation==0" class="btn btn-xs btn-success" (click)="UpdateJumpReadingStatusByRole('A',itm)">Accept</button>
+                    <button type="button" *ngIf="itm.ApprovedByStation==0" class="btn btn-xs btn-danger"  (click)="UpdateJumpReadingStatusByRole('R', itm)">Reject</button>
+                 </div>
+                 <div class="divTableCell" *ngIf="itm.UserRole == 'CO'">
+                   <span  *ngIf="itm.IsApprovedByONM == 1" class="btn_CRS_default">Accepted</span>
+                   <button type="button" data-toggle="modal" data-target="#myModal"  *ngIf="itm.IsApprovedByONM == 2" class="btn btn-xs btn-danger">Rejected</button>
+                   <button type="button" *ngIf="itm.IsApprovedByONM == 0" class="btn btn-xs btn-success" (click)="UpdateJumpReadingStatusByRole('A',itm)">Accept</button>
+                   <button type="button" *ngIf="itm.IsApprovedByONM == 0" class="btn btn-xs btn-danger"  (click)="UpdateJumpReadingStatusByRole('R',itm)">Reject</button>
+                </div>
+                 <div class="divTableCell" *ngIf="itm.UserRole == 'MO'">
+                  <span *ngIf="itm.IsApprovedByMO== 1" class="btn_CRS_default">Accepted</span>
+                  <button type="button" data-toggle="modal" data-target="#myModal"  *ngIf="itm.IsApprovedByMO== 2" class="btn btn-xs btn-danger">Rejected</button>
+                  <button type="button" *ngIf="itm.IsApprovedByMO==0" class="btn btn-xs btn-success" (click)="UpdateJumpReadingStatusByRole('A',itm)">Accept</button>
+                  <button type="button" *ngIf="itm.IsApprovedByMO==0" class="btn btn-xs btn-danger"  (click)="UpdateJumpReadingStatusByRole('R',itm)">Reject</button>
+               </div>
+                  <div class="divTableCell"  >{{itm.ApprovedDate}}</div>
+                  <div class="divTableCell" >{{itm.StationName}}</div>
+                  <div class="divTableCell" >{{itm.DispenserName}}</div>
+                  <div class="divTableCell" >{{itm.Arms}}</div>
+                  <div class="divTableCell" >{{itm.ReadingBeforeJump}}</div>
+                  <div class="divTableCell" >{{itm.ReadingAfterJump}}</div>
+                  <div class="divTableCell" >{{itm.TotalJump}}</div>
+                  <div class="divTableCell text_center">
+                    <i class="fas fa-check mycheck" *ngIf="itm.ApprovedByStation == 1"></i>  
+                     <i class="fas fa-times myclose" *ngIf="itm.ApprovedByStation==2"></i>
+                     <i class="fas fa-minus" *ngIf="itm.ApprovedByStation == 0"></i>
+                  </div>
+                  <div class="divTableCell text_center">
+                    <i class="fas fa-check mycheck" *ngIf="itm.IsApprovedByONM == 1"></i>   
+                    <i class="fas fa-times myclose" *ngIf="itm.IsApprovedByONM==2"></i>
+                    <i class="fas fa-minus" *ngIf="itm.IsApprovedByONM == 0"></i>
+                  </div>
+                  <div class="divTableCell text_center" >
+                    <i class="fas fa-check mycheck" *ngIf="itm.IsApprovedByMO == 1"></i> 
+                    <i class="fas fa-times myclose" *ngIf="itm.IsApprovedByMO==2"> </i>
+                    <i class="fas fa-minus" *ngIf="itm.IsApprovedByMO == 0"></i>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

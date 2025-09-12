@@ -1,0 +1,35 @@
+<div class="main_heading">
+	<span class="heading_span"><h1>Daily DPR Mail</h1>
+	</span>
+	<div class="head_right_div">
+	<span class="pop_btn_span">
+		<a title="Sent Email" (click)="MailSend()" data-popup-open="popup-1"><i class="fas fa-envelope"></i></a>
+	</span>
+</div>
+</div>
+<div class="mycard">
+	<form class="stn_form">
+ 	<div class="form_grp_row">
+			<div class="left_label_cont">
+				<label>Email <span class="star">*</span></label>
+			</div>
+			<div class="right_input_cont">
+				<div class="for_input">
+					<div class="only_input date_inuput">
+						<textarea [value]="DPREmail" (input)="DPREmail=$event.target.value" class="form-control"></textarea>
+					</div>
+				</div>  
+			</div>
+		</div>
+		<div class="form_grp_row">
+			<div class="left_label_cont"></div>
+			<div class="right_input_cont">
+				<div class="for_input">
+					<div class="only_button">
+						<button class="mybtn" (click)="OnSubmit();">Save</button>
+					</div>
+				</div>  
+			</div>
+		</div>
+	</form>
+</div>

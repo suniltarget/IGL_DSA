@@ -1,0 +1,352 @@
+.d_flex
+{
+    display: flex!important;
+}
+.align_items_center
+{
+    align-items: center;
+}
+.main_heading
+{
+    justify-content: space-between;
+}
+.accord_form_container
+{
+    box-shadow: 2px 2px 5px rgba(0,0,0,.2);
+    margin-bottom: 7px;
+    overflow: hidden;
+}
+a.new
+{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #3d3d3d;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 15px 10px;
+    outline: none;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 5px rgba(0,0,0,.2);
+    margin-bottom: 1px;
+    background-image: var(--before_gradient);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 2px;
+}
+a.new:hover
+{
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+a.new:hover,a.new:focus
+{
+	outline: none;
+    text-decoration:none;
+}
+a.new span
+{
+    margin-right:13px;
+    display: inline-block;
+    width: 15px;
+    height: 20px;
+    position: relative;
+}
+a.new span::before
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f054";
+    color: var(--light_black_clr);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 19px;
+    top: 0px;
+    left: 0px;
+}
+a.new>span>img
+{
+    width:13px;
+}
+.open
+{
+    display: none;
+    overflow: hidden;
+    background: var(--gray_clr);
+    padding-bottom: 15px;
+}
+.max_container
+{
+    text-align: right;
+}
+.rotate
+{
+    transform:rotate(90deg);
+}
+.maximize_div
+{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 9px;
+    margin-bottom: 10px;
+}
+.maximize_div i
+{
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 16px;
+    opacity:.7;
+    cursor: pointer;
+}
+.maximize_div i:hover
+{
+    opacity:1;
+}
+.maximizer
+{
+    border: 1px solid #c7c7c7;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    top: 50px;
+    width: auto;
+    max-width:1240px;
+    box-shadow: 0px 15px 21px -22px rgba(0, 0, 0, 0.9);
+    z-index: 150;
+}
+.p_event
+{
+    pointer-events: none;
+}
+.bg_clr
+{
+    background-color:#cfcfcf;
+}
+.form_scroll
+{
+    overflow-y: auto;
+    min-height: 478px;
+    max-height: calc(100vh - 130px);
+}
+.head_grd_chng
+{
+    background-image:var(--after_gradient)!important;
+    color:var(--theme_light_black_clr)!important;
+}
+.back_clr_change
+{
+    background-color:var(--light_black_clr)!important;
+    color:var(--theme_light_black_clr)!important;
+}
+.stn_loop>h3
+{
+    border-bottom: 1px solid var(--gray_clr);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    font-size: 17px;
+    margin-top: 30px;
+}
+.attach_icon_container
+{
+    margin-right:10px;
+    border:1px solid transparent;
+}
+.attach_icon_container img
+{
+    width:20px;
+}
+.attach_icon_container:hover
+{
+    border-color:#b8b8b8;
+}
+.show
+{
+    display: block!important;
+}
+.hide
+{
+    display: none!important;
+}
+.main_heading
+{
+    justify-content:space-between;
+}
+#customers {
+    border-collapse: collapse;
+    min-width: 1000px;
+    overflow-y: scroll; 
+    width: 100%;
+}
+.yClass{
+    background-color: white!important
+}
+.gClass{
+    background-color:#f2dede!important
+}
+#customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    font-size: 15px;
+}
+#customers tr:nth-child(even){background-color: #fff;}
+#customers tr:hover {background-color: #fff;}
+#customers th 
+{
+    padding: 5px 15px;
+    text-align: center;
+    background-color: white;
+    color: black;
+    width: 250px;
+}
+.DescHeadingSize{
+    font-size: 10px
+}
+#customers tr td
+{
+    text-align:left;
+    background-color: #e6e6e6;
+}
+.fixedheader{
+border-collapse: collapse;
+width: 100%;
+}
+#fixedheader td, #fixedheader th {
+padding: 8px;
+} 
+#fixedheader th {
+padding: 5px 15px;
+text-align: center;
+background-color: #59636a;
+color: white;
+}   
+.shift{
+text-align: center;
+font-weight: bold;
+}
+.summryheader{
+    position: relative;
+    top: 6px;
+}
+.summryExport{
+    left: 21px;
+    position: relative;
+    font-size: 17px;
+    top: 2px;
+    cursor: pointer;
+    color: #fff;
+}
+.ngx-datepicker-input 
+{
+    width: 100%!important;
+    height:0px!important;
+}
+.form_label
+{
+    margin-bottom: 3px
+}
+.form_label{
+    display: block;
+    font-size: 15px;
+    font-weight: normal !important;
+}
+/* .ngx-datepicker-container 
+{
+    width: 100%!important;
+    height:42px!important;
+    padding: 4px 4px;
+    font-size: 14px;
+    outline: 0;
+    border: 1px solid #dfe3e9;
+} */
+.report_row
+{
+    width:100%;
+    display: flex;
+    padding:0px 5px;
+    /* font-size: 14px;
+    font-weight: bold;
+    font-family: emoji; */
+}
+.report_row>div
+{
+    flex:1;
+    padding-right: 200px;}
+.popup_container_confirm .trigger_div
+{
+    background-color:white;
+    color:var(--dark_green_clr);
+    padding-top: 16px;
+}
+.mypopup .popup_container_confirm .trigger_div div.mypop_head_right_div .mypop_closebtn_span i
+{
+    color: red;
+}
+.mypop_heading_span
+{
+    margin-left: auto!important;
+    margin-right: auto!important;
+    padding-left: 46px;
+}
+.mypop_heading_span h4
+{
+    color: black;
+    font-size: 17px!important;
+}
+.msg
+{
+    margin-bottom: 20px;
+    margin-top: 17px;
+}
+.msg p
+{
+    text-align: center;
+    font-size: 15px;
+}
+.msg p:first-of-type
+{
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+.inp_section>div
+{
+    text-align: center;
+    margin-bottom: 12px;
+}
+.inp_section>div:last-of-type
+{
+    margin-top: 18px;
+}
+.inp_section>div:last-of-type button
+{
+    transition-duration:.2s;
+}
+.inp_section>div:last-of-type button:hover
+{
+    box-shadow: 0px 5px 5px rgba(0,0,0,.2);
+    transition-duration:.2s;
+}
+.inp_section>div:last-of-type button:first-child
+{
+    text-align: center;
+    margin-bottom: 15px;
+    background-color:green;
+}
+.inp_section>div:last-of-type button:last-child
+{
+    text-align: center;
+    margin-bottom: 15px;
+    background-color:red;
+    margin-left: 7px;
+}
+.successmsg {
+    text-align: center;
+    color: green;
+    font-size: 15px;
+    margin-bottom: 5px;
+}

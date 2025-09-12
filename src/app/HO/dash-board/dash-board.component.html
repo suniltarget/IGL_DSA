@@ -1,0 +1,132 @@
+<div class="main_heading">
+	<span class="heading_span"><h1>Dashboard DSA</h1></span>
+	<span class="date_span">
+		<ng-datepicker [(ngModel)]="Dashdate" [options]="options" class="ngx-datepicker-container" (ngModelChange)="OnDateChnage($event)"></ng-datepicker>
+	</span>
+</div>
+ <div class="mycard" *ngIf="UserType == 'HO'">
+	<section class="progress_sec">
+		<div class="progress_div">
+			<div class="row prg_row" *ngFor="let dataItem of StaionDetails">
+				<div class="col-md-3 col-lg-3">
+					<span class="progress_city">{{dataItem.Name}}</span>
+				</div>
+				<div class="col-md-7 col-lg-8">
+					<div class="myprogress">
+						<div class="myprog_inner" [style.width.%]="dataItem.MOPer">
+							<span class="progress_content">{{(dataItem.SubmitedStation=='0') ? dataItem.StCount : dataItem.SubmitedStation}}/{{dataItem.StCount}}</span>
+							<span>{{dataItem.MOPer}}%</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 col-lg-1 text-center" >
+					<span class="status" style="color:#d00000;" *ngIf="dataItem.MOPer != 100">Pending <i class="fas fa-exclamation-circle"></i></span>
+					<span class="status" *ngIf="dataItem.MOPer == 100">Complete <i class="fas fa-check-circle"></i></span>
+				</div>
+			</div>
+		</div>
+	</section>
+</div> 
+<div class="mycard" *ngIf="UserType == 'JMR'">
+	<section class="progress_sec">
+		<div class="progress_div">
+			<div class="row prg_row" *ngFor="let dataItem of StaionDetails">
+				<div class="col-md-3 col-lg-3">
+					<span class="progress_city">{{dataItem.Name}}</span>
+				</div>
+				<div class="col-md-7 col-lg-8">
+					<div class="myprogress">
+						<div class="myprog_inner" [style.width.%]="dataItem.MOPer">
+							<span class="progress_content">{{(dataItem.SubmitedStation=='0') ? dataItem.StCount : dataItem.SubmitedStation}}/{{dataItem.StCount}}</span>
+							<span>{{dataItem.MOPer}}%</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 col-lg-1 text-center" >
+					<span class="status" style="color:#d00000;" *ngIf="dataItem.MOPer != 100">Pending <i class="fas fa-exclamation-circle"></i></span>
+					<span class="status" *ngIf="dataItem.MOPer == 100">Complete <i class="fas fa-check-circle"></i></span>
+				</div>
+			</div>
+		</div>
+	</section>
+</div> 
+ <div class="mycard" *ngIf="UserType == 'MO'">
+    <div class="main_table_container">
+		<div class="vertScrollTbl" >
+			<div class="divTableHeader">
+				<div class="divTableRow">
+				<div class="divTableCell">
+					Sr No.
+				</div>
+				<div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationCode')">
+					Station Code <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+				</div>
+				<div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationName')">
+					Station Name <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+				</div>
+				<div [ngClass]="sortingColumn == 'FinalPer' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('FinalPer')">
+					Progress Bar <i [className]="sortingColumn == 'FinalPer' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+				</div>            
+				</div>
+			</div>
+			<div class="divTableBody">
+				<div  class="divTableRow" *ngFor="let itm of StaionDetails | filterSearch : searchText: 'DashboardStation' | orderBy: key : reverse;  let i = index">
+				<div class="divTableCell">
+					{{i+1}}
+				</div>
+				<div class="divTableCell" >
+					{{itm.StationCode}}
+				</div>
+				<div class="divTableCell" >
+					{{itm.StationName}}
+				</div>
+				<div class="divTableCell" >
+					<div class="progress" style="margin-bottom:0px; ">
+						<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" attr.aria-valuenow="{{itm.FinalPer}}%" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width':itm.FinalPer+'%'}">
+							({{itm.FinalPer}}%)
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="vertScrollTbl" *ngIf="UserType == 'HO'">
+			<div class="divTableHeader">
+				<div class="divTableRow">
+				<div class="divTableCell">
+					Sr No.
+				</div>
+				<div class="divTableCell" (click)="sortCol('Name')"><i [className]="reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>&nbsp;&nbsp;
+					MO Name
+				</div>
+				<div class="divTableCell" (click)="sortCol('StCount')"><i [className]="reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>&nbsp;&nbsp;
+				Total Station
+				</div>
+				<div class="divTableCell" (click)="sortCol('MOPer')">
+					Progress Bar
+				</div>            
+				</div>
+			</div>
+			<div class="divTableBody">
+				<div  class="divTableRow" *ngFor="let itm of StaionDetails | filterSearch : searchText: 'DashboardMO' | orderBy: key : reverse; let i =index" >
+					<div class="divTableCell">
+						{{i+1}}
+					</div>
+					<div class="divTableCell" >
+						{{itm.Name}}
+					</div>
+					<div class="divTableCell" >
+						{{itm.StCount}}
+					</div>
+					<div class="divTableCell" >
+						<div class="progress" style="margin-bottom:0px;">
+							<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" attr.aria-valuenow="{{itm.MOPer}}%" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width':itm.MOPer+'%'}">
+								({{itm.MOPer}}%)
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>  

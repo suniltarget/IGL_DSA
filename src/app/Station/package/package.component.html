@@ -1,0 +1,487 @@
+<div class="main_heading">
+  <span><h1>Package </h1></span>
+  <span class="stn_nama_span"><strong>Station Name :</strong> {{stationName}}</span>
+</div>
+<div class="mycard mycards">
+  <div class="main_table_container">
+        <div class="left_list_div">
+            <ul class="tab_ul" *ngFor="let itm of TablesPkgs">
+                <li>
+                    <a href="javascript:void(0)" data-toggle="tab" [ngClass]="{'active_tab': PackageId==itm.PackageId}" (click)="GetPackageDetail(itm.PackageId)">{{itm.PackageName}}
+                   </a>
+               </li>
+            </ul>
+        </div>
+        <div class="right_form_div">
+            <div class="sap_no_div">
+                <div class="sap_1">SAP Equipment Number:</div>
+                <div class="sap_2">{{PackageCode}}</div>
+            </div>
+                      <div class="tab-content">
+                          <div class="tab-pane active" id="home">
+                              <form>
+                                  <div class="row form_row">
+                                      <div class="col-lg-3 col-md-12">
+                                          <div class="label_container">
+                                              <label>Suction Flow Meter Reading (kg)<span class="star">*</span></label>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-5 col-xs-9">
+                                          <div class="input-group input_container">
+                                              <input type="text" id="txtSuctionFlowMeterReadingSFM" name="txtSuctionFlowMeterReadingSFM" [(ngModel)]="PackageDetailJson[0].SuctionFlowMeterReading" placeholder="Suction Flow Meter Reading" class="form-control">
+                                              <span class="input-group-addon">Prev: {{PackageDetailJson[0].SuctionFlowMeterReadingPrv == null ? "0.000" : PackageDetailJson[0].SuctionFlowMeterReadingPrv}}</span>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-2 col-xs-2">
+                                          <div>
+                                              <button class="mybtn" data-toggle="modal" data-target="#myModal" (click)="resetPopupSFM('true')">Change/Reset</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                                 <div class="row form_row">
+                                        <div class="col-lg-3 col-md-12">
+                                        <div class="label_container">
+                                            <label for="colFormLabel">Jump SFS</label>
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-5 col-md-9">
+                                        <div class="input_container">
+                                            <input type="checkbox" class="check_zoom" id="IscheckboxSFS" [value]="" (input)="OnCheckboxChange($event, 'SFS')">
+                                        </div>
+                                        </div>
+                                  </div>
+                                  <div class="row form_row" [hidden]="JumpVisibleSFS">
+                                      <div class="col-lg-3 col-md-12">
+                                          <div class="label_container">
+                                              <label>Jump Reading</label>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-5 col-xs-9">
+                                          <div class="input_container">
+                                              <input type="text" id="JumpReadingSFM" name="JumpReadingSFM" [(ngModel)]="PackageDetailJson[0].JumpReadingSFM" placeholder="Jump Reading" class="form-control">
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-2 col-xs-2" [hidden]="mdlImgShowSFM==false">
+                                          <div><img ng-src="assets/images/attachment.gif" (click)="showCertificates('SFM');"></div>
+                                      </div>
+                                      <div class="col-lg-2 col-xs-3">
+                                          <div class="input_container">
+                                              <input multiple type="file" id="JumpCertificateSFM" name="JumpCertificateSFM" [(ngModel)]="PackageDetailJson[0].JumpCertificateSFM"  (change)="uploadJumpReadingImgSFM($event.target.files, $event)"  [disabled]="(PackageDetailJson[0].JumpReadingSFM == '' || PackageDetailJson[0].JumpReadingSFM == 0)">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row form_row" [hidden]="JumpVisibleSFS">
+                                      <div class="col-lg-3 col-md-12">
+                                          <div class="label_container">
+                                              <label>Jump Reading Count</label>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-5 col-xs-12">
+                                          <div class="input_container">
+                                              <input type="text" placeholder="Count" name="JumpReadingSFMCount" [(ngModel)]="PackageDetailJson[0].JumpReadingSFMCount" class="form-control">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row form_row">
+                                      <div class="col-lg-3 col-md-12">
+                                          <div class="label_container">
+                                              <label>Discharge Flow Meter Reading (kg)<span class="star">*</span></label>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-5 col-xs-9">
+                                          <div class="input-group input_container">
+                                              <input type="text" name="DischargeFlowMeterReading" id="DischargeFlowMeterReading" placeholder="Discharge Flow Meter Reading" [(ngModel)]="PackageDetailJson[0].DischargeFlowMeterReading" class="form-control">
+                                              <span class="input-group-addon">Prev: {{PackageDetailJson[0].DischargeFlowMeterReadingPrv == null ? "0.000" : PackageDetailJson[0].DischargeFlowMeterReadingPrv}}</span>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-3 col-xs-3">
+                                          <div>
+                                              <button class="mybtn" data-toggle="modal" data-target="#myModals" (click)="resetPopupDFM(true)">Change/Reset</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                                 <div class="row form_row">
+                                    <div class="col-lg-3 col-md-12">
+                                    <div class="label_container">
+                                        <label for="colFormLabel">Jump DFS</label>
+                                    </div>
+                                    </div>
+                                    <div class="col-lg-5 col-md-9">
+                                    <div class="input_container">
+                                        <input type="checkbox" class="check_zoom" id="IscheckboxDFS" [value]="" (input)="OnCheckboxChange($event, 'DFS')">
+                                    </div>
+                                    </div>
+                                  </div>
+                                  <div class="row form_row" [hidden]="JumpVisibleDFS">
+                                      <div class="col-lg-3 col-md-12">
+                                          <div class="label_container">
+                                              <label>Jump Reading</label>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-5 col-xs-9">
+                                          <div class="input_container">
+                                              <input type="text" name="JumpReadingDFM" id="JumpReadingDFM" [(ngModel)]="PackageDetailJson[0].JumpReadingDFM" placeholder="Jump Reading"  class="form-control">
+                                          </div>
+                                      </div>
+                                      <div class="col-xs-2" [hidden]="mdlImgShowDFM==false">
+                                            <div><img ng-src="assets/images/attachment.gif" (click)="showCertificates('DFM')"></div>
+                                     </div>
+                                      <div class="col-lg-3 col-xs-3">
+                                          <div class="input_container">
+                                              <input multiple type="file" name="JumpCertificateDFM" id="JumpCertificateDFM" [(ngModel)]="PackageDetailJson[0].JumpCertificateDFM" (change)="uploadJumpReadingImgDFM($event.target.files, $event)" [disabled]="(PackageDetailJson[0].JumpReadingDFM == '' || PackageDetailJson[0].JumpReadingDFM == 0)">
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row form_row" [hidden]="JumpVisibleDFS">
+                                      <div class="col-lg-3 col-md-12">
+                                          <div class="label_container">
+                                              <label>Jump Reading Count</label>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-5 col-xs-9">
+                                          <div class="input_container">
+                                              <input type="text" name="JumpReadingDFMCount" placeholder="Count" [(ngModel)]="PackageDetailJson[0].JumpReadingDFMCount" class="form-control">
+                                          </div>
+                                      </div>
+                                  </div>
+                             <div [hidden]="ShowEngineMeter==false">
+                                <div class="row form_row">
+                                    <div class="col-lg-3 col-md-12">
+                                        <div class="label_container">
+                                            <label for="EngineFlowMeterReading" class="control-label">Engine Flow Meter Reading (SCMH)<span class="star">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 col-xs-9">
+                                        <div class="input-group input_container">
+                                            <input type="text" class="form-control" name="txtEngineFlowMeterReading" id="EngineFlowMeterReading" [(ngModel)]="PackageDetailJson[0].EngineFlowMeterReading" placeholder="Engine Flow Meter Reading">
+                                            <span class="input-group-addon">Prev: {{PackageDetailJson[0].EngineFlowMeterReadingPrv == null ? "0.000" : PackageDetailJson[0].EngineFlowMeterReadingPrv}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-xs-3">
+                                        <div>
+                                            <button data-toggle="modal" data-target="#myModal" (click)="resetPopupEFM(true)" class="mybtn">Change / Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form_row">
+                                    <div class="col-lg-3 col-md-12">
+                                    <div class="label_container">
+                                        <label for="colFormLabel">Jump EFS</label>
+                                    </div>
+                                    </div>
+                                    <div class="col-lg-5 col-md-9">
+                                    <div class="input_container">
+                                        <input type="checkbox" class="check_zoom" id="IscheckboxEFS" [value]="" (input)="OnCheckboxChange($event, 'EFS')">
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="row form_row" [hidden]="JumpVisibleEFS">
+                                    <div class="col-lg-3 col-md-12">
+                                        <div class="label_container">
+                                            <label for="JumpReadingEFM" class="control-label">Jump Reading</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 col-xs-9">
+                                        <div class="input_container">
+                                            <input type="text" class="form-control" id="JumpReadingEFS" name="JumpReadingEFM" [(ngModel)]="PackageDetailJson[0].JumpReadingEFM" placeholder="Jump Reading">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2" [hidden]="mdlImgShowEFM==false">
+                                        <div><img ng-src="assets/images/attachment.gif" (click)="showCertificates('EFM')"></div>
+                                    </div>
+                                    <div class="col-lg-3 col-xs-3">
+                                        <div class="input_container">
+                                            <input multiple type="file" id="JumpCertificateEFM" name="JumpCertificateEFM" [(ngModel)]="PackageDetailJson[0].JumpCertificateEFM" (change)="uploadJumpReadingImgEFM($event.target.files, $event)" [disabled]="(PackageDetailJson[0].JumpReadingEFM == '' || PackageDetailJson[0].JumpReadingEFM == 0)"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row form_row" [hidden]="JumpVisibleEFS">
+                                    <div class="col-lg-3 col-md-12">
+                                        <div class="label_container">
+                                            <label for="Jump Reading" class="control-label">Jump Reading Count</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5 col-xs-9">
+                                        <div class="input_container">
+                                            <input type="text" class="form-control"  name="JumpReadingEFMCount" [(ngModel)]="PackageDetailJson[0].JumpReadingEFMCount" placeholder="Count">
+                                        </div>
+                                    </div>
+                                </div>                               
+                             </div>
+                                  <div class="row form_row">
+                                      <div class="col-lg-3 col-md-12">
+                                          <div class="label_container">
+                                              <label>Running Hours </label>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-2 col-xs-2" style="width:auto;">
+                                          <div class="input_container time_container">
+                                             <select [(ngModel)]='selectedRhHr' name="selectedRhHr" >
+                                                <option *ngFor="let itm of RunHrs" [value]="itm.hrs">{{itm.hrs}}</option>
+                                              </select>
+                                              <span>HH</span>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-3 col-xs-3">
+                                          <div class="input_container time_container">
+                                             <select [(ngModel)]='selectedRhMin' name="selectedRhMin" >
+                                                <option *ngFor="let itm of RunMin" [value]="itm.min">{{itm.min}}</option>
+                                              </select>
+                                              <span>MM</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row form_row">
+                                      <div class="col-lg-3 col-md-12">
+                                          <div class="label_container">
+                                              <label>Schedule Shutdown Hours </label>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-2 col-xs-2" style="width:auto;">
+                                          <div class="input_container time_container">
+                                             <select [(ngModel)]='selectedSHr' name="selectedSHr" >
+                                                <option *ngFor="let itm of SHrs" [value]="itm.hrs">{{itm.hrs}}</option>
+                                              </select>
+                                              <span>HH</span>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-3 col-xs-3">
+                                          <div class="input_container time_container">
+                                            <select [(ngModel)]='selectedSMin' name="selectedSMin" >
+                                                <option *ngFor="let itm of SMin" [value]="itm.min">{{itm.min}}</option>
+                                              </select>
+                                              <span>MM</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row form_row">
+                                      <div class="col-lg-3 col-md-12">
+                                          <div class="label_container">
+                                              <label>Unscheduled Shutdown Hours </label>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-2 col-xs-2" style="width:auto;">
+                                          <div class="input_container time_container">
+                                              <select [(ngModel)]='selectedUsHr' name="selectedUsHr">
+                                                <option *ngFor="let itm of UsHrs" [value]="itm.hrs">{{itm.hrs}}</option>
+                                              </select>
+                                              <span>HH</span>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-3 col-xs-3">
+                                          <div class="input_container time_container">
+                                              <select [(ngModel)]='selectedUsMin' name="selectedUsMin" >
+                                                <option *ngFor="let itm of UsMin" [value]="itm.min">{{itm.min}}</option>
+                                              </select>
+                                              <span>MM</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row form_row">
+                                      <div class="col-lg-3 col-md-12">
+                                          <div class="label_container">
+                                              <label>Breakdown Hours </label>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-2 col-xs-2" style="width:auto;">
+                                          <div class="input_container time_container">
+                                            <select [(ngModel)]='selectedBdHr' name="selectedBdHr" >
+                                                <option *ngFor="let itm of BdHrs" [value]="itm.hrs">{{itm.hrs}}</option>
+                                              </select>
+                                              <span>HH</span>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-3 col-xs-3">
+                                          <div class="input_container time_container">
+                                            <select [(ngModel)]='selectedBdMin' name="selectedBdMin" >
+                                                <option *ngFor="let itm of BdMin" [value]="itm.min">{{itm.min}}</option>
+                                              </select>
+                                              <span>MM</span>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row form_row">
+                                      <div class="col-lg-3 col-md-12">
+                                          <div class="label_container">
+                                              <label>Suction Pressure <span class="star">*</span></label>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-5 col-xs-9">
+                                            <div class="input_container">
+                                                <input type="text" name="SuctionPressure" id="SuctionPressure" placeholder="Suction Pressure" [(ngModel)]="PackageDetailJson[0].SuctionPressure" class="form-control">
+                                            </div>
+                                      </div>
+                                  </div>
+                                  <div class="row form_row">
+                                      <div class="col-lg-3 col-md-12">
+                                          <div class="label_container">
+                                              <label>Remarks </label>
+                                          </div>
+                                      </div>
+                                      <div class="col-lg-5 col-md-9">
+                                          <div class="input_container">
+                                              <select class="form-control" [(ngModel)]="mdlSelectedRemark" name="mdlSelectedRemark"  id="mdlSelectedRemark" (change)="showHideRemark()">
+                                                <option value="" selected>--Select--</option>
+                                                <option *ngFor="let itm of jsonRemarks" [value]="itm.value">{{itm.value}}</option>
+                                              </select>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="row">
+                                      <div class="col-lg-5 col-md-9 col-lg-offset-3 col-md-offset-0" [hidden]="mdlRemarkTextShow == true">
+                                         <textarea  class="form-control" rows="4" name="mdlRemark"  [(ngModel)]="mdlRemark" id="Remarks" placeholder="Remarks"></textarea>
+                                      </div>
+                                  </div>
+                                  <br>
+                                  <div class="row form_row">
+                                      <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-0">
+                                          <div class="input_container">
+                                              <button class="mybtn" [hidden]="PackageDetailJson[0].isStationSubmitted > 0  || PackageDetailJson[0].isCRSentToHo > 0" (click)="InsertPackageInfo()">Save</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </form>
+                              <div class="msg">
+                                <p class="data_submit_msg" [hidden]="PackageDetailJson[0].isStationSubmitted == 0 ">* Data is submitted for the day</p>
+                                <p class="data_submit_msg" [hidden]="PackageDetailJson[0].isCRSentToHo == 0 ">* Submission is closed for Today from Control Room.</p>
+                              </div>
+                          </div>
+                      </div>
+          </div>
+  </div>
+</div>
+<div id="myModal" class="modal fade mypopup">
+    <div class="popup_container popup_container_package_reset_meter">
+        <div class="trigger_div">
+            <span class="mypop_heading_span">
+                <h4>Change / Reset Meter</h4>
+            </span>
+            <div class="mypop_head_right_div">
+                <span class="mypop_savebtn_sapn"  title="Save">
+                    <i class="fa fa-floppy-o" [hidden]="PackageDetailJson.isStationSubmitted > 0" (click)="HoldResetReading('SFM')"></i>
+                </span>
+                <span class="mypop_closebtn_span" title="Close">
+                    <i class="fas fa-times" (click)="resetPopupSFM(false)" data-dismiss="modal"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div">
+            <form>
+                <div class="form-group">
+                    <label><strong>Action</strong></label>
+                    <select class="form-control" name="resetTypeJsonSelectedSFM" (change)="resetchange($event.target.value, 'SFM')">
+                        <option value='R'>Reset</option>
+                        <option value='C'>Change</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><strong>Old Meter Reading</strong><span class="star">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="mdlReadingOnSwitchSFM" name="mdlReadingOnSwitchSFM" placeholder="Old Meter Reading">
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label><strong>Jump Reading</strong><span class="star">*</span></label>
+                        <input type="text" class="form-control" name="mdlResetJumpReadingSFM" [(ngModel)]="mdlResetJumpReadingSFM" placeholder="Jump Reading">
+                    </div>
+                    <div [hidden]="mdlShowResetImageSFM" class="col-2" style="width: 26px;height: 34px;padding-left: 5px;padding-right: 5px;text-align: center;">
+                    <div (click)="showCertificatesReset('SFM');"><img ng-src="assets/images/attachment.gif"></div>
+                    </div>
+                    <div class="col-6">
+                        <input type="file" class="form-control" style="margin-top: 25px;margin-left: 10px;" id="jcMeterResetSFM" name="file" (change)="uploadJumpReadingImgSFMPopUp($event.target.files, $event)" [disabled]="(mdlResetJumpReadingSFM == '' || mdlResetJumpReadingSFM == '0')">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="myModals" class="modal fade mypopup">
+    <div class="popup_container">
+        <div class="trigger_div">
+            <span class="mypop_heading_span">
+                <h4>Change / Reset Meter</h4>
+            </span>
+            <div class="mypop_head_right_div">
+                <span class="mypop_savebtn_sapn"  title="Save">
+                    <i class="fa fa-floppy-o" [hidden]="PackageDetailJson.isStationSubmitted > 0" (click)="HoldResetReading('DFM')"></i>
+                </span>
+                <span class="mypop_closebtn_span" title="Close">
+                    <i class="fas fa-times" (click)="resetPopupDFM(false)" data-dismiss="modal"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div">
+            <form>
+                <div class="form-group">
+                    <label><strong>Action</strong></label>
+                    <select class="form-control" name="resetTypeOptionDFM" (change)="resetchange($event.target.value, 'DFM')">
+                        <option value='R'>Reset</option>
+                        <option value='C'>Change</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><strong>Old Meter Reading</strong><span class="star">*</span></label>
+                    <input type="text" class="form-control"  [(ngModel)]="mdlReadingOnSwitchDFM" name="mdlReadingOnSwitchDFM" placeholder="Old Meter Reading">
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label><strong>Jump Reading</strong><span class="star">*</span></label>
+                        <input type="text" class="form-control" name="mdlResetJumpReadingDFM" [(ngModel)]="mdlResetJumpReadingDFM"  placeholder="Jump Reading">
+                    </div>
+                    <div [hidden]="mdlShowResetImageDFM==false" class="col-2" style="width: 26px;height: 34px;padding-left: 5px;padding-right: 5px;text-align: center;">
+                    <div (click)="showCertificatesReset('DFM');"><img ng-src="assets/images/attachment.gif"></div>
+                    </div>
+                    <div class="col-6">
+                        <input type="file" class="form-control" style="margin-top: 25px;margin-left: 10px;" name="fileInputreset" (change)="uploadJumpReadingImgDFMPopUp($event.target.files, $event)" [disabled]="(mdlResetJumpReadingDFM == '' || mdlResetJumpReadingDFM == '0')">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="myModals" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Change / Reset Meter
+                    <span class="popup_save_span">
+                        <button type="button" class="savebtn" [hidden]="PackageDetailJson.isStationSubmitted > 0" title="Save" (click)="HoldResetReading('EFM')"><i class="fa fa-floppy-o"></i></button>
+                        <button type="button" (click)="resetPopupEFM(false)" class="close_popup_btn" data-dismiss="modal"><i class="fas fa-times"></i></button>
+                    </span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="conts1">
+                    <div class="popup_container">
+                        <div class="content_div">
+                            <form>
+                                <div class="form-group">
+                                    <label><strong>Action</strong></label>
+                                    <select class="form-control" name="resetTypeJsonSelectedEFM" (change)="resetchange($event.target.value, 'EFM')">
+                                        <option value='R'>Reset</option>
+                                        <option value='C'>Change</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label><strong>Old Meter Reading</strong><span class="star">*</span></label>
+                                    <input type="text" class="form-control"  [(ngModel)]="mdlReadingOnSwitchEFM" name="mdlReadingOnSwitchEFM" placeholder="Old Meter Reading">
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-4">
+                                        <label><strong>Jump Reading</strong><span class="star">*</span></label>
+                                        <input type="text" class="form-control" name="mdlResetJumpReadingEFM" [(ngModel)]="mdlResetJumpReadingEFM" placeholder="Jump Reading">
+                                    </div>
+                                    <div [hidden]="mdlShowResetImageEFM==false" class="col-2" style="width: 26px;height: 34px;padding-left: 5px;padding-right: 5px;text-align: center;">
+                                      <div (click)="showCertificatesReset('EFM');"><img ng-src="assets/images/attachment.gif"></div>
+                                   </div>
+                                    <div class="col-6">
+                                        <input type="file" class="form-control" id="jcMeterResetEFM" style="margin-top: 25px;margin-left: 10px;" name="jcMeterResetEFM" (change)="uploadJumpReadingImgEFMPopUp($event.target.files, $event)" [disabled]="(mdlResetJumpReadingEFM == '' || mdlResetJumpReadingEFM == '0')">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>

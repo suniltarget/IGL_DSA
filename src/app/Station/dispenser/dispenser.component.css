@@ -1,0 +1,32 @@
+.main_heading
+{
+    justify-content:space-between;
+}
+.form_row 
+{
+    margin-bottom: 10px;
+}
+.choosefile
+{
+    margin-left: 28px;
+}
+.label_container
+{
+    margin-bottom: 6px;
+}
+.reading_span
+{
+    font-size: 16px;
+}
+.check_zoom
+{
+    transform: scale(1.6,1.6);
+    margin-left: 5px;
+}
+@media (max-width:1500px)
+{
+    .popup_container_disp1,.popup_container_disp2
+    {
+        width:500px;
+    }
+}

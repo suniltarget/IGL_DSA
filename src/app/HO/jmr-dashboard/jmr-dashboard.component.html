@@ -1,0 +1,122 @@
+<div class="main_heading">
+	<span class="heading_span"><h1>Dashboard JMR</h1></span>
+   <div class="date_span">
+    <div class="label_container">
+      <label>Select Year</label>
+  </div>
+  <div class="input_container">
+      <select class="form-control" ([ngModel])="selectedYear" (change)="onyearselect($event.target.value)" >
+        <option *ngFor="let year of years" [value]="year">{{ year }}</option> 
+      </select>
+  </div>
+  </div>
+    <div class="date_span">
+      <div class="label_container">
+          <label>Select Month</label>
+      </div>
+      <div class="input_container">
+          <select class="form-control" name="selectedMonth" (change)="OnMonthChange($event)" >
+              <option value="" selected>--Select--</option>
+              <option value="Jan">January</option>  
+              <option value="Feb">Feburary</option> 
+              <option value="Mar">March</option>  
+              <option value="Apr">April</option>
+              <option value="May">May</option>          
+              <option value="June">June</option>    
+              <option value="July">July</option> 
+              <option value="Aug">August</option>   
+              <option value="Sep">September</option>  
+              <option value="Oct">October</option>  
+              <option value="Nov">November</option>
+              <option value="Dec">December</option>
+          </select>
+      </div>
+  </div>
+  <div class="date_span">
+    <div class="label_container">
+        <label> Select Fortnight</label>
+    </div>
+    <div class="input_container">
+        <select class="form-control" name="selectedfortnight" (change)="OnFortChnage($event)" >
+            <option value="" selected>--Select--</option>
+            <option value="Fortnight1">Fortnight1</option>
+            <option value="Fortnight2">Fortnight2</option>  
+        </select>
+    </div>
+</div>
+</div>
+ <div class="mycard" *ngIf="UserType == 'JMR'">
+	<section class="progress_sec">
+		<div class="progress_div">
+			<div class="row prg_row" *ngFor="let dataItem of StaionDetails">
+				<div class="col-md-3 col-lg-3">
+					<span class="progress_city">{{dataItem.Name}}</span>
+				</div>
+				<div class="col-md-6 col-lg-7">
+					<div class="myprogress">
+						<div class="myprog_inner" [style.width.%]="dataItem.MOPer">
+							<span class="progress_content">{{dataItem.SubmitedStation}}/{{dataItem.StCount}}</span>
+							<span>{{dataItem.MOPer}}%</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 col-lg-1 text-center" >
+                    <span>
+                        <a title="Stations Pending List" class="status" style="color:#d00000;" *ngIf="dataItem.MOPer != 100" (click)="ShowPending(dataItem.UserId);">Pending <i class="fas fa-exclamation-circle"  aria-hidden="true"></i></a>
+                    </span>
+					<span class="status" *ngIf="dataItem.MOPer == 100">Complete <i class="fas fa-check-circle"></i></span>
+                </div>
+                <div class=" col-lg-1 text-left " >
+                    <a title="Download" (click)="ExportReport(dataItem.UserId)" *ngIf="dataItem.MOPer != 0"><i class="fas fa-download"></i></a> 
+                </div>
+                <div class=" col-lg-1 text-left " >
+                    <a title="Download" (click)="RejectByJMRAdmin(dataItem.UserId, dataItem.Name)">Reject</a> 
+                </div>
+			</div>
+		</div>
+	</section>
+</div> 
+<div  class="mypopup" *ngIf=(Popup)>
+    <div class="popup_container popup_container_history_pop">
+        <div class="trigger_div main_heading">
+            <span class="mypop_heading_span">
+                <h4>Pending Stations</h4>
+            </span>
+            <div class="mypop_head_right_div" style="margin-left: auto;">
+                <span class="mypop_closebtn_span" title="Close">
+                    <i class="fas fa-times" (click)="closeHistoryPop()"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div" style="padding:0px;">
+            <div class="main_table_container hgt">
+                <div class="vertScrollTbl">
+                    <div class="divTableHeader">
+                        <div class="divTableRow">
+                            <div class="divTableCell">
+                                Sr No. 
+                            </div>
+                            <div [ngClass]="sortingColumn1 == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationName')">
+                                Station Name <i [className]="sortingColumn1 == 'StationName' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                            </div>
+                            <div [ngClass]="sortingColumn1 == 'StationID' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationID')">
+                                Station Code <i [className]="sortingColumn1 == 'StationID' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                            </div>
+                            <div [ngClass]="sortingColumn1 == 'Status' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Status')">
+                                Status <i [className]="sortingColumn1 == 'Status' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divTableBody">
+                        <div  *ngFor="let dataItem of pendinglist | orderBy: key1 : reverse1 | filter:filter1; let i = index" class="divTableRow">
+                            <div class="divTableCell">{{i+1}}</div>
+                            <div class="divTableCell">{{dataItem.StationName}}</div>   
+                            <div class="divTableCell">{{dataItem.StationID}}</div>
+                            <div class="divTableCell">{{dataItem.Status}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

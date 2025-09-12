@@ -1,0 +1,48 @@
+<div class="main_heading" style="margin-bottom: 0px;">
+  <span class="heading_span"><h1>ECD Credit Bifurcation</h1></span>
+  <div class="head_right_div">
+      <span class="pop_btn_span"*ngIf="submitButton">
+          <button title="Previous" *ngIf="(showPrevious)" (click)="onClickPrevious();" class="mybtn"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous</button>
+          <button title="Save & Next" *ngIf="(showNext)" (click)="onClickNext();" class="mybtn">Save & Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+      </span>
+  </div>  
+</div>
+<div style="margin:28px 15px 15px 20px;">
+  <div class="form-group" style="width: 50%;">
+    <label for="Shift" class="control-label">Shift<span class="star">*</span></label>
+    <div>
+        <select (change)="onSelectShift($event.target.value)"  name="optShift" class="form-control" [(ngModel)]="selectedShiftId">
+            <option value="-1" selected>--Select Shift--</option>
+            <option *ngFor="let itm of cmbShiftData" [value]="itm.ShiftId">{{itm.ShiftDetails}}</option>
+        </select>
+    </div>   
+</div>
+   <div *ngFor="let value of values ; let i = index">
+    <form>
+      <ul>
+          <label>ECD Device</label>
+          <li>
+          <div class="filer_container">
+            <form class="custom_dropdown">
+                <input class="form-control filter_input" type="text" name="valuess{{i}}" [(ngModel)] = "value.ECDDevice" (click)="filterBoxShow()"  readonly />
+            </form>
+            <div class="filter_box" *ngIf=(fiterBox)>
+                <input class="form-control" name="search" [(ngModel)] ="filterdd" type="search" placeholder="Search.." autocomplete="off" >
+                <ul class="list-group fiter_ul" id="myList">
+                    <li class="list-group-item" *ngFor="let itm of listECD1 | filter:filterdd" (click)="filterBoxShow(itm,i)" [value]="itm.ID">{{itm.ECDDevice}}</li>
+                </ul>
+            </div> 
+        </div>
+      </li>
+          <label>Amount</label>
+          <li><input type="number"[(ngModel)]="value.Amount"name="value{{i}}" min="0.000"></li>
+          <li>
+            <div *ngIf="(i > 0 )">
+              <button (click)="remove(i)" style="background:red;color:white">-</button>
+             </div> 
+          </li>
+      </ul>  
+    </form>
+  </div>
+  <button (click)="addvalue()" style="background:green;color:white">+</button> 
+</div>

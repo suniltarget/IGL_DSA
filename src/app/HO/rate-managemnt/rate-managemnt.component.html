@@ -1,0 +1,172 @@
+<div class="main_heading">
+    <span class="heading_span"><h1>Rate Management</h1></span>
+    <span class="search_span">
+        <input type="text"  name="search" [(ngModel)] ="filter" placeholder="Search" class="form-control" autocomplete="off">
+    </span>
+    <div class="head_right_div">
+        <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+            <button><i class="fas fa-download"></i></button>
+        </span>
+    </div>  
+</div>
+<div class="mycard">
+    <div  [ngClass]="tableHeight == true ? 'main_table_container table_upper myclass1':'main_table_container table_upper' ">
+        <div class="vertScrollTbl">
+            <div class="divTableHeader">
+                <div class="divTableRow">
+                    <div class="divTableCell">
+                        Sr No.
+                    </div>
+                    <div [ngClass]="sortingColumn == 'RegionName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('RegionName')">
+                        Region <i [className]="sortingColumn == 'RegionName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div style="width:150px;" [ngClass]="sortingColumn == 'NormalRate' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('NormalRate')">
+                        Normal Rate &#8377; / K.G. <i [className]="sortingColumn == 'NormalRate' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div style="width:120px;" [ngClass]="sortingColumn == 'DisountedRate' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DisountedRate')">
+                        Discounted Rate &#8377; / K.G. <i [className]="sortingColumn == 'DisountedRate' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div style="width:100px;" [ngClass]="sortingColumn == 'EffectiveDate' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('EffectiveDate')">
+                        Effective Date <i [className]="sortingColumn == 'EffectiveDate' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div style="width:150px;" [ngClass]="sortingColumn == 'DisplayTime' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DisplayTime')">
+                        Effective Time <i [className]="sortingColumn == 'DisplayTime' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div style="width:120px;" class="divTableCell">
+                        Action
+                    </div>
+                </div>
+            </div>
+            <div class="divTableBody"> 
+                <div class="divTableRow" *ngFor="let itm of listRate |filter:filter| orderBy: key: reverse ; let i = index">
+                    <div class="divTableCell">{{i+1}}</div>
+                    <div class="divTableCell">{{itm.RegionName}}</div>
+                    <div class="divTableCell">
+                        <input type="text" placeholder="Normal Rate" class="form-control" name="NormalRate" [value]="itm.NormalRate.toFixed(2)" (input) = "NormalRate = $event.target.value" [readonly]="itm.IsDisable">
+                    </div>
+                    <div class="divTableCell">
+                        <input type="text" placeholder="Disounted Rate" class="form-control" name="DisountedRate" [value]="itm.DisountedRate.toFixed(2)" (input) = "DisountedRate = $event.target.value" [readonly]="itm.IsDisable">
+                    </div>
+                    <div class="divTableCell" >
+                        <ng-datepicker class="rate_date_picker"  [(ngModel)]="itm.EffectiveDate" [options]="options" (ngModelChange)="OnDateChnage($event)" name="EffectiveDate" [disabled]="itm.IsDisable"></ng-datepicker>
+                    </div>
+                    <div class="divTableCell">
+                        <select name="optRegion" class="form-control" (change)="onTimeSelect($event)" [value]="itm.DisplayTime ? itm.DisplayTime : ''" [disabled]="itm.IsDisable">
+                                <option value="" selected>--Select Time--</option>
+                                <option value="12:01 AM">12:01 AM</option>
+                                <option value="06:00 AM">06:00 AM</option>                          
+                        </select>
+                    </div>
+                    <div class="divTableCell">
+                        <button style="width:50px !important" class="btn btn-xs btn-primary" (click)="editmodefun(itm)">Edit</button>
+                        <button style="width:50px !important" class="btn btn-xs btn-success" (click)="saveRate(itm.RateId,itm.RegionId,itm.EffectiveDate,itm.NormalRate,itm.DisountedRate,itm.DisplayTime)" [disabled]="itm.IsDisable">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-center" style="margin-top: 25px;margin-bottom: 25px;">
+        <button class="mybtn pre_btn" (click)="OnChangePrevious($event,'click');">{{PrevBtnText}}</button>
+        <div class="text-center" style="margin-top:-3px;"><i class="fas fa-sort-down" style="font-size: 24px;line-height: 0px;"></i></div>
+    </div>
+    <div class="table_blow" [hidden]="PreTableIsfalse"> 
+            <div class="vertScrollTbl">
+                    <div class="divTableHeader">
+                        <div class="divTableRow">
+                            <div class="divTableCell">
+                                Sr No.
+                            </div>
+                            <div [ngClass]="sortingColumn == 'RegionName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('RegionName')">
+                                Region <i [className]="sortingColumn == 'RegionName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                            </div>
+                            <div [ngClass]="sortingColumn == 'NormalRate' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('NormalRate')">
+                                Normal Rate &#8377; / K.G. <i [className]="sortingColumn == 'NormalRate' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                            </div>
+                            <div [ngClass]="sortingColumn == 'DisountedRate' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DisountedRate')">
+                                Discounted Rate &#8377; / K.G. <i [className]="sortingColumn == 'DisountedRate' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                            </div>
+                            <div [ngClass]="sortingColumn == 'EffectiveDate' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('EffectiveDate')">
+                               Effective Date <i [className]="sortingColumn == 'EffectiveDate' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                            </div>
+                            <div [ngClass]="sortingColumn == 'DisplayTime' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DisplayTime')">
+                               Effective Time <i [className]="sortingColumn == 'DisplayTime' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divTableBody">
+                        <div *ngFor="let itm of listRatePrevious | filter : filter  | orderBy: key: reverse ; let i = index" (click)="openPopupForUpdate(itm.RateId,itm.Popup)" [ngClass]="itm.RateId == uId ? 'divTableRow table_row_highlight' : 'divTableRow'">
+                            <div class="divTableCell">{{i+1}}</div>
+                            <div class="divTableCell">{{itm.RegionName}}</div>
+                            <div class="divTableCell">{{itm.NormalRate.toFixed(2)}}</div>
+                            <div class="divTableCell">{{itm.DisountedRate.toFixed(2)}}</div>
+                            <div class="divTableCell">{{itm.EffectiveDate}}</div>
+                            <div class="divTableCell">{{itm.DisplayTime}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</div>
+<div class="rateMnggemetnaddrate mypopup" *ngIf=(RatePopup)>
+    <div class="popup_container">
+    <div class="trigger_div">
+        <span class="mypop_heading_span">
+            <h4>{{title}}</h4>
+        </span>
+        <div class="mypop_head_right_div">
+            <span class="mypop_savebtn_sapn"  title="Save">
+                <i class="fa fa-floppy-o" aria-hidden="true"></i>
+            </span>
+            <span class="mypop_closebtn_span" title="Close">
+                <i class="fas fa-times" (click)="RatePopup = false"></i>
+            </span>
+        </div>
+    </div>
+    <div class="content_div">
+        <div class="row">
+            <div class="col-12">
+                <form class="form-horizontal old_popup" role="form">
+                        <div class="form-group required">
+                            <label for="title" class=" control-label">Region</label>
+                            <div class="">
+                                <select [(ngModel)]='RateRegionId' name="optRegion" class="form-control" >
+                                    <option value="" selected>--Select Region--</option>
+                                    <option *ngFor="let itm of dataRegionMaster" [value]="itm.RegionId">{{itm.RegionName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" class="form-group required">
+                            <label for="firstName" class=" control-label">Normal Rate &#8377; / K.G</label>
+                            <div class="">
+                                <input type="text" placeholder="Normal Rate" class="form-control" name="NormalRate" [(ngModel)] = "NormalRate" >
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="revision" class="control-label">Discounted Rate &#8377; / K.G</label>
+                            <div class="">
+                                <input type="text" placeholder="Discounted Rate" class="form-control" name = "DisountedRate" [(ngModel)] = "DisountedRate" >
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="EffectiveDate" class="control-label">Effective Date</label>
+                            <div class="">
+                                <div >
+                                    <ng-datepicker [(ngModel)]="date" [options]="options" (ngModelChange)="OnDateChnage($event)" name="EffectiveDate"></ng-datepicker>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="title" class=" control-label">Effective Time</label>
+                            <div class="">
+                                <select name="optRegion" class="form-control" (change)="onTimeSelect($event)" [value]="RateTime">
+                                    <option value="" selected>--Select Time--</option>
+                                    <option value="12:01 AM">12:01 AM</option>
+                                    <option value="06:00 AM">06:00 AM</option>                          
+                                </select>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

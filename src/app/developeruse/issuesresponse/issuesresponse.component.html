@@ -1,0 +1,105 @@
+<div class="main_heading">
+	<span class="heading_span"><h1>Issue Log</h1></span>
+	<span class="search_span">
+			<input type="text"  name="search" [(ngModel)] ="filter" placeholder="Search" class="form-control" autocomplete="off">
+	</span>
+	<div class="head_right_div">
+	</div>
+</div>
+<div class="mycard">
+		<div class="main_table_container">
+				<div class="vertScrollTbl issue_table">
+					<div class="divTableHeader">
+						<div class="divTableRow">
+							<div class="divTableCell issue_sr_col">
+								Sr. No.
+							</div>
+							<div class="ref__col" [ngClass]="sortingColumn == 'ReferenceNo' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('ReferenceNo')">
+								Reference No <i [className]="sortingColumn == 'ReferenceNo' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+							</div>
+							<div class="issue_issue_col" [ngClass]="sortingColumn == 'RequesterID' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('RequesterID')">
+								Requester ID <i [className]="sortingColumn == 'RequesterID' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+							</div>
+							<div class="issue_issue_col" [ngClass]="sortingColumn == 'IssueDate' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('IssueDate')">
+								IssueDate <i [className]="sortingColumn == 'IssueDate' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+							</div>
+							<div class="issue_issue_col" [ngClass]="sortingColumn == 'Issue' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Issue')">
+								Issue <i [className]="sortingColumn == 'Issue' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+							</div>
+							<div [ngClass]="sortingColumn == 'Detail' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Detail')">
+								Detail <i [className]="sortingColumn == 'Detail' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+							</div>
+							<div [ngClass]="sortingColumn == 'RemarksByDeveloper' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('RemarksByDeveloper')">
+								Remarks By Developer <i [className]="sortingColumn == 'RemarksByDeveloper' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+							</div>
+							<div class="Status_issue_col" [ngClass]="sortingColumn == 'Status' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Status')">
+								Status <i [className]="sortingColumn == 'Status' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+							</div>
+							<div class="divTableCell">
+								Attachment 
+							</div>
+							<div class="divTableCell">
+								Action 
+							</div>
+						</div>
+					</div>
+					<div class="divTableBody">
+						<div class="divTableRow" *ngFor="let itm of listIssueLog | orderBy: key: reverse | filter:filter let i = index">
+							<div class="divTableCell">{{i+1}}</div>
+							<div class="divTableCell">{{itm.IssueReferenceNo}}</div>
+							<div class="divTableCell">{{itm.RequesterID}}</div>
+							<div class="divTableCell">{{itm.IssueDate}}</div>
+							<div class="divTableCell">{{itm.IssueHeading}}</div>
+							<div class="divTableCell listFixed">{{itm.IssueDetails}}</div>
+							<div class="divTableCell listFixed">
+								<textarea class="form-control textareafixed" [value]="itm.RemarksByDeveloper" 
+								#details [readonly]="itm.CurrentStatus == 'Resolved'"></textarea>
+							</div>
+							<div class="form-group divTableCell ddFixed" >
+								<select class="form-control" (change)="issuestatus($event.target.value)" 
+								[value]="itm.CurrentStatus" [disabled]="itm.CurrentStatus == 'Resolved'">
+									<option value="Pending">Pending</option>
+									<option value="Processing">Processing</option>
+									<option value="Resolved">Resolved</option>
+								</select>
+							</div>
+							<div class="divTableCell btn_cell">
+								<a href="javascript:void(0)" data-toggle="modal" data-target="#myModalIssueAtt" (click)="viewAttachment(itm.IssueReferenceNo)">View</a>
+							</div>
+							<div class="divTableCell">
+								<button type="button" class="mybtn" (click)="updateIssueLog(details.value,itm.IssueReferenceNo)" [disabled]="itm.CurrentStatus == 'Resolved'">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+</div>
+<div id="myModalIssueAtt" class="modal fade ">
+    <div class="rateMnggemetnaddrate mypopup " >  
+        <div class="popup_container popup_container_jump_attc" style="max-width: 1300px !important;">
+            <div class="trigger_div">
+                <span class="mypop_heading_span">
+                    <h4>Issue Attachment</h4>
+                </span>
+                <div class="mypop_head_right_div">
+                    <span class="mypop_closebtn_span" title="Close">
+                        <i class="fas fa-times" data-dismiss="modal"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="content_div content_div_jump_attc" style="max-width:1300px !important;padding: 10px 10px 10px 10px">
+                <div class="upld_img_cont" style="max-width:100%;">
+                    <div *ngIf="!imgDisplay" class="data_not_found_msg">
+                        There is no Attachment.  
+                    </div>
+                    <span *ngIf="imgDisplay" class="upload_span">
+                        <img [src]="imgURL" alt="image">
+                    </span> 
+                    <span *ngIf="!imgDisplay" class="default_span">
+                        <img src="../../../assets/Images/default_img.png"  width="250" height="250" alt="image">
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

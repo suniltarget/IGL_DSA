@@ -1,0 +1,24 @@
+.pl4
+{
+    padding-left: 4px;
+}
+.rad_label
+{
+    display: flex;
+    align-items: center;
+}
+.rad_label .rad
+{
+    margin-right:10px;
+    transform:scale(1.5);
+}
+.popup_container_mail_esc
+{
+    width:550px;
+}
+.time_row .col-sm-4
+{
+    width:135px;
+    padding: 0px;
+    padding-left: 8px;
+}

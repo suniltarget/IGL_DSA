@@ -1,0 +1,39 @@
+.text_center
+{
+    text-align: center;
+}
+.mycheck
+{
+    color: #22d629;
+    font-size: 16px;
+}
+.myclose
+{
+    color:red;
+    font-size: 16px;
+}
+.mypopup
+{
+    display: block;
+}
+.popup_container_jump_rprt
+{
+    width:480px;
+}
+.btn_CRS_default
+{
+    padding: 3px 5px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+.divTableBody>.divTableRow:hover 
+{
+    cursor: default;
+}
+.date_label
+{
+    margin-top: 8px;
+    margin-bottom: 6px;
+}

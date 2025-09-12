@@ -1,0 +1,29 @@
+<div class="main_heading">
+    <span class="heading_span"><h1>Dashboard DPR</h1></span>
+    <span class="date_span">
+        <ng-datepicker [(ngModel)]="Dashdate" [options]="options" (ngModelChange)="OnDateChnagefrom($event)" class="ngx-datepicker-container datepicker-dash" placeholder="Select Date" style="color:#59636A;"></ng-datepicker>
+    </span>
+</div>
+<div class="mycard">
+    <section class="progress_sec">
+        <div class="progress_div">
+            <div class="row prg_row" *ngFor="let dataItem of DPRDashboardHOData">
+                <div class="col-md-3 col-lg-3">
+                    <span class="progress_city">{{dataItem.ControlRoomName}}</span>
+                </div>
+                <div class="col-md-7 col-lg-8">
+                    <div class="myprogress">
+                        <div class="myprog_inner" [style.width.%]="dataItem.Per">
+                            <span class="progress_content">{{dataItem.SubmittedStationCountbyCO}}/{{dataItem.totalStation}}</span>
+                            <span>{{dataItem.Per}}%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-lg-1 text-center" >
+                    <span class="status" style="color:#d00000;" *ngIf="dataItem.Per != 100">Pending <i class="fas fa-exclamation-circle"></i></span>
+                    <span class="status" *ngIf="dataItem.Per == 100">Complete <i class="fas fa-check-circle"></i></span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

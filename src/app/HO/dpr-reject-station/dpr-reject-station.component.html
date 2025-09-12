@@ -1,0 +1,65 @@
+<div class="main_heading">
+	<span class="heading_span"><h1>Station Unlock</h1></span>
+	<span class="date_span">
+        <ng-datepicker [(ngModel)]="Rejectiondate" [options]="options" (ngModelChange)="OnDateChnagefrom($event)" class="ngx-datepicker-container datepicker-dash" placeholder="Select Date" style="color:#59636A;"></ng-datepicker>
+    </span>
+</div>
+<div class="mycard">
+    <div class="main_table_container">
+		<div class="main_form_container" style="padding-left: 5px;padding-right:5px;">
+			<form class="form-horizontal reject_form" action="/action_page.php">
+				<div class="row">
+					<div *ngIf="IsDepartmentHO" class="col-xs-3 col-sm-4 col-md-4 col-lg-3">
+						<div class="label_container">
+							<label>Select Control Room </label>
+						</div>
+						<div class="input_container" (change)="OnSelectCRoom($event)">
+							<select [(ngModel)]='SelectedCRoom' name="jsonRejectCR" id="" class="form-control">
+								<option value="" selected>--Select--</option>
+								<option value="CR001">SARAI KALE KHAN (CR001)</option>
+								<option value="CR002">LADO SARAI (CR002)</option>
+								<option value="CR003">JAIL ROAD (CR003)</option>
+								<option value="CR004">DHEERPUR (CR004)</option>
+								<option value="CR005">CBD (CR005)</option>
+								<option value="CR006">SHAKURPUR (CR006)</option>
+								<option value="CR007">ROHINI (CR007)</option>
+								<option value="CR008">DWARKA (CR008)</option>
+								<option value="CR021">REWARI (CR021)</option>
+								<option value="CR023">GURUGRAM (CR023)</option>
+								<option value="CR024">KARNAL (CR024)</option>
+								<option value="CR025">KAITHAL (CR025)</option>
+								<option value="CR031">NOIDA (CR031)</option>
+								<option value="CR033">GHAZIABAD (CR033)</option>
+								<option value="CR034">MUZZAFARNAGAR (CR034)</option>  
+								<option value="CR035">KANPUR CR (CR035)</option> 
+								<option value="CR036">KANPUR (CR036)</option> 
+								<option value="CR041">AJMER CR (CR041)</option>  																
+							</select>
+						</div>
+					</div>
+					<div class="col-xs-3 col-sm-4 col-md-4 col-lg-3">
+						<div class="label_container">
+								<label>Select Station for Unlock </label>
+						</div>
+						<div class="input_container">
+							<select [(ngModel)]='SelectedStationCode' name="listStation" id="" class="form-control">
+								<option value="" selected>--Select--</option>
+								<option *ngFor="let itm of listStation" [value]="itm.StationCode">{{itm.StationName}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-xs-3 col-sm-2 col-md-1 col-lg-2" style="display:none;">
+						<div>
+							<button type="submit" (click)="UpdateRejectStation();" class="mybtn" style="margin-top:25px;">Reject Readings</button>
+						</div>
+					</div>
+					<div class="col-xs-2 col-sm-4 col-md-2 col-lg-3">
+						<div>
+							<button type="submit" (click)="UpdateRejectStation();" class="mybtn" style="margin-top:25px;">Unlock Station</button>
+						</div>
+					</div>
+				</div>
+			</form> 
+		</div>
+    </div>
+</div>

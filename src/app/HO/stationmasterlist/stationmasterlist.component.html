@@ -1,0 +1,333 @@
+<div class="main_heading">
+    <span class="heading_span"><h1>Station Management</h1></span>
+    <span class="search_span">
+        <input type="text" name="search" [(ngModel)] ="filter"  placeholder="Search" class="form-control" autocomplete="off">
+    </span>
+    <div class="head_right_div">
+        <span class="switch_span">
+            <div class="t_state_btn">
+                <div class="floating_div" id="tgt_div"></div>
+                <label>
+                    <input type="radio" id="ab" name="swth" (change)="OnChangeStatus($event, 'swthActive')"/> 
+                    <span>Active</span>
+                </label>
+                <label>
+                    <input type="radio" id="StationCheck" name="swth" checked (change)="OnChangeStatus($event, 'swthAll')"/> 
+                    <span>All</span>
+                </label>
+                <label>
+                    <input type="radio" id="ef" name="swth" (change)="OnChangeStatus($event, 'swthInActive')"/>
+                    <span>InActive</span>
+                </label>
+            </div>    
+        </span> 
+        <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+            <button><i class="fas fa-download"></i></button>
+        </span>
+        <span class="pop_btn_span">
+            <a title="Add New" (click)="addSO();"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </span> 
+    </div>
+</div>
+<div class="mycard">
+    <div class="main_table_container">
+        <div class="vertScrollTbl">
+            <div class="divTableHeader">
+                <div class="divTableRow">
+                    <div class="divTableCell">
+                        Sr No.
+                    </div>
+                    <div [ngClass]="sortingColumn == 'MarketingOfficerName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('MarketingOfficerName')">
+                        AMO <i [className]="sortingColumn == 'MarketingOfficerName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationCode')">
+                        Station Code <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'SAPCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('SAPCode')">
+                        SAP Code <i [className]="sortingColumn == 'SAPCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationName')">
+                        Station Name <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'ControlRoomName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('ControlRoomName')">
+                        Controm Room <i [className]="sortingColumn == 'ControlRoomName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'RegionName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('RegionName')">
+                        Region Name <i [className]="sortingColumn == 'RegionName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'CompanyName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('CompanyName')">
+                        Company Name <i [className]="sortingColumn == 'CompanyName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StationTypeName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationTypeName')">
+                        Station Type <i [className]="sortingColumn == 'StationTypeName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StatusSort' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StatusSort')">
+                        Status <i [className]="sortingColumn == 'StatusSort' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'Latitude' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Latitude')">
+                        Latitude <i [className]="sortingColumn == 'Latitude' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'Longitude' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Longitude')">
+                        Longitude <i [className]="sortingColumn == 'Longitude' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div *ngFor="let itm of listSO | filter : filter | orderBy: key: reverse;  let i = index" (click)="openPopupForUpdate(itm.StationId)" [ngClass]="itm.StationId == uId ? 'divTableRow table_row_highlight' : 'divTableRow'">
+                    <div class="divTableCell">{{i+1}}</div>
+                    <div class="divTableCell"><div class="overTextTip">{{itm.MarketingOfficerName}}</div></div>
+                    <div class="divTableCell"><div class="overTextTip">{{itm.StationCode}}</div></div>
+                    <div class="divTableCell"><div class="overTextTip">{{itm.SAPCode}}</div></div>
+                    <div class="divTableCell"><div class="overTextTip">{{itm.StationName}}</div></div>
+                    <div class="divTableCell"><div class="overTextTip">{{itm.ControlRoomName}}</div></div>
+                    <div class="divTableCell">{{itm.RegionName}}</div>
+                    <div class="divTableCell">{{itm.CompanyName}}</div>
+                    <div class="divTableCell">{{itm.StationTypeName}}</div>
+                    <div class="divTableCell">{{itm.StatusSort}}</div>
+                    <div class="divTableCell">{{itm.Latitude}}</div>
+                    <div class="divTableCell">{{itm.Longitude}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="stationMngemantpoup mypopup" *ngIf=(soPopup)>
+  <div class="popup_container">
+    <div class="trigger_div">
+        <span class="mypop_heading_span">
+            <h4>{{title}}</h4>
+        </span>
+        <div class="mypop_head_right_div">
+            <span class="mypop_savebtn_sapn"  title="Save">
+                <i class="fa fa-floppy-o" aria-hidden="true" (click)="saveSM();"></i>
+            </span>
+            <span class="mypop_closebtn_span" title="Close">
+                <i class="fas fa-times" (click)="soPopup = false"></i>
+            </span>
+        </div>
+    </div>
+      <div class="content_div">
+          <div class="row">
+              <div class="col-12">
+                  <form class="form-horizontal old_popup" role="form">
+                        <div class="form-group required">
+                            <label for="firstName" class=" control-label">Station Code</label>
+                            <div class="">
+                                <input type="text" placeholder="Station Code" class="form-control"  name="station" [(ngModel)] = "StationCode" >   
+                            </div>      
+                        </div>
+                        <div class="form-group required">
+                            <label for="firstName" class=" control-label">SAP Code</label>
+                            <div class="">
+                                <input type="text" placeholder="SAP Code" class="form-control"  name="SAPCode" [(ngModel)] = "SAPCode" >   
+                            </div>      
+                        </div>
+                        <div class="form-group required">
+                            <label for="revision" class=" control-label">Station Name</label>
+                            <div class="">
+                                <input type="text" placeholder="Station Name" class="form-control uppercase" name = "StationName" [(ngModel)] = "StationName">
+                            </div>  
+                        </div>
+                        <div class="form-group required">
+                          <label for="title" class=" control-label">Station Address</label>
+                          <div class="">
+                            <input type="text" placeholder="Station Address" class="form-control"  name = "StationAddress" [(ngModel)] = "StationAddress" >
+                          </div>  
+                        </div>
+                        <div class="form-group required">
+                            <label for="title" class=" control-label">Region</label>
+                            <div class="">
+                                <select [(ngModel)]="StationRegionId" name="optRegion" class="form-control" >
+                                    <option value="" selected>--Select Region--</option>
+                                    <option *ngFor="let itm of dataRegionMaster" [value]="itm.RegionId">{{itm.RegionName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                         <div class="form-group required">
+                            <label for="title" class="control-label">Company</label>
+                            <div class="">
+                                <select [(ngModel)]='StationCompanyId' name="optStationCompany" class="form-control" >
+                                    <option value="" selected>--Select Company--</option>
+                                    <option *ngFor="let itm of dataCompanyMaster" [value]="itm.CompanyId">{{itm.CompanyName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="title" class="control-label">Station Type</label> 
+                            <div class="">
+                                <select [(ngModel)]='StationTypeId' name="optStationType" class="form-control" >
+                                    <option value="" selected>--Select Station Type--</option>
+                                    <option *ngFor="let itm of dataStationTypeMaster" [value]="itm.StationTypeId">{{itm.StationTypeName}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group required">
+                            <label for="Cost_Center" class="control-label">Cost Center</label> 
+                            <div class="">
+                                <input type="text" placeholder="Cost Center" class="form-control uppercase" name = "Cost_Center" [(ngModel)] = "Cost_Center">
+                            </div> 
+                        </div>
+                        <div class="form-group required">
+                            <label for="title" class="control-label">AMO</label> 
+                            <div class="">
+                                <select [(ngModel)]='MoId' name="optMktOfficer" class="form-control" >
+                                    <option value="" selected>--Select AMO--</option>
+                                    <option *ngFor="let itm of dataMoMaster" [value]="itm.MoId">{{itm.MoName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="title" class="control-label">Control Room</label> 
+                            <div class="">
+                                <select [(ngModel)]='ControlRoomId' name="optCoRoomOfficer" class="form-control" >
+                                    <option value="" selected>--Select Control Room--</option>
+                                    <option *ngFor="let itm of dataCRoomMaster" [value]="itm.ControlRoomId">{{itm.ControlRoomName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div [ngStyle]="{'display':(actionFlag == 'Add') ? 'block' : 'none'}">
+                            <div class="form-group required">
+                                <label for="firstName" class=" control-label">Login Id</label>
+                                <div class="">
+                                    <input type="text" placeholder="Login Id" class="form-control" name= "StationLoginId" [(ngModel)] = "StationLoginId">
+                                </div>
+                            </div>
+                            <div class="form-group required">
+                                <label for="firstName" class=" control-label">Password</label>
+                                <div class="">
+                                    <input type="password" placeholder="Password" class="form-control" name= "StationPassword" [(ngModel)] = "StationPassword"> 
+                                </div>
+                            </div>
+                            <div class="form-group marBot-10 required">
+                                <label for="firstName" class=" control-label">Confirm Password</label>
+                                <div class="">
+                                    <input type="password" placeholder="Confirm Password" class="form-control" name = "StationConfPassword" [(ngModel)] = "StationConfPassword">    
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <label for="firstName" class="control-label">Email Id</label>
+                            <div class="">
+                                <input type="text" placeholder="Email Id" class="form-control" 
+                                    name = "StationEmailId" [(ngModel)] = "StationEmailId" 
+                                >
+                            </div>  
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName" class="control-label">Contact No</label>
+                            <div class="">
+                                <input type="text" placeholder="Contact No" class="form-control" 
+                                    name = "StationContactNo" [(ngModel)] = "StationContactNo" 
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName" class=" control-label">Ope. Balance</label>
+                            <div class="">
+                             <input type="number" placeholder="Ope. Balance" class="form-control"  name = "OpeBalance" [(ngModel)] = "OpeBalance" [disabled]=!IsVisible>    
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Latitude" class="control-label">Latitude<span class="star">*</span></label>
+                            <div class="">
+                                <input type="text" placeholder="Latitude" class="form-control" name = "StationLalitude" [(ngModel)] = "StationLalitude">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Longitude" class="control-label">Longitude<span class="star">*</span></label>
+                            <div class="">
+                                <input type="text" placeholder="Longitude" class="form-control" name = "StationLongitude" [(ngModel)] = "StationLongitude">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName" class="control-label" style="color:green">Shift A</label>
+                        </div>
+                        <div class="form-group required">
+                            <label for="firstName" class="control-label">Manager Name</label>
+                            <div class="">
+                                <input type="text" placeholder="Manager Name" class="form-control" 
+                                    name = "ShiftAManagerName" [(ngModel)] = "ShiftAManagerName" 
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="firstName" class="control-label">Contact No</label>
+                            <div class="">
+                                <input type="text" placeholder="Contact No" class="form-control" 
+                                    name = "ShiftAManagerContactNo" [(ngModel)] = "ShiftAManagerContactNo" 
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName" class="control-label" style="color:green">Shift B</label>
+                        </div>
+                        <div class="form-group required">
+                            <label for="firstName" class="control-label">Manager Name</label>
+                            <div class="">
+                                <input type="text" placeholder="Manager Name" class="form-control" 
+                                    name = "ShiftBManagerName" [(ngModel)] = "ShiftBManagerName" 
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="firstName" class="control-label">Contact No</label>
+                            <div class="">
+                                <input type="text" placeholder="Contact No" class="form-control" 
+                                    name = "ShiftBManagerContactNo" [(ngModel)] = "ShiftBManagerContactNo" 
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName" class="control-label" style="color:green">Shift C</label>
+                        </div>
+                        <div class="form-group required">
+                            <label for="firstName" class="control-label">Manager Name</label>
+                            <div class="">
+                                <input type="text" placeholder="Manager Name" class="form-control" 
+                                    name = "ShiftCManagerName" [(ngModel)] = "ShiftCManagerName" 
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="firstName" class="control-label">Contact No</label>
+                            <div class="">
+                                <input type="text" placeholder="Contact No" class="form-control" 
+                                    name = "ShiftCManagerContactNo" [(ngModel)] = "ShiftCManagerContactNo" 
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName" class="control-label" style="color:green">Shift D</label>
+                        </div>
+                        <div class="form-group required">
+                            <label for="firstName" class="control-label">Manager Name</label>
+                            <div class="">
+                                <input type="text" placeholder="Manager Name" class="form-control" 
+                                    name = "ShiftDManagerName" [(ngModel)] = "ShiftDManagerName" 
+                                >
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="ShiftDManagerContactNo" class="control-label">Contact No</label>
+                            <div class="">
+                                <input type="text" placeholder="Contact No" class="form-control" 
+                                    name = "ShiftDManagerContactNo" [(ngModel)] = "ShiftDManagerContactNo" 
+                                >
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <label for="firstName" class="col-3 control-label">Status</label>
+                            <div class="">
+                                <div class="col-9 toggle-pnl">
+                                    <input class="tgl tgl-ios ng-pristine ng-untouched ng-valid ng-not-empty" id="InvstUnMap_66" type="checkbox" name = "Status" [(ngModel)] = "Status">
+                                    <label class="tgl-btn" for="InvstUnMap_66"></label>
+                                </div>
+                            </div>
+                        </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="main_heading">
+    <span class="heading_span"><h1> Activity Log DPR</h1></span>
+    <span class="search_span">
+        <input type="text" name="search" [(ngModel)] ="filter" placeholder="Search" class="form-control" autocomplete="off">
+    </span>
+    <div class="head_right_div">
+        <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+            <button><i class="fas fa-download"></i></button>
+        </span>
+    </div>
+</div>
+<div class="mycard">
+    <div class="main_form_container" style="padding-top: 10px;padding-top: 10px;background-color: #f7f7f7;">
+        <div style="display: flex;padding:15px;">
+            <div style="margin-right: 15px;">
+                <div class="label_container">
+                    <label> Date <i class="far fa-calendar-alt date_icon" ></i></label>
+                </div>
+                <div class="input_container">
+                    <ng-datepicker [(ngModel)]="dateFrom" [options]="options" class="ngx-datepicker-container" (ngModelChange)="OnDateChnageFrom($event)"></ng-datepicker>
+                </div>
+            </div>
+            <div >
+                <div class="label_container">
+                    <label for="SelectedUserId" class="control-label">User Type</label>
+                </div>
+                <div class="input_container">
+                    <select class="form-control" name="SelectedUserType" (change)="OnUserChange($event.target.value)">
+                        <option value="" selected>--All--</option>
+                        <option *ngFor="let itm of ListUsers" [value]="itm.UserType">{{itm.Station_Name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="pagination">
+                <pagination-controls  (pageChange)="page = $event"></pagination-controls>
+            </div>
+        </div>
+    </div>
+    <div class="main_table_container" style="height:calc(100% - 101px);">
+        <div class="vertScrollTbl">
+            <div class="divTableHeader">
+                <div class="divTableRow">
+                    <div class="divTableCell">
+                        Sr.No
+                        </div>
+                    <div [ngClass]="sortingColumn == 'UserType' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('UserType')">
+                        User <i [className]="sortingColumn == 'UserType' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'Action' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Action')">
+                        Action <i [className]="sortingColumn == 'Action' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                        </div>
+                    <div [ngClass]="sortingColumn == 'Remarks' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Remarks')">
+                        Remarks	<i [className]="sortingColumn == 'Remarks' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'DateTime' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DateTime')">
+                        Date & Time <i [className]="sortingColumn == 'DateTime' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div *ngFor="let itm of ActivityLogData | paginate: { itemsPerPage: 25, currentPage: page } | orderBy: key: reverse | filter:filter let i = index" class="divTableRow">
+                    <div class="divTableCell">{{i+1}}</div>
+                    <div class="divTableCell">{{itm.UserType}}</div>
+                    <div class="divTableCell">{{itm.Action}}</div>
+                    <div class="divTableCell">{{itm.Remarks}}</div>
+                    <div class="divTableCell">{{itm.DateTime}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

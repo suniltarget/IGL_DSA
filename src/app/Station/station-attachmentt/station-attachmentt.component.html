@@ -1,0 +1,115 @@
+<div class="main_heading">
+	<span class="heading_span"><h1>Station Credential</h1>
+	</span>
+</div>
+<div class="mycard">
+	<form class="stn_form">
+		<div class="form_grp_row">
+			<div class="left_label_cont">
+				<label>Document Name <span class="star">*</span></label>
+			</div>
+			<div class="right_input_cont">
+				<div class="for_input">
+					<div class="only_input date_inuput">
+						<input type="text" [value]="DocumentName" (input)="Readingvalue($event.target.value)" (input)="DocumentName=$event.target.value" class="form-control"  placeholder="Document Name">
+					</div>
+				</div>  
+			</div>
+		</div>
+		<div class="form_grp_row">
+			<div class="left_label_cont">
+				<label>Attachment <span class="star">*</span></label>
+			</div>
+			<div class="right_input_cont">
+				<div class="for_input">
+					<div class="only_input date_inuput">
+					<input type="file"  id="StationAttachmentInput" name="StationAttachmentInput" (change)="fileuploadreset($event.target.files, $event)" class="form-control" style="margin-top: 5px;" [disabled]="filevisible">
+					</div>
+				</div>  
+			</div>
+		</div>
+		<div class="form_grp_row1">
+			<div class="left_label_cont1">
+				<label for="ExpiryDate" class="control-label">Expiry Date</label>
+			</div>
+			<div class="right_input_cont1">
+				<div class="for_input">
+					<ng-datepicker class="exp_date" [(ngModel)]="ExpiryDate" [options]="options" (ngModelChange)="OnDateChnage($event)" name="ExpiryDate"></ng-datepicker>
+				</div>
+			</div>
+		</div>
+		<div class="form_grp_row">
+			<div class="left_label_cont">
+				<label>Remark <span class="star">*</span></label>
+			</div>
+			<div class="right_input_cont">
+				<div class="for_input">
+					<div class="only_input date_inuput">
+						<textarea [value]="Remark" (input)="Remark=$event.target.value" class="form-control"></textarea>
+					</div>
+				</div>  
+			</div>
+		</div>
+		<div class="form_grp_row">
+			<div class="left_label_cont"></div>
+			<div class="right_input_cont">
+				<div class="for_input">
+					<div class="only_button">
+						<button class="mybtn" (click)="OnSubmit();">Save</button>
+					</div>
+				</div>  
+			</div>
+		</div>
+	</form>
+	<div class="main_table_container">
+	<div class="vertScrollTbl">
+		<div class="divTableHeader">
+			<div class="divTableRow">
+				<div class="divTableCell">Sr No.</div>
+				<div class="divTableCell">Document Name</div>
+				<div class="divTableCell">Expiry Date</div>
+				<div class="divTableCell" style="width:330px;">Remark</div>
+				<div class="divTableCell" style="width:150px;text-align:center;">Action</div>
+			</div>
+		</div>
+		<div class="divTableBody">
+			<div class="divTableRow" *ngFor = "let itm of StationAttachmentList, let i = index">
+				<div class="divTableCell">{{i+1}}</div>
+				<div class="divTableCell">{{itm.DocumentName}}</div>
+				<div class="divTableCell">{{itm.ExpiryDate}}</div>
+				<div class="divTableCell">{{itm.Remark}}</div>
+				<div class="divTableCell" >
+					<button type="button" class="btn btn-xs btn-success width_50" (click) = "UpdateStationAttachment(itm.id, itm)">Edit</button>
+					<button data-toggle="modal" (click)="ViewStationAttachment(itm.Path, itm)" [attr.data-target]="ModalName" (click)="resetPopup(true)" class="btn btn-xs btn-primary width_50" style="margin-left: 3px;margin-right: 3px;">View</button>
+					<button type="button" class="btn btn-xs btn-danger width_50" (click) ="DeleteStationAttachment(itm.id, itm)">
+						Delete
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>
+<div id="myModal" class="modal fade ">
+  <div class="rateMnggemetnaddrate mypopup " >  
+      <div class="popup_container popup_container_jump_attc">
+          <div class="trigger_div">
+              <span class="mypop_heading_span">
+                  <h4>Station Attachment</h4>
+              </span>
+              <div class="mypop_head_right_div">
+                  <span class="mypop_closebtn_span" title="Close">
+                      <i class="fas fa-times" data-dismiss="modal"></i>
+                  </span>
+              </div>
+          </div>
+          <div class="content_div content_div_jump_attc">
+              <div class="upld_img_cont" style="max-width:100%;">
+                  <span class="upload_span">
+                    	<img [src]="DocumentImagePath" class="img-responsive" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/No_image_available_600_x_450.svg/600px-No_image_available_600_x_450.svg.png';"  />
+                  </span> 
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

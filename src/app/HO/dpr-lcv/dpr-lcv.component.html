@@ -1,0 +1,129 @@
+<div class="main_heading">
+    <span class="heading_span"><h1>LCV Master</h1></span>
+    <span class="search_span">
+        <input type="text"  name="search" [(ngModel)] ="filter" placeholder="Search" class="form-control" autocomplete="off">
+    </span>
+    <div class="head_right_div">
+        <span class="switch_span">
+            <div class="t_state_btn">
+                <div class="floating_div" id="tgt_div"></div>
+                <label>
+                    <input id="ab" type="radio" name="swth" (change)="OnChangeStatus($event, 'swthActive')"/> 
+                    <span>Active</span>
+                </label>
+                <label>
+                    <input type="radio" id="LCVCheck" name="swth" checked (change)="OnChangeStatus($event, 'swthAll')"/> 
+                    <span>All</span>
+                </label>
+                <label>
+                    <input id="ef" type="radio" name="swth" (change)="OnChangeStatus($event, 'swthInActive')"/> 
+                    <span>InActive</span>
+                </label>
+            </div>
+        </span>
+        <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+            <button><i class="fas fa-download"></i></button>
+        </span> 
+        <span class="pop_btn_span">
+            <a title="Add New" data-toggle="modal" (click)="openAddDisp();" data-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </span>
+    </div>  
+</div>
+<div class="mycard">
+    <div class="main_table_container">
+        <div class="vertScrollTbl">
+            <div class="divTableHeader">
+                <div class="divTableRow">
+                    <div class="divTableCell">
+                        Sr No.
+                    </div>
+                    <div [ngClass]="sortingColumn == 'LcvName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('LcvName')">
+                        LCV Name <i [className]="sortingColumn == 'LcvName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'LcvCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('LcvCode')">
+                        LCV Code <i [className]="sortingColumn == 'LcvCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'Description' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Description')">
+                        LCV Description <i [className]="sortingColumn == 'Description' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationName')">
+                        Station Name <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationCode')">
+                        Station Code <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'status' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('status')">
+                        Status <i [className]="sortingColumn == 'status' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>                          
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div *ngFor="let itm of listLCV | orderBy: key: reverse | filter:filter let i = index" data-toggle="modal" data-target="#myModal" (click)="openPopupForUpdate(itm)" class="divTableRow" [ngClass]="itm.LcvId == uId ? 'divTableRow table_row_highlight' : 'divTableRow'">
+                    <div class="divTableCell">{{i+1}}</div>
+                    <div class="divTableCell">{{itm.LcvName}}</div>
+                    <div class="divTableCell">{{itm.LcvCode}}</div>
+                    <div class="divTableCell">{{itm.Description}}</div>
+                    <div class="divTableCell">{{itm.StationName}}</div>
+                    <div class="divTableCell">{{itm.StationCode}}</div>
+                    <div class="divTableCell">{{itm.status}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal fade mypopup" *ngIf=(LCVPopup) role="dialog">
+    <div class="popup_container">
+        <div class="trigger_div">
+            <span class="mypop_heading_span">
+                <h4>{{title}} LCV</h4>
+            </span>
+            <div class="mypop_head_right_div">
+                <span class="mypop_savebtn_sapn"  title="Save">
+                    <i class="fa fa-floppy-o" aria-hidden="true" (click)="save();"></i>
+                </span>
+                <span class="mypop_closebtn_span" title="Close">
+                    <i class="fas fa-times" data-dismiss="modal"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div">
+            <form >
+                <div class="form-group">
+                    <label for="exampleInputEmail1"><strong>Station Name</strong>  <span class="star">*</span></label>
+                       <div class="filer_container">
+                        <form class="custom_dropdown">
+                            <input class="form-control filter_input" type="text" name="stCodeMy" [(ngModel)] = "stCodeMy" (click)="filterBoxShow()"  readonly />
+                        </form>
+                        <div class="filter_box" *ngIf=(fiterBox)>
+                            <input class="form-control" name="search" [(ngModel)] ="filterdd" type="search" placeholder="Search.." autocomplete="off" >
+                            <ul class="list-group fiter_ul" id="myList">
+                                <li class="list-group-item" *ngFor="let itm of listStation | filter:filterdd" (click)="filterBoxShow(itm)" [value]="itm.StationCode">{{itm.StationName}}</li>
+                            </ul>
+                        </div> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1"><strong>LCV Code</strong>  <span class="star">*</span></label>
+                    <input type="text" name="LCVCode" [(ngModel)] = "LCVCode" class="form-control" placeholder="Enter LCV Code..">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1"><strong>LCV Name</strong> <span class="star">*</span></label>
+                    <input type="text" name="LCVName" [(ngModel)] = "LCVName" class="form-control uppercase" placeholder="Enter LCV Name..">
+                </div>
+                <div class="form-group">
+                        <label for=""><strong>Description</strong></label>
+                        <textarea name="LCVDescription" [(ngModel)] = "LCVDescription" class="form-control" placeholder="Description"></textarea>
+                </div>
+                <div class="row form-group">
+                    <label for="Status" class="col-4 control-label">Status</label>
+                    <div class="col-8">
+                        <div class="toggle-pnl">
+                            <input class="tgl tgl-ios ng-pristine ng-untouched ng-valid ng-not-empty" id="InvstUnMap_66" type="checkbox" name = "Status" [(ngModel)] = "Status">
+                            <label class="tgl-btn" for="InvstUnMap_66"></label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+.panel-heading-btns a[title="Save"]:hover
+{
+    background-color:white;
+    color:var(--black_clr);
+    opacity: 1;
+}
+.size
+{
+    width: 111px;
+    height: 32px;
+}
+.old_pop_form_div form .form-group label
+{
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 7px;
+    margin-top:5px;
+    display: block;
+}
+.panel-heading
+{
+    height: 37px!important;
+    min-height: unset;
+    padding: 0px;
+    padding-left: 12px;
+}
+.panel-heading-btns .btn
+{
+    height:37px;
+    line-height: 37px;
+}
+.table_upper
+{
+    height: 220px;
+    overflow-y: auto;
+    margin-bottom: 25px;
+}
+.pre_btn
+{
+    background: #ffd525;
+    border: 1px solid #929292;
+    color: black;
+}
+.table_blow
+{
+    height: calc(100% - 314px);
+    overflow-y: auto;
+    margin-bottom: 0px;
+}
+.mypopup
+{
+    display:block;
+}
+@media (max-width: 1380px)
+{
+    .vertScrollTbl 
+    {
+        width: 100%;
+    } 
+}
+.divTableBody>.divTableRow:hover 
+{
+    background-color: #cfcfcf;
+    color:black;
+    cursor: default;
+}
+.myclass1
+{
+    height:80%;
+}
+.btnwidth
+{
+    width:50px !important;
+}

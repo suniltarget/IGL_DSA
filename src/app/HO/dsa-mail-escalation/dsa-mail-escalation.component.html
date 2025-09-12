@@ -1,0 +1,165 @@
+<div class="main_heading">
+  <span class="heading_span"><h1>Mail Escalation</h1></span>
+  <span class="search_span">
+      <input type="text"  name="search" [(ngModel)] ="filter" placeholder="Search" class="form-control" autocomplete="off">
+  </span>
+  <div class="head_right_div">
+    <span class="switch_span">
+        <div class="t_state_btn">
+            <div class="floating_div" id="tgt_div"></div>
+            <label>
+                <input type="radio" id="ab"  name="swth" (change)="OnChangeStatus($event, 'swthActive')"/> 
+                <span>Active</span>
+            </label>
+            <label>
+                <input type="radio" id="MailCheck" name="swth" [checked]="Status == ''" (change)="OnChangeStatus($event, 'swthAll')"/> 
+                <span>All</span>
+            </label>
+            <label>
+                <input type="radio" id="ef" name="swth" (change)="OnChangeStatus($event, 'swthInActive')"/> 
+                <span>InActive</span>
+            </label>
+        </div>
+    </span> 
+      <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+          <button><i class="fas fa-download"></i></button>
+      </span>
+      <span class="pop_btn_span">
+          <a title="Add New"  data-toggle="modal" (click)="openAdd();"  data-target="#myModal">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+         </a>
+      </span>
+  </div>
+</div>
+<div class="mycard">
+  <div class="main_table_container">
+      <div class="vertScrollTbl">
+          <div class="divTableHeader">
+              <div class="divTableRow">
+                  <div class="divTableCell">
+                      Sr. No.
+                  </div>
+                  <div [ngClass]="sortingColumn == 'DepartmentName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DepartmentName')">
+                    Department Name <i [className]="sortingColumn == 'DepartmentName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+                  <div [ngClass]="sortingColumn == 'EscalationOrder' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('EscalationOrder')">
+                    Escalation Order <i [className]="sortingColumn == 'EscalationOrder' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+                  <div [ngClass]="sortingColumn == 'Time' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Time')">
+                    Time <i [className]="sortingColumn == 'Time' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                  <div [ngClass]="sortingColumn == 'MailBody' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('MailBody')">
+                    Mail Body <i [className]="sortingColumn == 'MailBody' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+                  <div [ngClass]="sortingColumn == 'Flag' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Flag')">
+                    Escalation Type  <i [className]="sortingColumn == 'Flag' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+                  <div [ngClass]="sortingColumn == 'Status' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Status')">
+                    Status  <i [className]="sortingColumn == 'Status' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+              </div>
+          </div>
+          <div class="divTableBody">
+              <div *ngFor="let itm of listMailEscalation | filter : filter  | orderBy: key: reverse ; let i = index" data-toggle="modal" data-target="#myModal" (click)="openUpdatePopup(itm)" [ngClass]="itm.DepartmentId == Id ? 'divTableRow table_row_highlight' : 'divTableRow'">
+                  <div class="divTableCell">{{i+1}}</div>
+                  <div class="divTableCell">{{itm.DepartmentName}}</div>
+                  <div class="divTableCell">{{itm.EscalationOrder}}</div>
+                  <div class="divTableCell">{{itm.Time}}</div>
+                  <div class="divTableCell">{{itm.MailBody}}</div>
+                  <div class="divTableCell">{{itm.Flag}}</div>
+                  <div class="divTableCell">{{itm.Status}}</div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div id="myModal" class="modal fade mypopup" *ngIf=(UsersPopup) role="dialog">
+  <div class="popup_container popup_container_mail_esc">
+      <div class="trigger_div">
+          <span class="mypop_heading_span">
+              <h4>{{title}} Mail Escalation</h4>
+          </span>
+          <div class="mypop_head_right_div">
+              <span class="mypop_savebtn_sapn"  title="Save">
+                  <i class="fa fa-floppy-o" aria-hidden="true" (click)="save();"></i>
+              </span>
+              <span class="mypop_closebtn_span" title="Close">
+                  <i class="fas fa-times" data-dismiss="modal"></i>
+              </span>
+          </div>
+      </div>
+      <div class="content_div">
+          <form >  
+            <div class="row">
+               <div class="col-sm-3 pl4">
+                 <label class="rad_label">
+                   <input type="radio" class="rad" name="EscTypeFlag"  value="DSA" [(ngModel)]="EscTypeFlag" checked> DSA
+                </label>
+               </div>
+               <div class="col-sm-3">
+                <label class="rad_label">
+                   <input type="radio" class="rad" name="EscTypeFlag"  value="DPR" [(ngModel)]="EscTypeFlag"> DPR
+               </label>
+               </div>
+            </div>
+              <div class="form-group">
+                <label for="StationName">Department Type<span class="star">*</span></label>
+                <select class="form-control" name="selectedDeptId" [(ngModel)]='selectedDeptId' (change)="onPermisionSelect($event.target.value, item)">
+                    <option value="" selected>-Select--</option>
+                    <option *ngFor="let itm of listPermision" [value]="itm.DepartmentId">{{itm.DepartmentName}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="StationName">Hierarchey Level <span class="star">*</span></label>
+                <select class="form-control" [(ngModel)]='SelectedHierarchey' name="HierarcheyJson" id="">
+                  <option value="" selected>--Select--</option>
+                  <option *ngFor="let itm of HierarcheyJson" [value]="itm.Name">{{itm.Name}}</option>
+                </select> 
+              </div>
+              <div class="form-group">
+                <label for="StationName">Time <span class="star">*</span></label>
+                <div class="row time_row">
+                  <div class="col-sm-4 pl4" style="margin-right: 6px;">
+                    <div class="input-group">
+                      <select class="form-control" [(ngModel)]='selectedRhHr' name="selectedRhHr" >
+                        <option *ngFor="let itm of RunHrs" [value]="itm.hrs">{{itm.hrs}}</option>
+                      </select>
+                      <span class="input-group-addon">HH</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-4" >
+                    <div class="input-group">
+                      <select class="form-control" name="selectedRhMin" [(ngModel)]='selectedRhMin'  >
+                        <option *ngFor="let itm of RunMin" [value]="itm.min">{{itm.min}}</option>
+                      </select>
+                      <span class="pl4 input-group-addon">MM</span>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="input-group">
+                      <select class="form-control" name="Stamp" [(ngModel)]='selectedStamp' id="">
+                          <option *ngFor="let itm of TimeStamp" [value]="itm.Name">{{itm.Name}}</option>
+                      </select>
+                    </div>
+                  </div>
+               </div>
+              </div>
+              <div class="form-group">
+                <label for="StationName">Mail Body<span class="star">*</span></label>
+                    <textarea rows="2" cols="35" [(ngModel)]='MailBody' id="MailBody" [value]="MailBody" class="form-control" (input)="MailBody=$event.target.value"></textarea>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                    <label for="Status" class="col-2 control-label">Status</label>
+                    <div class="col-2">
+                        <div class="toggle-pnl">
+                            <input class="tgl tgl-ios ng-pristine ng-untouched ng-valid ng-not-empty" id="InvstUnMap_66" type="checkbox"  name = "DS" [(ngModel)] = "DS">
+                            <label class="tgl-btn" for="InvstUnMap_66"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </form>
+      </div>
+  </div>
+</div>

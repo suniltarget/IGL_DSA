@@ -1,0 +1,73 @@
+#imageUpload
+{
+    display: none;
+}
+#profileImage
+{
+    cursor: pointer;
+}
+#profile-container {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+}
+#profile-container img {
+    width: 150px;
+    height: 150px;
+}
+.stn_form
+{
+    padding-top:25px;
+}
+.form_grp_row  
+{
+    overflow: unset;
+}
+.form_grp_row .left_label_cont 
+{
+    width: 185px;
+}
+.form_grp_row .right_input_cont 
+{
+    width: calc(100% - 185px);
+    overflow: unset;
+}
+.form_grp_row .left_label_cont label 
+{
+    font-weight: 600;
+}
+.radio-inline  
+{
+    padding-left: 24px;
+}
+.radio-inline input[type=radio] 
+{
+    margin-left: -23px;
+    bottom: -8px;
+    transform: scale(1.5,1.5);
+}
+.radio-inline+.radio-inline 
+{
+    margin-left: 20px;
+}
+.for_margin
+{
+    margin-top:25px!important;
+    margin-bottom: 25px!important;
+}
+.date_inuput
+{
+    border: 1px solid #ccc!important;
+}
+.date_first>div
+{
+    z-index: 500!important;
+}
+.ngx-datepicker-container {
+    z-index: 500!important;
+}

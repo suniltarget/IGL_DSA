@@ -1,0 +1,286 @@
+<div class="main_heading">
+    <span><h1>Dispenser </h1></span>
+    <span class="stn_nama_span"><strong>Station Name :</strong> {{stationName}}</span>
+</div>
+<div class="mycard mycards">
+  <div class="main_table_container">
+      	<div class="left_list_div">
+          <ul class="tab_ul" *ngFor="let obj of DispenserList">
+              <li>
+                <a href="javascript:void(0)" data-toggle="tab" class="active_tab" [ngClass]="{'active_tab': DispenserId==obj.DispenserId}" (click)="GetStationDispenser(obj.DispenserId)">{{obj.DispenserName}}</a>
+              </li>
+          </ul>
+      	</div>
+      	<div class="right_form_div">
+			<div class="sap_no_div">
+				<div class="sap_1">SAP Equipment Number:</div>
+				<div class="sap_2">{{SAPEquipmentNumber1}}</div>
+				<div class="sap_3">SAP Equipment Number:</div>
+				<div class="sap_4">{{SAPEquipmentNumber2}}</div>
+			</div>
+         	 <div class="tab-content">
+              <div class="tab-pane active" id="home">
+                <form action="">
+                  <div class="row form_row">
+                    <div class="col-lg-3 col-md-12">
+                      <div class="label_container">
+                        <label >Arm ‘A’ (kg)<span class="star">*</span></label>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 col-md-9">
+                      <div class="input-group input_container">     
+                        <input id="email" type="text" class="form-control" [value]="ArmA" (input)="ArmReadingValue($event.target.value,'ArmA')" name="email" [readonly]="!formFlag">  
+                        <span class="input-group-addon">Prev: {{PreviousReadingArmA}}</span>   
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div>
+                        <button class="mybtn" data-toggle="modal" data-target="#myModal" [disabled]="!formFlag">Change/Reset</button>
+                      </div>
+                    </div>
+                  </div>
+					       <div class="row form_row">
+                    <div class="col-lg-3 col-md-12">
+                      <div class="label_container">
+                        <label for="colFormLabel">Jump Arm A</label>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 col-md-9">
+                      <div class="input_container">
+                        <input type="checkbox" class="check_zoom" id="IscheckboxArmA" [value]="" (input)="OnCheckboxChange($event, 'ArmA')">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row form_row" [hidden]="JumpVisibleArmA">
+                    <div class="col-lg-3 col-md-12">
+                      <div class="label_container">
+                        <label >Jump Reading</label>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 col-md-9">
+                      <div class="input_container">
+                        <input  type="text" [value]="JumpReadingArmA" (input)="jumpreadingValueA($event.target.value)" class="form-control" [readonly]="!formFlag">
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                      <div class="input_container">
+                        <input type="file" id="JumpCertificateArmA" (change)="fileuploadA($event.target.files, $event)" [disabled]="filevisibleA">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row form_row" [hidden]="JumpVisibleArmA">
+                    <div class="col-lg-3 col-md-12">
+                      <div class="label_container">
+                        <label >Jump Reading Count </label>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 col-md-9">
+                      <div class="input_container">
+                        <input  type="text" [value]="JumpReadingArmACount" (input)="JumpReadingArmACount=$event.target.value" class="form-control" [readonly]="!formFlag">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row form_row">
+                    <div class="col-lg-3 col-md-12">
+                      <div class="label_container">
+                        <label >Arm ‘B’ (kg)<span class="star">*</span></label>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 col-md-9">
+                      <div class="input-group input_container">
+                        <input id="email" type="text" [value]="ArmB" (input)="ArmReadingValue($event.target.value,'ArmB')" class="form-control" [readonly]="!formFlag">   
+                        <span class="input-group-addon">Prev: {{PreviousReadingArmB}}</span>   
+                      </div>
+                    </div>
+                    <div class="col-sm-2">
+                      <div>
+                        <button class="mybtn" data-toggle="modal" data-target="#myModals" [disabled]="!formFlag">Change/Reset</button>
+                      </div>
+                    </div>
+                  </div>
+					       <div class="row form_row">
+                    <div class="col-lg-3 col-md-12">
+                      <div class="label_container">
+                        <label for="colFormLabel">Jump Arm B</label>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 col-md-9">
+                      <div class="input_container">
+                        <input type="checkbox" class="check_zoom" id="IscheckboxArmB" [value]="" (input)="OnCheckboxChange($event, 'ArmB')">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row form_row" [hidden]="JumpVisibleArmB">
+                    <div class="col-lg-3 col-md-12">
+                      <div class="label_container">
+                        <label >Jump Reading</label>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 col-md-9">
+                      <div class="input_container">
+                        <input  type="text" class="form-control" [value]="JumpReadingArmB" (input)="jumpreadingValueB($event.target.value)" [readonly]="!formFlag">
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                      <div class="input_container">
+                        <input type="file" id="JumpCertificateArmB" (change)="fileuploadB($event.target.files, $event)" [disabled]="filevisibleB">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row form_row" [hidden]="JumpVisibleArmB">
+                    <div class="col-lg-3 col-md-12">
+                      <div class="label_container">
+                        <label >Jump Reading Count</label>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 col-md-9">
+                      <div class="input_container">
+                         <input  type="text" class="form-control" [value]="JumpReadingArmBCount" (input)="JumpReadingArmBCount=$event.target.value" [readonly]="!formFlag">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row form_row">
+                    <div class="col-lg-3 col-md-12">
+                      <div class="label_container">
+                        <label >Remark</label>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 col-md-9">
+                      <div class="input_container">
+                        <textarea class="form-control" [value]="Remark" (input)="Remark=$event.target.value" [readonly]="!formFlag"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row form_row">
+                    <div class="col-lg-3 col-md-12">
+                      <div class="label_container">
+                        <label >Arm A sale(kg)</label>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 col-md-9">
+                      <div class="input_container">
+                        <span class="reading_span">{{ArmASale}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row form_row">
+                    <div class="col-lg-3 col-md-12">
+                      <div class="label_container">
+                        <label >Arm B sale(kg)</label>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 col-md-9">
+                      <div class="input_container">
+                        <span class="reading_span">{{ArmBSale}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row form_row">
+                    <div class="col-lg-3 col-md-12">
+                      <div class="label_container">
+                        <label >Total Sale</label>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 col-md-9">
+                      <div class="input_container">
+                        <span class="reading_span">{{TotalSale | number:'1.3-3'}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row form_row">
+                    <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-0">
+                      <div class="input_container">
+                         <button class="mybtn" *ngIf="formFlag" (click)="InsertDispenser()">Save</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div class="msg" *ngIf="DispenserDetails.isStationSubmitted > 0 "><span  class="data_submit_msg">* Data is submitted for the day</span></div>
+                <div class="msg" *ngIf="DispenserDetails.isCRSentToHo > 0 "><span class="data_submit_msg"> * Submission is closed for Today from Control Room.</span></div>
+              </div>
+          </div>
+      </div>
+</div>
+</div>
+<div id="myModal" class="modal fade mypopup" >
+    <div class="popup_container popup_container_disp1">
+      <div class="trigger_div">
+          <span class="mypop_heading_span">
+            <h4>Change / Reset Meter</h4>
+          </span>
+          <div class="mypop_head_right_div">
+              <span class="mypop_savebtn_sapn"  title="Save">
+                  <i class="fa fa-floppy-o" (click)="changeresetpopup('ArmA')"></i>
+              </span>
+              <span class="mypop_closebtn_span" title="Close">
+                  <i class="fas fa-times" data-dismiss="modal"></i>
+              </span>
+          </div>
+      </div>
+		<div class="content_div">
+			<form >
+				<div class="form-group">
+					<label><strong>Action</strong> </label>
+					<select class="form-control" (change)="resetchange($event.target.value)">
+						<option value='R'>Reset</option>
+						<option value='C'>Change</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label><strong>Old Meter Reading</strong><span class="star">*</span></label>
+					<input type="text"  class="form-control" [value]="OldMeterReadingA" (input)="OldMeterReadingA=$event.target.value" placeholder="Old Meter Reading">
+				</div>
+				<div class="form-group row">
+					<div class="col-6">
+						<label><strong>Jump Reading</strong>  <span class="star">*</span></label>
+						<input type="text"  class="form-control" [value]="JReadingA" (input)="JReadingvalueA($event.target.value)" placeholder="Jump Reading">
+					</div>
+					<div class="col-6">
+						<input type="file" class="form-control" style="margin-top: 25px;margin-left: 10px;" name="jcMeterResetArmA" id="jcMeterResetArmA" (change)="fileuploadresetA($event.target.files, $event)" [disabled]="popupfilevisibleA">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+ <div id="myModals" class="modal fade mypopup" >
+    <div class="popup_container popup_container_disp2">
+      <div class="trigger_div">
+			<span class="mypop_heading_span">
+				<h4>Change / Reset Meter</h4>
+			</span>
+			<div class="mypop_head_right_div">
+				<span class="mypop_savebtn_sapn"  title="Save">
+					<i class="fa fa-floppy-o" (click)="changeresetpopup('ArmB')"></i>
+				</span>
+				<span class="mypop_closebtn_span" title="Close">
+					<i class="fas fa-times" data-dismiss="modal"></i>
+				</span>
+			</div>
+      </div>
+      <div class="content_div">
+                    <form >
+                        <div class="form-group">
+                            <label><strong>Action</strong></label>
+                            <select class="form-control" (change)="resetchange($event.target.value)">
+                              <option value='R'>Reset</option>
+                              <option value='C'>Change</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                          <label><strong>Old Meter Reading</strong><span class="star">*</span></label>
+                          <input type="text"  class="form-control" [value]="OldMeterReadingB" (input)="OldMeterReadingB=$event.target.value" placeholder="Old Meter Reading">
+                        </div>
+                        <div class="form-group row">
+                          <div class="col-6">
+                              <label><strong>Jump Reading</strong>  <span class="star">*</span></label>
+                              <input type="text"  class="form-control" [value]="JReadingB" (input)="JReadingvalueB($event.target.value)" placeholder="Jump Reading">
+                          </div>
+                          <div class="col-6">
+                              <input type="file" class="form-control" style="margin-top: 25px;margin-left: 10px;" name="jcMeterResetArmB" id="jcMeterResetArmB" (change)="fileuploadresetB($event.target.files, $event)" [disabled]="popupfilevisibleB">
+                          </div>
+						           </div>
+					        </form>
+	</div>
+</div>
+</div>

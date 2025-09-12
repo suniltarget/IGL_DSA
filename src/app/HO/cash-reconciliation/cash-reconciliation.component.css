@@ -1,0 +1,45 @@
+th {
+    background: var(--green_clr);
+    position: sticky;
+    top: 0; 
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+    color: var(--white_clr);
+  }
+  .form_grp_row1
+  {
+    width:100%;
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+  }
+  .form_grp_row1 .left_label_cont1,.form_grp_row1 .right_input_cont1
+  {
+  }
+  .form_grp_row1 .left_label_cont1
+  {
+    width:250px;
+    height:100%;
+    display:flex;
+    align-items:center;
+  }
+  .form_grp_row1 .right_input_cont1
+  {
+    width:calc(100% - 250px);
+      height:100%;
+  }
+  .form_grp_row1 .left_label_cont1 label
+  {
+    font-size: 14px;
+      font-weight: 400;
+      color: var(--black_clr);
+  }
+  @media (max-width: 1380px)
+  {
+      .vertScrollTbl 
+      {
+          width: auto;
+      }
+  }
+  .is-hidden {
+    display: none;
+}

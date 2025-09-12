@@ -1,0 +1,26 @@
+<div class="main_wrapper">
+<div class="wrapper">
+    <app-header *ngIf="showHearder"></app-header>
+    <section class="main_sec">
+        <div class="main_left" style="overflow-x: hidden;" *ngIf="showHearder">
+            <app-left-pane ></app-left-pane>
+        </div>
+        <div [ngClass]="showHearder==true ? 'main_right' : 'main_right ccc' " id="main_right">
+            <router-outlet (activate)="onActivated($event)"></router-outlet>
+        </div>
+    </section>
+ <div id="loader" class="loader" onclick="showLoader" *ngIf="showLoader" >
+        <img class="svg fa-2x fa-spin loader-spin" src="../../assets/Images/spinner-circle.svg" />
+	</div>  
+    <div id="loader" class="loader" onclick="showProgress" *ngIf="showProgress" >
+            <div id="myProgress" >
+                <div class="myBar" [style.width]="value">{{ this.num }}%</div>
+            </div>
+    </div>  
+    <div id="loader" class="loader" onclick="showProgress" *ngIf="show" >
+            <div id="myProgress" >
+                <div class="myBar" style="width: 100%;">100 %</div>
+            </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,148 @@
+<div class="main_heading" style="margin-bottom: 0px;">
+    <span class="heading_span"><h1> Bifurcation of Bank Deposit</h1> </span>
+    <div class="head_right_div">
+         <span class="pop_btn_span">           
+            <a title="Save" (click)="saveBankDeposit();" *ngIf="submitButton"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
+        </span>
+    </div>  
+</div>
+<div  id="bankdeposit" >
+    <form class="form-horizontal" role="form">
+        <div class="row">       
+        <div class="col-lg-4 col-xs-4">
+            <div *ngIf="!this.dCompany">
+                <div class="form-group" *ngFor="let cp of CashPayment">
+                    <label class="col-6 control-label">{{cp.PaymentMode}}</label>
+                    <div class="col-6">
+                        <div class="input-group">
+                            <label for="title" class="control-label">(&#8377;) {{cp.PaymentAmount}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="this.dCompany">
+                <div class="form-group" *ngFor="let cp of CashPayment">
+                    <div *ngIf="(cp.PaymentMode =='Opening Cash Balance' || cp.PaymentMode =='Cash Sale' || cp.PaymentMode =='Closing Cash Balance')">
+                        <label class="col-6 control-label">{{cp.PaymentMode}}</label>
+                    <div class="col-6">
+                        <div class="input-group">
+                            <label for="title" class="control-label">(&#8377;) {{cp.PaymentAmount}}</label>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-3">
+            <div class="form-group" *ngIf="!this.dCompany">
+                <label for="title" class="col-lg-3 col-md-3 col-sm-3 control-label">Submit  </label>
+                <div class="col-9">
+                    <input type="checkbox" class="check_zoom" id="IsSubmitcheck" (input)="OnCheckboxChange($event)">
+                    <span style="color:red"> (Click here to Enter Denominations)</span>
+                </div>
+            </div>
+            <div class="form-group" *ngIf="!this.dCompany">
+                <label for="title" class="col-lg-3 col-md-3 col-sm-3 control-label">Bank Slip/Bank Transaction No.<span style="color:red"> * </span></label>
+                <div class="col-9">
+                    <input type="text" class="form-control" [value]="SlipNo" (input)="SlipNo=$event.target.value" [disabled]="!IsBankSubmitted">
+                </div>
+            </div>
+            <div class="form-group" *ngIf="this.dCompany">
+                <label for="title" class="col-lg-3 col-md-3 col-sm-3 control-label" *ngIf="this.dCompany">NEFT/ RTGS <span style="color:red"> * </span> </label>
+                <div class="col-9">
+                    <input type="text" class="form-control" [value]="SlipNo" (input)="SlipNo=$event.target.value">
+                </div>
+            </div>
+            <div class="form-group" *ngIf="!this.dCompany">
+                <label for="title" class="col-lg-3 col-md-3 col-sm-3 control-label">Submit Date</label>
+                <div class="col-9">
+                    <ng-datepicker class="exp_date" [(ngModel)]="SubmissionDate" [options]="options" (ngModelChange)="OnDateChnagefrom($event)" [disabled]="!IsBankSubmitted" name="ExpiryDate"></ng-datepicker>
+                </div>
+            </div>
+            <div class="form-group" *ngIf="this.dCompany">
+                <label for="title" class="col-lg-3 col-md-3 col-sm-3 control-label">Submit Date</label>
+                <div class="col-9">
+                    <ng-datepicker class="exp_date" [(ngModel)]="SubmissionDate" [options]="options" (ngModelChange)="OnDateChnagefrom($event)"  name="ExpiryDate"></ng-datepicker>
+                </div>
+            </div>
+            <div class="form-group" *ngIf="!this.dCompany">
+                <label for="title" class="col-lg-3 col-md-3 col-sm-3 control-label">Submit By</label>
+                <div class="col-9">
+                    <input type="text" class="form-control" [value]="SubmitBy" (input)="SubmitBy=$event.target.value" [disabled]="!IsBankSubmitted">
+                </div>
+            </div>
+            <div class="form-group" *ngIf="this.dCompany">
+                <label for="title" class="col-lg-3 col-md-3 col-sm-3 control-label">Submit By</label>
+                <div class="col-9">
+                    <input type="text" class="form-control" [value]="SubmitBy" (input)="SubmitBy=$event.target.value" >
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="title" class="col-lg-3 col-md-3 col-sm-3 control-label"> Remark <span style="color:red"> * </span> </label>
+                <div class="col-9">
+                    <textarea rows="2" cols="35" id="remark" [value]="remark" class="form-control"  (input)="remark=$event.target.value" [disabled]="RemarkIsfalse" required></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 col-xs-5">
+            <div class="form-group" *ngFor="let pm of AddDenominationsType">
+                <div *ngIf="!this.dCompany">
+                  <label for="title" class="col-lg-3 col-md-3 col-sm-3 control-label" *ngIf="(pm.DenominationsName == 'Other Notes')">{{pm.DenominationsName}} (&#8377;)</label>
+                </div>
+                <div *ngIf="!this.dCompany">
+                  <label for="title" class="col-lg-3 col-md-3 col-sm-3 control-label" *ngIf="(pm.DenominationsName == 'Coins')">{{pm.DenominationsName}} (&#8377;)</label>
+                </div>
+                <div *ngIf="!this.dCompany">
+                    <label for="title" class="col-lg-3 col-md-3 col-sm-3 control-label" *ngIf="(pm.DenominationsName != 'Other Notes' && pm.DenominationsName != 'Coins')">{{pm.DenominationsName}} (&#8377;) x</label>
+                </div>
+                <div *ngIf="this.dCompany">
+                    <label *ngIf="(pm.DenominationsName=='Other Notes')" class="col-lg-3 col-md-3 col-sm-3 control-label" style="width: max-content;"> Cash Bank Deposit</label>
+                </div>
+                <div class="col-2" >
+                        <div class="input-group" *ngIf="!this.dCompany" >
+                            <input type="number" placeholder="{{pm.DenominationsName}}" class="form-control"  value="{{pm.DenominationsCount}}" min="0" 
+                            [disabled]="!IsBankSubmitted" (input)="Onchange($event.target,pm.DenominationsName)" (keypress)="check($event)">
+                        </div>
+                        <div class="input-group" *ngIf="this.dCompany" >
+                           <div *ngIf="(pm.DenominationsName=='Other Notes')">
+                            <input style="width: auto;"  placeholder="Cash Bank Deposit" class="form-control"  value="{{pm.DenominationsCount}}" min="0" 
+                            (input)="Onchange($event.target,pm.DenominationsName)" (keypress)="check($event)">
+                           </div>
+                        </div>
+                    </div>
+                     <div *ngIf="!this.dCompany">
+                     <label for="title" class="col-lg-3 col-md-3 col-sm-3 control-label">(&#8377;) {{pm.DenominationsAmount}}</label>
+                    </div>
+            </div>
+            <div class="form-group">
+                <label for="title" class="col-lg-3 col-md-3 col-sm-3 control-label">Total Bank Deposit</label>
+                <div class="col-2">
+                    <div class="input-group">
+                    </div>
+                </div>
+                <label for="title" class="control-label">(&#8377;) {{CashDeposit}}</label>
+            </div>
+        </div>
+    </div>
+    </form >
+</div>
+<div class="mypopup" (click)="paymentpoup();" *ngIf="paymentpoup" style="z-index: 6000;">
+    <div class="popup_container">
+        <div class="trigger_div">
+            <span class="mypop_heading_span">
+                <h4>Bank Deposit Confirmation !</h4>
+            </span>
+        </div>
+        <div class="content_div" style="height:100px;">
+            <p class="text-center" style="font-size: 15px;
+            margin-top: 12px;">Your bank deposit is greater than (Cash collection + Ope. Cash Balance).</p>
+            <p class="text-center" style="font-size: 14px;
+            margin-top: 12px;
+            margin-bottom: 10px;">Do you want to continue ? (Yes/No)</p>
+            <div class="text-center">
+            <button type="button" class="btn btn-success" (click)="saveBankDepositOnOkClick('yes');" value="Yes">Yes</button>
+            <button type="button" class="btn btn-danger" (click)="saveBankDepositOnOkClick('no');" value="No">No</button>
+            </div>
+        </div>
+    </div>
+</div>

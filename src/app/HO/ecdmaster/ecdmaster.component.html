@@ -1,0 +1,123 @@
+<div class="main_heading">
+  <span class="heading_span"><h1>ECD Management </h1></span>
+  <span class="search_span">
+      <input type="text"  [value]="searchText" (input)="searchText = $event.target.value" placeholder="Search" class="form-control" autocomplete="off">  
+  </span>
+  <div class="head_right_div">
+      <span class="switch_span">
+          <div class="t_state_btn">
+              <div class="floating_div" id="tgt_div"></div>
+              <label>
+                  <input type="radio" id="ab"  name="swth" (change)="OnChangeStatus($event, 'swthActive')"/> 
+                  <span>Active</span>
+              </label>
+              <label>
+                  <input type="radio" id="regionCheck" name="swth" [checked]="Status1 == ''" (change)="OnChangeStatus($event, 'swthAll')"/> 
+                  <span>All</span>
+              </label>
+              <label>
+                  <input type="radio" id="ef" name="swth" (change)="OnChangeStatus($event, 'swthInActive')"/> 
+                  <span>InActive</span>
+              </label>
+          </div>
+      </span> 
+      <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+              <button><i class="fas fa-download"></i></button>
+      </span>
+      <span class="pop_btn_span">
+          <a title="Add New" (click)="addECD();"><i class="fa fa-plus" aria-hidden="true"></i></a>
+      </span>
+  </div>  
+</div>
+<div class="mycard">
+  <div class="main_table_container">
+      <div class="vertScrollTbl">
+          <div class="divTableHeader">
+              <div class="divTableRow">
+                  <div class="divTableCell">
+                      Sr No.
+                  </div>
+                  <div [ngClass]="sortingColumn == 'ECDDevice' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('ECDDevice')">
+                      ECD ID <i [className]="sortingColumn == 'ECDDevice' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+                  <div [ngClass]="sortingColumn == 'DeviceBrand' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DeviceBrand')">
+                    Device Brand <i [className]="sortingColumn == 'DeviceBrand' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                </div>
+                <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationName')">
+                  StationName <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+              </div>
+                  <div [ngClass]="sortingColumn == 'Status' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Status')">
+                      Status<i [className]="sortingColumn == 'Status' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+              </div>
+          </div>
+          <div class="divTableBody">
+              <div *ngFor="let itm of listECD | orderBy: key: reverse | filterSearch : searchText: 'ECDSearch' ; let i = index"  [ngClass]="itm.ID == uniquePopupId ? 'divTableRow table_row_highlight':'divTableRow'" (click)="openPopupForUpdate(itm.ID,itm.Popup)">
+                  <div class="divTableCell">{{i+1}}</div>
+                  <div class="divTableCell">{{itm.ECDDevice}}</div>
+                  <div class="divTableCell">{{itm.DeviceBrand}}</div>
+                  <div class="divTableCell">{{itm.StationName}}</div>
+                  <div class="divTableCell">{{itm.Status}}</div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div  class="regionMngeaddregoinpoup mypopup" *ngIf=(ECDPopup)>
+  <div class="popup_container popup_container_add_region" id="pop">
+      <div class="trigger_div">
+          <span class="mypop_heading_span">
+              <h4>{{title}}</h4>
+          </span>
+          <div class="mypop_head_right_div">
+              <span class="mypop_savebtn_sapn" title="Save">
+                  <i class="fa fa-floppy-o" aria-hidden="true" (click)="saveECD();"></i>
+              </span>
+              <span class="mypop_closebtn_span" title="Close">
+                  <i class="fas fa-times" id="pass_close" (click)="ECDPopup = false"></i>
+              </span>
+          </div>
+      </div>
+      <div class="content_div">
+          <form>
+              <div class="form-group">
+                  <label for="title">ECD ID</label>
+                  <div class="inp_cont">
+                      <input type="text" placeholder="ECD ID" class="form-control" name = "ECDDevice" [(ngModel)] = "ECDDevice" >
+                  </div>
+              </div> 
+              <div class="form-group">
+                <label for="title">Device Brand</label>
+                <div class="inp_cont">
+                    <input type="text" placeholder="Device Brand" class="form-control" name = "DeviceBrand" [(ngModel)] = "DeviceBrand" >
+                </div>
+            </div>
+            <div class="form-group">
+              <label for="title">Station Name</label>
+              <div class="filer_container">
+                <form class="custom_dropdown">
+                    <input class="form-control filter_input" type="text" name="StationName" [(ngModel)] = "StationName" (click)="filterBoxShow()"  readonly />
+                </form>
+                <div class="filter_box" *ngIf=(fiterBox)>
+                    <input class="form-control" name="search" [(ngModel)] ="filterdd" type="search" placeholder="Search.." autocomplete="off" >
+                    <ul class="list-group fiter_ul" id="myList">
+                        <li class="list-group-item" *ngFor="let itm of StationList | filter:filterdd" (click)="filterBoxShow(itm)" [value]="itm.StationName">{{itm.StationName}}</li>
+                    </ul>
+                </div> 
+            </div>
+          </div>
+              <div class="form-group">
+                  <div class="row">
+                      <label for="firstName" class="col-3 control-label">Status</label>
+                      <div class="col-9">
+                          <div class="toggle-pnl">
+                              <input class="tgl tgl-ios ng-pristine ng-untouched ng-valid ng-not-empty" id="InvstUnMap_66" type="checkbox"  name = "DS" [(ngModel)] = "DS">
+                              <label class="tgl-btn" for="InvstUnMap_66"></label>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>

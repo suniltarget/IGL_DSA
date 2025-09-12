@@ -1,0 +1,1788 @@
+<div class="main_heading">
+	<span class="heading_span">
+		<h1>Entry DPR </h1>
+	</span>
+	<span class="date_span" style="margin-right:auto;border:1px solid #ccc;">
+		<ng-datepicker [(ngModel)]="DPREntryDate" [options]="options" class="ngx-datepicker-container dt_for-rep"
+			(ngModelChange)="OnDateChnagefrom($event)"></ng-datepicker>
+	</span>
+	<span class="stn_nama_span"><strong>Station Name :</strong> {{stationName}}</span>
+</div>
+<div class="mycard">
+	<div class="main_table_container" style="padding:15px 15px 0px 15px;">
+		<div class="theme_toogle_div"></div>
+		<section>
+			<div class="accord_form_container">
+				<a href="javascript:void(0)" class='new' (click)="getStationMeterSkidData('-999');">Meter Skid <span
+						class="rotate"></span></a>
+				<div class="open" style="display:block;">
+					<div class="maximize_div">
+					</div>
+					<div class="form_wrapper" *ngIf="!IsMSkidhide">
+						<div class="left_list_div">
+							<ul class="tab_ul" *ngFor="let itm of MeterStationSkidList">
+								<li>
+									<a href="javascript:void(0)" data-toggle="tab"
+										[ngClass]="{'active_tab': MeterSkidId==itm.MeterSkidId}"
+										(click)="getStationMeterSkidData(itm.MeterSkidId)">{{itm.MeterSkidName}}
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="right_form_div">
+							<div class="sap_no_div">
+								<div class="sap_1">SAP Equipment Number :</div>
+								<div class="sap_2">{{(MSMeterSkidCode == null) ? '0.00' : MSMeterSkidCode}}</div>
+							</div>
+							<form class="stn_form">
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Flow Meter Totaliser <span class="star">*</span></label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_input">
+												<input type="text" type="text" class="form-control" name="email"
+													[value]="meterTotaliser"
+													(input)="meterTotaliser = $event.target.value">
+											</div>
+											<div class="myaddon">Prev :{{(MSFlowMeterTotaliserPrv == null) ? '0.00':
+												MSFlowMeterTotaliserPrv}}</div>
+										</div>
+										<div class="for_button">
+											<button class="mybtn" data-toggle="modal" (click)="getMSJumpHistory('GET')"
+												data-target="#MSmyModal">Jump/Change/Reset</button>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Remarks</label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_txtarea">
+												<textarea class="form-control form-control-lg" [value]="remark"
+													(input)="remark = $event.target.value"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont"></div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_button" [hidden]="IsMSkidhide">
+												<button class="mybtn"
+													[hidden]="MSisStationSubmitted > 0  || MSisCRSentToHo > 0"
+													(click)="insertStationSkid()">Save</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="msg">
+									<span class="data_submit_msg" [hidden]="MSisStationSubmitted == 0">* Data is
+										submitted for the date {{DPREntryDate}} by Station.</span><br>
+									<span class="data_submit_msg" [hidden]="MSisCRSentToHo == 0">* Submission is closed
+										for date {{DPREntryDate}} by Control Room.</span>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="msg" *ngIf="IsMSkidhide" style="margin-left: 15px;">
+						<span class="data_submit_msg">* Equipment not available for this Station.</span>
+					</div>
+				</div>
+				<div id="MSmyModal" class="modal fade mypopup">
+					<div class="popup_container popup_container_mtrskd_reset_meter">
+						<div class="trigger_div">
+							<span class="mypop_heading_span">
+								<h4>Jump/Change/Reset Meter</h4>
+							</span>
+							<div class="mypop_head_right_div">
+								<span class="mypop_savebtn_sapn" title="Save">
+									<i class="fa fa-floppy-o" (click)="MSchangeresetpopup()"></i>
+								</span>
+								<span class="mypop_closebtn_span" title="Close">
+									<i class="fas fa-times" data-dismiss="modal"></i>
+								</span>
+							</div>
+						</div>
+						<div class="content_div" style="overflow-x:hidden;">
+							<form>
+								<div class="form-group">
+									<label><strong>Action</strong> </label>
+									<select [value]="MSFlagJumpType" class="form-control"
+										(change)="resetchange($event.target.value, 'MS')">
+										<option value='J'>Jump</option>
+										<option value='C'>Change</option>
+										<option value='R'>Reset</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label><strong>Before</strong><span class="star">*</span></label>
+									<input type="text" [value]="OldMeterReading"
+										(input)="OldMeterReading=$event.target.value" class="form-control"
+										placeholder="Before Meter Reading">
+								</div>
+								<div class="form-group">
+									<label><strong>After</strong><span class="star">*</span></label>
+									<input type="text" [value]="NewMeterReading"
+										(input)="MSJReadingvalue($event.target.value)"
+										(input)="NewMeterReading=$event.target.value" class="form-control"
+										placeholder="After Meter Reading">
+								</div>
+								<div class="form-group">
+									<label><strong>Attachment</strong><span class="star">*</span></label>
+									<input type="file" id="MSfileInputreset" name="MSfileInputreset"
+										(change)="fileuploadreset($event.target.files, $event)" class="form-control"
+										style="margin-top: 5px;transform:scale(1,1);" [disabled]="MSpopupfilevisible">
+								</div>
+								<div class="form-group">
+									<label><strong>Remarks</strong><span class="star">*</span></label>
+									<input type="text" [value]="MeterJumpRemark"
+										(input)="MeterJumpRemark=$event.target.value" class="form-control"
+										placeholder="Remark">
+								</div>
+							</form>
+							<div class="main_table_container" style="margin-top:18px;">
+								<div class="vertScrollTbl">
+									<div class="divTableHeader">
+										<div class="divTableRow">
+											<div class="divTableCell">Sr No.</div>
+											<div class="divTableCell">Before</div>
+											<div class="divTableCell">After</div>
+											<div class="divTableCell">Jumped</div>
+											<div class="divTableCell">Action Type</div>
+											<div class="divTableCell">Remark</div>
+											<div class="divTableCell">Action</div>
+										</div>
+									</div>
+									<div class="divTableBody">
+										<div class="divTableRow" *ngFor="let itm of MSJumpListHistory, let i = index">
+											<div class="divTableCell">{{i+1}}</div>
+											<div class="divTableCell">{{itm.BeforeJumpReading}}</div>
+											<div class="divTableCell">{{itm.AfterJumpReading}}</div>
+											<div class="divTableCell">{{itm.JumpReading}}</div>
+											<div class="divTableCell">{{itm.Action}}</div>
+											<div class="divTableCell">{{itm.Remark}}</div>
+											<div class="divTableCell"><span
+													(click)="UpdateMSJumpHistory(itm.id, itm)">Edit</span>&nbsp;&nbsp;<b>|</b><span><i
+														(click)="DeleteMSJumpHistory(itm.id,itm.Action, itm)"
+														class="fa fa-close"
+														style="color:red;margin-left: 9px;font-size: 16px;"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="accord_form_container">
+				<a href="javascript:void(0)" class='new' (click)="PackageCallOninit();">Compressor Package
+					<span></span></a>
+				<div class="open">
+					<div class="maximize_div">
+						<i class="far fa-window-maximize maximize"></i> <i class="fas fa-times close_form"
+							style="display:none;"></i>
+					</div>
+					<div class="form_wrapper" *ngIf="!IsPackagehide">
+						<div class="left_list_div">
+							<ul class="tab_ul" *ngFor="let itm of TablesPkgs">
+								<li>
+									<a href="javascript:void(0)" data-toggle="tab"
+										[ngClass]="{'active_tab': PackageId==itm.PackageId}"
+										(click)="GetPackageDetail(itm.PackageId)">{{itm.PackageName}}
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="right_form_div">
+							<div class="sap_no_div">
+								<div class="sap_1">SAP Equipment Number :</div>
+								<div class="sap_2">{{PackageCode}}</div>
+							</div>
+							<form class="stn_form">
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Suction Flow Meter Reading (KG) <span class="star">*</span></label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_input">
+												<input type="text" id="txtSuctionFlowMeterReadingSFM"
+													name="txtSuctionFlowMeterReadingSFM"
+													[(ngModel)]="PackageDetailJson.length == 0 ? '0.00' : PackageDetailJson[0].SuctionFlowMeterReading"
+													placeholder="Suction Flow Meter Reading" class="form-control">
+											</div>
+											<div class="myaddon">Prev :{{(PackageDetailJson.length == 0) ? '0.00' :
+												PackageDetailJson[0].SuctionFlowMeterReadingPrv}}</div>
+										</div>
+										<div class="for_button">
+											<button class="mybtn" data-toggle="modal" (click)="getSFMJumpHistory('GET')"
+												data-target="#myModal_suction1"
+												(click)="resetPopupSFM('true')">Jump/Change/Reset</button>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Discharge Flow Meter Reading (KG) <span class="star">*</span></label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_input">
+												<input type="text" name="DischargeFlowMeterReading"
+													id="DischargeFlowMeterReading"
+													placeholder="Discharge Flow Meter Reading"
+													[(ngModel)]="PackageDetailJson.length == 0 ? '0.00' : PackageDetailJson[0].DischargeFlowMeterReading"
+													class="form-control">
+											</div>
+											<div class="myaddon">Prev :{{PackageDetailJson.length == 0 ? '0.00' :
+												PackageDetailJson[0].DischargeFlowMeterReadingPrv}}</div>
+										</div>
+										<div class="for_button">
+											<button class="mybtn" data-toggle="modal" (click)="getDFMJumpHistory('GET')"
+												data-target="#myModal_discharge"
+												(click)="resetPopupDFM(true)">Jump/Change/Reset</button>
+										</div>
+									</div>
+								</div>
+								<div>
+									<div class="form_grp_row">
+										<div class="left_label_cont" *ngIf="(PrimeMover != 'M')">
+											<label for="EngineFlowMeterReading" class="control-label">Engine Flow Meter
+												Reading (KG)<span class="star">*</span></label>
+										</div>
+										<div class="left_label_cont" *ngIf="(PrimeMover == 'M')">
+											<label for="EngineFlowMeterReading" class="control-label">Motor Flow Meter
+												Reading (KWH)<span class="star">*</span></label>
+										</div>
+										<div class="right_input_cont">
+											<div class="for_input">
+												<div class="only_input">
+													<input type="text" class="form-control"
+														name="txtEngineFlowMeterReading" id="EngineFlowMeterReading"
+														[(ngModel)]="PackageDetailJson.length == 0 ? '0' : PackageDetailJson[0].EngineFlowMeterReading"
+														placeholder="Flow Meter Reading">
+												</div>
+												<div class="myaddon">Prev: {{PackageDetailJson.length == 0 ? '0.00' :
+													PackageDetailJson[0].EngineFlowMeterReadingPrv}}</div>
+											</div>
+											<div class="for_button">
+												<div>
+													<button data-toggle="modal" (click)="getEFMJumpHistory('GET')"
+														data-target="#myModal_EVS" (click)="resetPopupEFM(true)"
+														class="mybtn">Jump/Change/Reset</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row" *ngIf="IsVentFlow">
+									<div class="left_label_cont">
+										<label>Vent Flow Meter Reading (KG) <span class="star">*</span></label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_input">
+												<input type="text" class="form-control" name="VentFlowMeterReading"
+													[(ngModel)]="PackageDetailJson.length == 0 ? '0.00' : PackageDetailJson[0].VentFlowMeterReading"
+													placeholder="Vent Flow Meter Reading">
+											</div>
+											<div class="myaddon">Prev: {{PackageDetailJson.length == 0 ? '0.00' :
+												PackageDetailJson[0].VentFlowMeterReadingPrv}}</div>
+										</div>
+										<div class="for_button">
+											<div>
+												<button data-toggle="modal" (click)="getVFMJumpHistory('GET')"
+													data-target="#myModal_VFM" (click)="resetPopupVFM(true)"
+													class="mybtn">Jump/Change/Reset</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row" *ngIf="PrimeMover == 'M'">
+									<div class="left_label_cont">
+										<label for="MotorFrequency" class="control-label">Motor Frequency<span
+												class="star">*</span></label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_input">
+												<input type="text" class="form-control" name="MotorFrequency"
+													id="MotorFrequency"
+													[(ngModel)]="PackageDetailJson.length == 0 ? '0' : PackageDetailJson[0].MotorFrequency"
+													placeholder="Motor Frequency">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Running Hours</label>
+									</div>
+									<div class="right_input_cont">
+										<div class="time_container">
+											<div class="time_select">
+												<select [(ngModel)]='selectedRhHr' name="selectedRhHr">
+													<option *ngFor="let itm of RunHrs" [value]="itm.hrs">{{itm.hrs}}
+													</option>
+												</select>
+												<span>HH</span>
+											</div>
+										</div>
+										<div class="time_container">
+											<div class="time_select">
+												<select [(ngModel)]='selectedRhMin' name="selectedRhMin">
+													<option *ngFor="let itm of RunMin" [value]="itm.min">{{itm.min}}
+													</option>
+												</select>
+												<span>MM</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Schedule Shutdown Hours</label>
+									</div>
+									<div class="right_input_cont">
+										<div class="time_container">
+											<div class="time_select">
+												<select [(ngModel)]='selectedSHr' name="selectedSHr">
+													<option *ngFor="let itm of SHrs" [value]="itm.hrs">{{itm.hrs}}
+													</option>
+												</select>
+												<span>HH</span>
+											</div>
+										</div>
+										<div class="time_container">
+											<div class="time_select">
+												<select [(ngModel)]='selectedSMin' name="selectedSMin">
+													<option *ngFor="let itm of SMin" [value]="itm.min">{{itm.min}}
+													</option>
+												</select>
+												<span>MM</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Unscheduled Shutdown Hours</label>
+									</div>
+									<div class="right_input_cont">
+										<div class="time_container">
+											<div class="time_select">
+												<select [(ngModel)]='selectedUsHr' name="selectedUsHr">
+													<option *ngFor="let itm of UsHrs" [value]="itm.hrs">{{itm.hrs}}
+													</option>
+												</select>
+												<span>HH</span>
+											</div>
+										</div>
+										<div class="time_container">
+											<div class="time_select">
+												<select [(ngModel)]='selectedUsMin' name="selectedUsMin">
+													<option *ngFor="let itm of UsMin" [value]="itm.min">{{itm.min}}
+													</option>
+												</select>
+												<span>MM</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Breakdown Hours</label>
+									</div>
+									<div class="right_input_cont">
+										<div class="time_container">
+											<div class="time_select">
+												<select [(ngModel)]='selectedBdHr' name="selectedBdHr">
+													<option *ngFor="let itm of BdHrs" [value]="itm.hrs">{{itm.hrs}}
+													</option>
+												</select>
+												<span>HH</span>
+											</div>
+										</div>
+										<div class="time_container">
+											<div class="time_select">
+												<select [(ngModel)]='selectedBdMin' name="selectedBdMin">
+													<option *ngFor="let itm of BdMin" [value]="itm.min">{{itm.min}}
+													</option>
+												</select>
+												<span>MM</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Suction Pressure <span class="star">*</span></label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_input">
+												<input type="text" name="SuctionPressure" id="SuctionPressure"
+													placeholder="Suction Pressure"
+													[(ngModel)]="PackageDetailJson.length == 0 ? '0.00' : PackageDetailJson[0].SuctionPressure"
+													class="form-control">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Remarks<span class="star">*</span></label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_select">
+												<select class="form-control" [(ngModel)]="mdlSelectedRemark"
+													name="mdlSelectedRemark" id="mdlSelectedRemark"
+													(change)="showHideRemark()">
+													<option value="" selected>--Select--</option>
+													<option *ngFor="let itm of jsonRemarks" [value]="itm.value">
+														{{itm.value}}</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row" style="margin-left: 72px;">
+									<div class="col-lg-5 col-md-9 col-lg-offset-3 col-md-offset-0"
+										[hidden]="mdlRemarkTextShow == true">
+										<textarea class="form-control" rows="4" name="mdlRemark" [(ngModel)]="mdlRemark"
+											id="Remarks" placeholder="Remarks"></textarea>
+									</div>
+								</div>
+								<br>
+								<div class="form_grp_row">
+									<div class="left_label_cont"></div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_button" [hidden]="IsPackagehide">
+												<button class="mybtn"
+													[hidden]="PKisStationSubmitted > 0  || PKisCRSentToHo > 0"
+													(click)="InsertPackageInfo()">Save</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="msg">
+									<span class="data_submit_msg" [hidden]="PKisStationSubmitted == 0 ">* Data is
+										submitted for the date {{DPREntryDate}} by Station.</span><br>
+									<span class="data_submit_msg" [hidden]="PKisCRSentToHo == 0 ">* Submission is closed
+										for date {{DPREntryDate}} by Control Room.</span>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="msg" *ngIf="IsPackagehide" style="margin-left: 15px;">
+						<span class="data_submit_msg">* Equipment not available for this Station.</span>
+					</div>
+				</div>
+				<div id="myModal_suction1" class="modal fade mypopup">
+					<div class="popup_container popup_container_package_reset_meter">
+						<div class="trigger_div">
+							<span class="mypop_heading_span">
+								<h4>Jump/Change/Reset Meter</h4>
+							</span>
+							<div class="mypop_head_right_div">
+								<span class="mypop_savebtn_sapn" title="Save">
+									<i class="fa fa-floppy-o"
+										[hidden]="PackageDetailJson.length == 0 ? 0 : PackageDetailJson.PKisStationSubmitted > 0"
+										(click)="HoldResetReading('SFM')"></i>
+								</span>
+								<span class="mypop_closebtn_span" title="Close">
+									<i class="fas fa-times" data-dismiss="modal"></i>
+								</span>
+							</div>
+						</div>
+						<div class="content_div" style="overflow-x:hidden;">
+							<form>
+								<div class="form-group">
+									<label><strong>Action</strong></label>
+									<select [value]="ActionTypeSFM" class="form-control"
+										(change)="resetchange($event.target.value, 'SFM')">
+										<option value='J'>Jump</option>
+										<option value='C'>Change</option>
+										<option value='R'>Reset</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label><strong>Before</strong><span class="star">*</span></label>
+									<input type="text" [value]="OldMeterReading"
+										(input)="OldMeterReading=$event.target.value" class="form-control"
+										placeholder="Before Meter Reading">
+								</div>
+								<div class="form-group">
+									<label><strong>After</strong><span class="star">*</span></label>
+									<input type="text" [value]="NewMeterReading"
+										(input)="mdlResetJumpReadingSFM=$event.target.value"
+										(input)="NewMeterReading=$event.target.value" class="form-control"
+										placeholder="After Meter Reading">
+								</div>
+								<div class="form-group">
+									<label><strong>Attachment</strong></label>
+									<input type="file" class="form-control"
+										style="border: 1px solid #c7c7c7;transform:scale(1,1)" id="jcMeterResetSFM"
+										name="file" (change)="uploadJumpReadingImgSFMPopUp($event.target.files, $event)"
+										[disabled]="(mdlResetJumpReadingSFM == '' || mdlResetJumpReadingSFM == '0')">
+								</div>
+								<div class="form-group">
+									<label><strong>Remarks</strong></label>
+									<input type="text" [value]="MeterJumpRemark"
+										(input)="MeterJumpRemark=$event.target.value" class="form-control"
+										placeholder="Remark">
+								</div>
+							</form>
+							<br>
+							<div class="main_table_container">
+								<div class="vertScrollTbl">
+									<div class="divTableHeader">
+										<div class="divTableRow">
+											<div class="divTableCell">Sr No.</div>
+											<div class="divTableCell">Before</div>
+											<div class="divTableCell">After</div>
+											<div class="divTableCell">Jumped</div>
+											<div class="divTableCell">Action Type</div>
+											<div class="divTableCell">Remark</div>
+											<div class="divTableCell">Action</div>
+										</div>
+									</div>
+									<div class="divTableBody">
+										<div class="divTableRow" *ngFor="let itm of SFMJumpListHistory, let i = index">
+											<div class="divTableCell">{{i+1}}</div>
+											<div class="divTableCell">{{itm.BeforeJumpReading}}</div>
+											<div class="divTableCell">{{itm.AfterJumpReading}}</div>
+											<div class="divTableCell">{{itm.JumpReading}}</div>
+											<div class="divTableCell">{{itm.Action}}</div>
+											<div class="divTableCell">{{itm.Remark}}</div>
+											<div class="divTableCell"><span
+													(click)="UpdateSFMJumpHistory(itm.id, itm)">Edit</span>&nbsp;&nbsp;<b>|</b><span><i
+														(click)="DeleteSFMJumpHistory(itm.id,itm.Action, itm)"
+														class="fa fa-close"
+														style="color:red;margin-left: 9px;font-size: 16px;"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="myModal_discharge" class="modal fade mypopup">
+					<div class="popup_container popup_container_package_reset_meter">
+						<div class="trigger_div">
+							<span class="mypop_heading_span">
+								<h4>Jump/Change/Reset Meter</h4>
+							</span>
+							<div class="mypop_head_right_div">
+								<span class="mypop_savebtn_sapn" title="Save">
+									<i class="fa fa-floppy-o"
+										[hidden]="PackageDetailJson.length == 0 ? 0 : PackageDetailJson.isStationSubmitted > 0"
+										(click)="HoldResetReading('DFM')"></i>
+								</span>
+								<span class="mypop_closebtn_span" title="Close">
+									<i class="fas fa-times" (click)="resetPopupDFM(false)" data-dismiss="modal"></i>
+								</span>
+							</div>
+						</div>
+						<div class="content_div">
+							<form>
+								<div class="form-group">
+									<label><strong>Action</strong></label>
+									<select [value]="ActionTypeDFM" class="form-control"
+										(change)="resetchange($event.target.value, 'DFM')">
+										<option value='J'>Jump</option>
+										<option value='C'>Change</option>
+										<option value='R'>Reset</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label><strong>Before</strong><span class="star">*</span></label>
+									<input type="text" [value]="mdlReadingOnSwitchDFM"
+										(input)="mdlReadingOnSwitchDFM=$event.target.value" class="form-control"
+										placeholder="Before Meter Reading">
+								</div>
+								<div class="form-group">
+									<label><strong>After</strong><span class="star">*</span></label>
+									<input type="text" [value]="NewMeterReading"
+										(input)="mdlResetJumpReadingDFM=$event.target.value"
+										(input)="NewMeterReading=$event.target.value" class="form-control"
+										placeholder="After Meter Reading">
+								</div>
+								<div class="form-group">
+									<label><strong>Attachment</strong></label>
+									<input type="file" class="form-control"
+										style="border: 1px solid #c7c7c7;transform:scale(1,1)" name="fileInputreset"
+										(change)="uploadJumpReadingImgDFMPopUp($event.target.files, $event)"
+										[disabled]="(mdlResetJumpReadingDFM == '' || mdlResetJumpReadingDFM == '0')">
+								</div>
+								<div class="form-group">
+									<label><strong>Remarks</strong></label>
+									<input type="text" [value]="MeterJumpRemark"
+										(input)="MeterJumpRemark=$event.target.value" class="form-control"
+										placeholder="Remark">
+								</div>
+							</form>
+							<br>
+							<div class="main_table_container">
+								<div class="vertScrollTbl">
+									<div class="divTableHeader">
+										<div class="divTableRow">
+											<div class="divTableCell">Sr No.</div>
+											<div class="divTableCell">Before</div>
+											<div class="divTableCell">After</div>
+											<div class="divTableCell">Jumped</div>
+											<div class="divTableCell">Action Type</div>
+											<div class="divTableCell">Remark</div>
+											<div class="divTableCell">Action</div>
+										</div>
+									</div>
+									<div class="divTableBody">
+										<div class="divTableRow" *ngFor="let itm of DFMJumpListHistory, let i = index">
+											<div class="divTableCell">{{i+1}}</div>
+											<div class="divTableCell">{{itm.BeforeJumpReading}}</div>
+											<div class="divTableCell">{{itm.AfterJumpReading}}</div>
+											<div class="divTableCell">{{itm.JumpReading}}</div>
+											<div class="divTableCell">{{itm.Action}}</div>
+											<div class="divTableCell">{{itm.Remark}}</div>
+											<div class="divTableCell"><span
+													(click)="UpdateDFMJumpHistory(itm.id, itm)">Edit</span>&nbsp;&nbsp;<b>|</b><span><i
+														(click)="DeleteDFMJumpHistory(itm.id,itm.Action, itm)"
+														class="fa fa-close"
+														style="color:red;margin-left: 9px;font-size: 16px;"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="myModal_EVS" class="modal fade mypopup">
+					<div class="popup_container popup_container_package_reset_meter">
+						<div class="trigger_div">
+							<span class="mypop_heading_span">
+								<h4>Jump/Change/Reset Meter</h4>
+							</span>
+							<div class="mypop_head_right_div">
+								<span class="mypop_savebtn_sapn" title="Save">
+									<i class="fa fa-floppy-o"
+										[hidden]="PackageDetailJson.length == 0 ? 0 : PackageDetailJson.isStationSubmitted > 0"
+										(click)="HoldResetReading('EFM')"></i>
+								</span>
+								<span class="mypop_closebtn_span" title="Close">
+									<i class="fas fa-times" (click)="resetPopupEFM(false)" data-dismiss="modal"></i>
+								</span>
+							</div>
+						</div>
+						<div class="content_div">
+							<form>
+								<div class="form-group">
+									<label><strong>Action</strong></label>
+									<select [value]="ActionTypeEFM" class="form-control"
+										(change)="resetchange($event.target.value, 'EFM')">
+										<option value='J'>Jump</option>
+										<option value='C'>Change</option>
+										<option value='R'>Reset</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label><strong>Before</strong><span class="star">*</span></label>
+									<input type="text" [value]="mdlReadingOnSwitchEFM"
+										(input)="mdlReadingOnSwitchEFM=$event.target.value" class="form-control"
+										placeholder="Before Meter Reading">
+								</div>
+								<div class="form-group">
+									<label><strong>After</strong><span class="star">*</span></label>
+									<input type="text" [value]="NewMeterReading"
+										(input)="mdlResetJumpReadingEFM=$event.target.value"
+										(input)="NewMeterReading=$event.target.value" class="form-control"
+										placeholder="After Meter Reading">
+								</div>
+								<div class="form-group">
+									<label><strong>Attachment</strong></label>
+									<input type="file" class="form-control" id="jcMeterResetEFM"
+										style="border: 1px solid #c7c7c7;transform:scale(1,1);" name="jcMeterResetEFM"
+										(change)="uploadJumpReadingImgEFMPopUp($event.target.files, $event)"
+										[disabled]="(mdlResetJumpReadingEFM == '' || mdlResetJumpReadingEFM == '0')">
+								</div>
+								<div class="form-group">
+									<label><strong>Remarks</strong></label>
+									<input type="text" [value]="MeterJumpRemark"
+										(input)="MeterJumpRemark=$event.target.value" class="form-control"
+										placeholder="Remark">
+								</div>
+							</form>
+							<br>
+							<div class="main_table_container">
+								<div class="vertScrollTbl">
+									<div class="divTableHeader">
+										<div class="divTableRow">
+											<div class="divTableCell">Sr No.</div>
+											<div class="divTableCell">Before</div>
+											<div class="divTableCell">After</div>
+											<div class="divTableCell">Jumped</div>
+											<div class="divTableCell">Action Type</div>
+											<div class="divTableCell">Remark</div>
+											<div class="divTableCell">Action</div>
+										</div>
+									</div>
+									<div class="divTableBody">
+										<div class="divTableRow" *ngFor="let itm of EFMJumpListHistory, let i = index">
+											<div class="divTableCell">{{i+1}}</div>
+											<div class="divTableCell">{{itm.BeforeJumpReading}}</div>
+											<div class="divTableCell">{{itm.AfterJumpReading}}</div>
+											<div class="divTableCell">{{itm.JumpReading}}</div>
+											<div class="divTableCell">{{itm.Action}}</div>
+											<div class="divTableCell">{{itm.Remark}}</div>
+											<div class="divTableCell"><span
+													(click)="UpdateEFMJumpHistory(itm.id, itm)">Edit</span>&nbsp;&nbsp;<b>|</b><span><i
+														(click)="DeleteEFMJumpHistory(itm.id,itm.Action, itm)"
+														class="fa fa-close"
+														style="color:red;margin-left: 9px;font-size: 16px;"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="myModal_VFM" class="modal fade mypopup">
+					<div class="popup_container popup_container_package_reset_meter">
+						<div class="trigger_div">
+							<span class="mypop_heading_span">
+								<h4>Jump/Change/Reset Meter</h4>
+							</span>
+							<div class="mypop_head_right_div">
+								<span class="mypop_savebtn_sapn" title="Save">
+									<i class="fa fa-floppy-o"
+										[hidden]="PackageDetailJson.length == 0 ? 0 : PackageDetailJson.isStationSubmitted > 0"
+										(click)="HoldResetReading('VFM')"></i>
+								</span>
+								<span class="mypop_closebtn_span" title="Close">
+									<i class="fas fa-times" (click)="resetPopupVFM(false)" data-dismiss="modal"></i>
+								</span>
+							</div>
+						</div>
+						<div class="content_div">
+							<form>
+								<div class="form-group">
+									<label><strong>Action</strong></label>
+									<select [value]="ActionTypeVFM" class="form-control"
+										(change)="resetchange($event.target.value, 'VFM')">
+										<option value='J'>Jump</option>
+										<option value='C'>Change</option>
+										<option value='R'>Reset</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label><strong>Before</strong><span class="star">*</span></label>
+									<input type="text" [value]="mdlReadingOnSwitchVFM"
+										(input)="mdlReadingOnSwitchVFM=$event.target.value" class="form-control"
+										placeholder="Before Meter Reading">
+								</div>
+								<div class="form-group">
+									<label><strong>After</strong><span class="star">*</span></label>
+									<input type="text" [value]="NewMeterReading"
+										(input)="NewMeterReading=$event.target.value" class="form-control"
+										placeholder="After Meter Reading">
+								</div>
+								<div class="form-group">
+									<label><strong>Attachment</strong><span class="star">*</span></label>
+									<input type="file" class="form-control" id="jcMeterResetVFM"
+										style="border: 1px solid #c7c7c7;transform:scale(1,1);" name="jcMeterResetVFM"
+										(change)="uploadJumpReadingImgVFMPopUp($event.target.files, $event)"
+										[disabled]="(mdlResetJumpReadingVFM == '' || mdlResetJumpReadingVFM == '0')">
+								</div>
+								<div class="form-group">
+									<label><strong>Remarks</strong><span class="star">*</span></label>
+									<input type="text" [value]="MeterJumpRemark"
+										(input)="MeterJumpRemark=$event.target.value" class="form-control"
+										placeholder="Remark">
+								</div>
+							</form>
+							<br>
+							<div class="main_table_container">
+								<div class="vertScrollTbl">
+									<div class="divTableHeader">
+										<div class="divTableRow">
+											<div class="divTableCell">Sr No.</div>
+											<div class="divTableCell">Before</div>
+											<div class="divTableCell">After</div>
+											<div class="divTableCell">Jumped</div>
+											<div class="divTableCell">Action Type</div>
+											<div class="divTableCell">Remark</div>
+											<div class="divTableCell">Action</div>
+										</div>
+									</div>
+									<div class="divTableBody">
+										<div class="divTableRow" *ngFor="let itm of VFMJumpListHistory, let i = index">
+											<div class="divTableCell">{{i+1}}</div>
+											<div class="divTableCell">{{itm.BeforeJumpReading}}</div>
+											<div class="divTableCell">{{itm.AfterJumpReading}}</div>
+											<div class="divTableCell">{{itm.JumpReading}}</div>
+											<div class="divTableCell">{{itm.Action}}</div>
+											<div class="divTableCell">{{itm.Remark}}</div>
+											<div class="divTableCell"><span
+													(click)="UpdateVFMJumpHistory(itm.id, itm)">Edit</span>&nbsp;&nbsp;<b>|</b><span><i
+														(click)="DeleteVFMJumpHistory(itm.id,itm.Action, itm)"
+														class="fa fa-close"
+														style="color:red;margin-left: 9px;font-size: 16px;"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="accord_form_container">
+				<a href="javascript:void(0)" class='new' (click)="this.GetStationDispenser('-999');">Dispenser
+					<span></span></a>
+				<div class="open">
+					<div class="maximize_div">
+						<i class="far fa-window-maximize maximize"></i> <i class="fas fa-times close_form"
+							style="display:none;"></i>
+					</div>
+					<div class="form_wrapper" *ngIf="!IsDisphide">
+						<div class="left_list_div">
+							<ul class="tab_ul" *ngFor="let obj of DispenserList">
+								<li>
+									<a href="javascript:void(0)" data-toggle="tab" class="active_tab"
+										[ngClass]="{'active_tab': DispenserId==obj.DispenserId}"
+										(click)="GetStationDispenser(obj.DispenserId)">{{obj.DispenserName}}</a>
+								</li>
+							</ul>
+						</div>
+						<div class="right_form_div">
+							<div class="sap_no_div">
+								<div class="sap_1">SAP Equipment Number :</div>
+								<div class="sap_2">{{SAPEquipmentNumber1}}</div>
+								<div class="sap_3">SAP Equipment Number :</div>
+								<div class="sap_4">{{SAPEquipmentNumber2}}</div>
+							</div>
+							<form class="stn_form">
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Arm ‘A’ (kg) <span class="star">*</span></label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_input">
+												<input id="email" type="text" class="form-control" [value]="ArmA"
+													(input)="ArmReadingValue($event.target.value,'ArmA')" disabled
+													name="email" [readonly]="!formFlag">
+											</div>
+											<div class="myaddon">Prev :{{PreviousReadingArmA}}</div>
+										</div>
+										<div class="for_button">
+											<button class="mybtn" data-toggle="modal" data-target="#myModal_disp1"
+												disabled>Jump/Change/Reset</button>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Arm ‘B’ (kg) <span class="star">*</span></label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_input">
+												<input type="text" [value]="ArmB"
+													(input)="ArmReadingValue($event.target.value,'ArmB')"
+													class="form-control" disabled [readonly]="!formFlag">
+											</div>
+											<div class="myaddon">Prev :{{PreviousReadingArmB}}</div>
+										</div>
+										<div class="for_button">
+											<button class="mybtn" data-toggle="modal" data-target="#myModal_disp2"
+												disabled>Jump/Change/Reset</button>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Remarks</label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_txtarea">
+												<textarea class="form-control" [value]="DISRemark"
+													(input)="Remark=$event.target.value" disabled
+													[readonly]="!formFlag"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Arm A sale(kg)</label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_label">
+											<label>{{ArmASale}}</label>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Arm B sale(kg)</label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_label">
+											<label>{{ArmBSale}}</label>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Total Sale</label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_label">
+											<label>{{TotalSale | number:'1.3-3'}}</label>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont"></div>
+									<div class="right_input_cont">
+										<div class="for_input">
+										</div>
+									</div>
+								</div>
+								<div class="msg" [hidden]="DISisStationSubmitted == 0 ">
+									<span class="data_submit_msg">* Data is submitted for the date {{DPREntryDate}} by
+										Station.</span>
+								</div>
+								<div class="msg" [hidden]="DISisCRSentToHo == 0 ">
+									<span class="data_submit_msg"> * Submission is closed for date {{DPREntryDate}} by
+										Control Room.</span>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="msg" *ngIf="IsDisphide" style="margin-left: 15px;">
+						<span class="data_submit_msg">* Equipment not available for this Station.</span>
+					</div>
+					<div id="myModal_disp1" class="modal fade mypopup">
+						<div class="popup_container popup_container_package_reset_meter">
+							<div class="trigger_div">
+								<span class="mypop_heading_span">
+									<h4>Jump/Change/Reset Meter</h4>
+								</span>
+								<div class="mypop_head_right_div">
+									<span class="mypop_savebtn_sapn" title="Save">
+										<i class="fa fa-floppy-o" (click)="changeresetpopup('ArmA')"></i>
+									</span>
+									<span class="mypop_closebtn_span" title="Close">
+										<i class="fas fa-times" data-dismiss="modal"></i>
+									</span>
+								</div>
+							</div>
+							<div class="content_div">
+								<form>
+									<div class="form-group">
+										<label><strong>Action</strong></label>
+										<select class="form-control" (change)="DISresetchange($event.target.value)">
+											<option value='J'>Jump</option>
+											<option value='C'>Change</option>
+											<option value='R'>Reset</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label><strong>Old Meter Reading</strong><span class="star">*</span></label>
+										<input type="text" class="form-control" [value]="OldMeterReadingA"
+											(input)="OldMeterReadingA=$event.target.value"
+											placeholder="Old Meter Reading">
+									</div>
+									<div class="form-group row">
+										<div class="col-4">
+											<label><strong>Jump Reading</strong><span class="star"></span> (If
+												Any)</label>
+											<input type="text" class="form-control" [value]="JReadingA"
+												(input)="JReadingvalueA($event.target.value)"
+												placeholder="Jump Reading">
+										</div>
+										<div class="col-2"
+											style="width: 26px;height: 34px;padding-left: 5px;padding-right: 5px;text-align: center;">
+											<div><img src="../../../assets/Images/attachment.gif"></div>
+										</div>
+										<div class="col-6">
+											<input type="file" class="form-control"
+												style="margin-top: 25px;margin-left: 10px;" name="jcMeterResetArmA"
+												id="jcMeterResetArmA"
+												(change)="fileuploadresetA($event.target.files, $event)"
+												[disabled]="popupfilevisibleA">
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div id="myModal_disp2" class="modal fade mypopup">
+						<div class="popup_container popup_container_package_reset_meter">
+							<div class="trigger_div">
+								<span class="mypop_heading_span">
+									<h4>Jump/Change/Reset Meter</h4>
+								</span>
+								<div class="mypop_head_right_div">
+									<span class="mypop_savebtn_sapn" title="Save">
+										<i class="fa fa-floppy-o" (click)="changeresetpopup('ArmB')"></i>
+									</span>
+									<span class="mypop_closebtn_span" title="Close">
+										<i class="fas fa-times" data-dismiss="modal"></i>
+									</span>
+								</div>
+							</div>
+							<div class="content_div">
+								<form>
+									<div class="form-group">
+										<label><strong>Action</strong></label>
+										<select class="form-control" (change)="DISresetchange($event.target.value)">
+											<option value='J'>Jump</option>
+											<option value='C'>Change</option>
+											<option value='R'>Reset</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label><strong>Old Meter Reading</strong><span class="star">*</span></label>
+										<input type="text" class="form-control" [value]="OldMeterReadingB"
+											(input)="OldMeterReadingB=$event.target.value"
+											placeholder="Old Meter Reading">
+									</div>
+									<div class="form-group row">
+										<div class="col-4">
+											<label><strong>Jump Reading</strong><span class="star"></span> (If
+												Any)</label>
+											<input type="text" class="form-control" [value]="JReadingB"
+												(input)="JReadingvalueB($event.target.value)"
+												placeholder="Jump Reading">
+										</div>
+										<div class="col-2"
+											style="width: 26px;height: 34px;padding-left: 5px;padding-right: 5px;text-align: center;">
+											<div><img src="../../../assets/Images/attachment.gif"></div>
+										</div>
+										<div class="col-6">
+											<input type="file" class="form-control"
+												style="margin-top: 25px;margin-left: 10px;" name="jcMeterResetArmB"
+												id="jcMeterResetArmB"
+												(change)="fileuploadresetB($event.target.files, $event)"
+												[disabled]="popupfilevisibleB">
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="accord_form_container">
+				<a href="javascript:void(0)" class='new' (click)="this.GetStationLcv('-999');">LCV <span></span></a>
+				<div class="open">
+					<div class="maximize_div">
+						<i class="far fa-window-maximize maximize"></i> <i class="fas fa-times close_form"
+							style="display:none;"></i>
+					</div>
+					<div class="form_wrapper" *ngIf="!IsLCVhide">
+						<div class="left_list_div">
+							<ul class="tab_ul" *ngFor="let obj of stationLcvData2">
+								<li>
+									<a href="javascript:void(0)" data-toggle="tab"
+										[ngClass]="{'active_tab': lcvid==obj.LcvId}"
+										(click)="GetStationLcv(obj.LcvId)">{{obj.LcvName}}</a>
+								</li>
+							</ul>
+						</div>
+						<div class="right_form_div">
+							<div class="sap_no_div">
+								<div class="sap_1">SAP Equipment Number :</div>
+								<div class="sap_2">{{SAPEquipmentNumber == "" ? '0.000' : SAPEquipmentNumber}}</div>
+							</div>
+							<form class="stn_form">
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>LCV Meter Totaliser <span class="star">*</span></label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_input">
+												<input type="text" class="form-control" [value]="lcvmeterTotaliser"
+													(input)="lcvmeterTotaliser=$event.target.value" name="email">
+											</div>
+											<div class="myaddon">Prev :{{LCVMeterTotaliserPrv == "" ? '0.000' :
+												LCVMeterTotaliserPrv}}</div>
+										</div>
+										<div class="for_button">
+											<button class="mybtn" data-toggle="modal" (click)="getLCVJumpHistory('GET')"
+												data-target="#myModal_lcv">Jump/Change/Reset</button>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Remarks</label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_txtarea">
+												<textarea class="form-control" [value]="LCVremark"
+													(input)="LCVremark=$event.target.value"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont"></div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_button" [hidden]="IsLCVhide">
+												<button class="mybtn"
+													[hidden]="LCVisStationSubmitted > 0  || LCVisCRSentToHo > 0"
+													(click)="InsertStationLCV()">Save</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="msg">
+									<span class="data_submit_msg" [hidden]="LCVisStationSubmitted == 0 ">* Data is
+										submitted for the date {{DPREntryDate}} by Station.</span><br>
+									<span class="data_submit_msg" [hidden]="LCVisCRSentToHo == 0 ">* Submission is
+										closed for date {{DPREntryDate}} by Control Room.</span>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="msg" *ngIf="IsLCVhide" style="margin-left: 15px;">
+						<span class="data_submit_msg">* Equipment not available for this Station.</span>
+					</div>
+					<div id="myModal_lcv" class="modal fade mypopup">
+						<div class="popup_container popup_container_package_reset_meter">
+							<div class="trigger_div">
+								<span class="mypop_heading_span">
+									<h4>Jump/Change/Reset Meter</h4>
+								</span>
+								<div class="mypop_head_right_div">
+									<span class="mypop_savebtn_sapn" title="Save">
+										<i class="fa fa-floppy-o" (click)="LCVchangeresetpopup()"></i>
+									</span>
+									<span class="mypop_closebtn_span" title="Close">
+										<i class="fas fa-times" data-dismiss="modal"></i>
+									</span>
+								</div>
+							</div>
+							<div class="content_div">
+								<form>
+									<div class="form-group">
+										<label><strong>Action</strong></label>
+										<select class="form-control" [value]="LCVFlagJumpType"
+											(change)="LCVresetchange($event.target.value,'LCV')">
+											<option value='J'>Jump</option>
+											<option value='C'>Change</option>
+											<option value='R'>Reset</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label><strong>Before</strong><span class="star">*</span></label>
+										<input type="text" [value]="OldMeterReading"
+											(input)="OldMeterReading=$event.target.value" class="form-control"
+											placeholder="Before Meter Reading">
+									</div>
+									<div class="form-group">
+										<label><strong>After</strong><span class="star">*</span></label>
+										<input type="text" [value]="NewMeterReading"
+											(input)="LCVJReadingvalue($event.target.value)"
+											(input)="NewMeterReading=$event.target.value" class="form-control"
+											placeholder="After Meter Reading">
+									</div>
+									<div class="form-group">
+										<label><strong>Attachment</strong><span class="star">*</span></label>
+										<input type="file" id="LCVfileInputreset" name="LCVfileInputreset"
+											(change)="fileuploadreset($event.target.files, $event)" class="form-control"
+											style="border: 1px solid #c7c7c7;transform:scale(1,1);"
+											[disabled]="popupfilevisible">
+									</div>
+									<div class="form-group">
+										<label><strong>Remarks</strong><span class="star">*</span></label>
+										<input type="text" [value]="MeterJumpRemark"
+											(input)="MeterJumpRemark=$event.target.value" class="form-control"
+											placeholder="Remark">
+									</div>
+								</form>
+								<br>
+								<div class="main_table_container">
+									<div class="vertScrollTbl">
+										<div class="divTableHeader">
+											<div class="divTableRow">
+												<div class="divTableCell">Sr No.</div>
+												<div class="divTableCell">Before</div>
+												<div class="divTableCell">After</div>
+												<div class="divTableCell">Jumped</div>
+												<div class="divTableCell">ActionType</div>
+												<div class="divTableCell">Remark</div>
+												<div class="divTableCell">Action</div>
+											</div>
+										</div>
+										<div class="divTableBody">
+											<div class="divTableRow"
+												*ngFor="let itm of LCVJumpListHistory, let i = index">
+												<div class="divTableCell">{{i+1}}</div>
+												<div class="divTableCell">{{itm.BeforeJumpReading}}</div>
+												<div class="divTableCell">{{itm.AfterJumpReading}}</div>
+												<div class="divTableCell">{{itm.JumpReading}}</div>
+												<div class="divTableCell">{{itm.Action}}</div>
+												<div class="divTableCell">{{itm.Remark}}</div>
+												<div class="divTableCell"><span
+														(click)="UpdateLCVJumpHistory(itm.id, itm)">Edit</span>&nbsp;&nbsp;<b>|</b><span><i
+															(click)="DeleteLCVJumpHistory(itm.id,itm.Action, itm)"
+															class="fa fa-close"
+															style="color:red;margin-left: 9px;font-size: 16px;"></i></span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="accord_form_container">
+				<a href="javascript:void(0)" class='new' (click)="GetStationGenSet('-999');"> Gas Genset
+					<span></span></a>
+				<div class="open">
+					<div class="maximize_div">
+						<i class="far fa-window-maximize maximize"></i> <i class="fas fa-times close_form"
+							style="display:none;"></i>
+					</div>
+					<div class="form_wrapper" *ngIf="!IsGenSethide">
+						<div class="left_list_div">
+							<ul class="tab_ul" *ngFor="let itm of getGenSetDetails">
+								<li>
+									<a href="javascript:void(0)" data-toggle="tab"
+										[ngClass]="{'active_tab': GenSetId==itm.GenSetId}"
+										(click)="GetStationGenSet(itm.GenSetId)">{{itm.GenSetName}}</a>
+								</li>
+							</ul>
+						</div>
+						<div class="right_form_div">
+							<div class="sap_no_div">
+								<div class="sap_1">SAP Equipment Number :</div>
+								<div class="sap_2">{{GSSAPEquipmentNumber == "" ? '0.000' : GSSAPEquipmentNumber}}</div>
+							</div>
+							<form class="stn_form">
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Running Hours <span class="star">*</span></label>
+									</div>
+									<div class="right_input_cont">
+										<div class="time_container">
+											<div class="time_select">
+												<select (change)="selecthrsmnts($event.target.value,'HH')">
+													<option [value]="objhh" *ngFor="let objhh of Hours"
+														[selected]="objhh == GSRunHrs">{{objhh}}</option>
+												</select>
+												<span>HH</span>
+											</div>
+										</div>
+										<div class="time_container">
+											<div class="time_select">
+												<select (change)="selecthrsmnts($event.target.value,'MM')">
+													<option [value]="objmm" *ngFor="let objmm of Minutes"
+														[selected]="objmm == GSRunMins">{{objmm}}</option>
+												</select>
+												<span>MM</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Meter Reading <span class="star">*</span></label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_input">
+												<input id="email" type="text" class="form-control"
+													[value]="GSmeterTotaliser"
+													(input)="GSmeterTotaliser=$event.target.value" name="email">
+											</div>
+											<div class="myaddon">Prev :{{PreviousReading}}</div>
+										</div>
+										<div class="for_button">
+											<button class="mybtn" (click)="getGSIJumpHistory('GET')" data-toggle="modal"
+												data-target="#myModal_gasGenset">Jump/Change/Reset</button>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont">
+										<label>Remarks</label>
+									</div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_txtarea">
+												<textarea class="form-control" [value]="GSremark"
+													(input)="GSremark = $event.target.value"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form_grp_row">
+									<div class="left_label_cont"></div>
+									<div class="right_input_cont">
+										<div class="for_input">
+											<div class="only_button" [hidden]="IsGenSethide">
+												<button class="mybtn"
+													[hidden]="GSisStationSubmitted > 0  || GSisCRSentToHo > 0"
+													(click)="InsertGenSetDetails()">Save</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="msg">
+									<span class="data_submit_msg" [hidden]="GSisStationSubmitted == 0 ">* Data is
+										submitted for the date {{DPREntryDate}} by Station.</span><br>
+									<span class="data_submit_msg" [hidden]="GSisCRSentToHo == 0 ">* Submission is closed
+										for date {{DPREntryDate}} by Control Room.</span>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="msg" *ngIf="IsGenSethide" style="margin-left: 15px;">
+						<span class="data_submit_msg">* Equipment not available for this Station.</span>
+					</div>
+				</div>
+				<div id="myModal_gasGenset" class="modal fade mypopup">
+					<div class="popup_container popup_container_package_reset_meter">
+						<div class="trigger_div">
+							<span class="mypop_heading_span">
+								<h4>Jump/Change/Reset Meter</h4>
+							</span>
+							<div class="mypop_head_right_div">
+								<span class="mypop_savebtn_sapn" title="Save">
+									<i class="fa fa-floppy-o" (click)="Gensetchangeresetpopup()"></i>
+								</span>
+								<span class="mypop_closebtn_span" title="Close">
+									<i class="fas fa-times" data-dismiss="modal"></i>
+								</span>
+							</div>
+						</div>
+						<div class="content_div">
+							<form>
+								<div class="form-group">
+									<label><strong>Action</strong></label>
+									<select class="form-control" [value]="GSFlagJumpType"
+										(change)="Gensetresetchange($event.target.value)">
+										<option value='J'>Jump</option>
+										<option value='C'>Change</option>
+										<option value='R'>Reset</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label><strong>Before</strong><span class="star">*</span></label>
+									<input type="text" [value]="GSOldMeterReading"
+										(input)="GSOldMeterReading=$event.target.value" class="form-control"
+										placeholder="Before Meter Reading">
+								</div>
+								<div class="form-group">
+									<label><strong>After</strong><span class="star">*</span></label>
+									<input type="text" [value]="NewMeterReading"
+										(input)="GensetJReadingvalue($event.target.value)"
+										(input)="NewMeterReading=$event.target.value" class="form-control"
+										placeholder="After Meter Reading">
+								</div>
+								<div class="form-group">
+									<label><strong>Attachment</strong><span class="star">*</span></label>
+									<input type="file" id="GSfileInputreset" name="GSfileInputreset"
+										(change)="Gensetfileuploadreset($event.target.files, $event)"
+										[disabled]="GSpopupfilevisible" class="form-control"
+										style="border: 1px solid #c7c7c7;transform:scale(1,1);">
+								</div>
+								<div class="form-group">
+									<label><strong>Remarks</strong><span class="star"></span></label>
+									<input type="text" [value]="MeterJumpRemark"
+										(input)="MeterJumpRemark=$event.target.value" class="form-control"
+										placeholder="Remark">
+								</div>
+							</form>
+							<br>
+							<div class="main_table_container">
+								<div class="vertScrollTbl">
+									<div class="divTableHeader">
+										<div class="divTableRow">
+											<div class="divTableCell">Sr No.</div>
+											<div class="divTableCell">Before</div>
+											<div class="divTableCell">After</div>
+											<div class="divTableCell">Jumped</div>
+											<div class="divTableCell">ActionType</div>
+											<div class="divTableCell">Remark</div>
+											<div class="divTableCell">Action</div>
+										</div>
+									</div>
+									<div class="divTableBody">
+										<div class="divTableRow" *ngFor="let itm of GSIJumpListHistory, let i = index">
+											<div class="divTableCell">{{i+1}}</div>
+											<div class="divTableCell">{{itm.BeforeJumpReading}}</div>
+											<div class="divTableCell">{{itm.AfterJumpReading}}</div>
+											<div class="divTableCell">{{itm.JumpReading}}</div>
+											<div class="divTableCell">{{itm.Action}}</div>
+											<div class="divTableCell">{{itm.Remark}}</div>
+											<div class="divTableCell"><span
+													(click)="UpdateGSIJumpHistory(itm.id, itm)">Edit</span>&nbsp;&nbsp;<b>|</b><span><i
+														(click)="DeleteGSIJumpHistory(itm.id,itm.Action, itm)"
+														class="fa fa-close"
+														style="color:red;margin-left: 9px;font-size: 16px;"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="accord_form_container">
+				<a href="javascript:void(0)" class='new' (click)="GetGeneralEntry();">General Entry <span
+						class="ab"></span></a>
+				<div class="open">
+					<div class="maximize_div">
+						<i class="far fa-window-maximize maximize"></i> <i class="fas fa-times close_form"
+							style="display:none;"></i>
+					</div>
+					<div class="form_wrapper">
+						<form class="stn_form">
+							<div class="form_grp_row">
+								<div class="left_label_cont">
+									<label>Number of Buses</label>
+								</div>
+								<div class="right_input_cont">
+									<div class="for_input">
+										<div class="only_input">
+											<input type="text" name="NOB" [(ngModel)]="NOB" class="form-control">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form_grp_row">
+								<div class="left_label_cont">
+									<label>Number of LCV</label>
+								</div>
+								<div class="right_input_cont">
+									<div class="for_input">
+										<div class="only_input">
+											<input type="text" name="NOL" [(ngModel)]="NOL" class="form-control">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form_grp_row">
+								<div class="left_label_cont">
+									<label>Energy Meter Reading (KVAH)</label>
+								</div>
+								<div class="right_input_cont">
+									<div class="for_input">
+										<div class="only_input">
+											<input type="text" name="EnergyMeterReading"
+												[(ngModel)]="EnergyMeterReading" class="form-control">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form_grp_row">
+								<div class="left_label_cont"></div>
+								<div class="right_input_cont">
+									<div class="for_input">
+										<div class="only_button">
+											<button class="mybtn"
+												[hidden]="GEisStationSubmitted > 0  || GEisCRSentToHo > 0 "
+												(click)="InsertGeneralEntry()">Save</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="msg">
+								<span class="data_submit_msg" [hidden]="GEisStationSubmitted == 0 ">* Data is submitted
+									for the date {{DPREntryDate}} by Station.</span><br>
+								<span class="data_submit_msg" [hidden]="GEisCRSentToHo == 0 ">* Submission is closed for
+									date {{DPREntryDate}} by Control Room.</span>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div [hidden]="stationReportData?.Table1?.length !== 0" class="accord_form_container">
+				<a href="javascript:void(0)" class='new' (click)="GetHybridDetails();">Hybrid Details <span
+						class="ab"></span></a>
+				<div class="open">
+					<div class="maximize_div">
+						<i class="far fa-window-maximize maximize"></i> <i class="fas fa-times close_form"
+							style="display:none;"></i>
+					</div>
+					<div class="form_wrapper">
+						<form class="stn_form">
+							<div class="form_grp_row">
+								<div class="left_label_cont">
+									<label>Remark</label>
+								</div>
+								<div class="right_input_cont">
+									<div class="for_input">
+										<div class="only_input">
+											<input type="text" name="HyRemark" [(ngModel)]="HyRemark"
+												class="form-control">
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Schedule Shutdown -->
+							<div class="form_grp_row">
+								<div class="left_label_cont">
+									<label>Schedule Shutdown</label>
+								</div>
+								<div class="right_input_cont">
+									<div class="for_input flex-box">
+										<select [(ngModel)]="ScheduleShutdownHours_hr" name="ScheduleShutdownHours_hr"
+											class="form-control">
+											<option *ngFor="let itm of hoursList" [value]="itm.hrs">{{ itm.hrs }} hr
+											</option>
+										</select>
+										<select [(ngModel)]="ScheduleShutdownHours_min" name="ScheduleShutdownHours_min"
+											class="form-control">
+											<option *ngFor="let itm of minutesList" [value]="itm.min">{{ itm.min }} min
+											</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<!-- Unscheduled Shutdown -->
+							<div class="form_grp_row">
+								<div class="left_label_cont">
+									<label>Unscheduled Shutdown</label>
+								</div>
+								<div class="right_input_cont">
+									<div class="for_input flex-box">
+										<select [(ngModel)]="UnscheduledShutdownHours_hr"
+											name="UnscheduledShutdownHours_hr" class="form-control">
+											<option *ngFor="let itm of hoursList" [value]="itm.hrs">{{ itm.hrs }} hr
+											</option>
+										</select>
+										<select [(ngModel)]="UnscheduledShutdownHours_min"
+											name="UnscheduledShutdownHours_min" class="form-control">
+											<option *ngFor="let itm of minutesList" [value]="itm.min">{{ itm.min }} min
+											</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<!-- Breakdown -->
+							<div class="form_grp_row">
+								<div class="left_label_cont">
+									<label>Breakdown</label>
+								</div>
+								<div class="right_input_cont">
+									<div class="for_input flex-box">
+										<select [(ngModel)]="BreakdownHours_hr" name="BreakdownHours_hr"
+											class="form-control">
+											<option *ngFor="let itm of hoursList" [value]=" itm.hrs">{{ itm.hrs }} hr
+											</option>
+										</select>
+										<select [(ngModel)]="BreakdownHours_min" name="BreakdownHours_min"
+											class="form-control">
+											<option *ngFor="let itm of minutesList" [value]="itm.min">{{ itm.min }} min
+											</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="form_grp_row">
+								<div class="left_label_cont"></div>
+								<div class="right_input_cont">
+									<div class="for_input">
+										<div class="only_button">
+											<button class="mybtn"
+												[hidden]="GEisStationSubmitted > 0  || GEisCRSentToHo > 0 "
+												(click)="InsertHybridEntry()">Save</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="msg">
+								<span class="data_submit_msg" [hidden]="GEisStationSubmitted == 0 ">* Data is submitted
+									for the date {{DPREntryDate}} by Station.</span><br>
+								<span class="data_submit_msg" [hidden]="GEisCRSentToHo == 0 ">* Submission is closed for
+									date {{DPREntryDate}} by Control Room.</span>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="accord_form_container">
+				<a href="javascript:void(0)" class='new' (click)="getStationReportData();">DPR Summary<span
+						class="ab"></span></a>
+				<div class="open">
+					<div class="maximize_div">
+						<i class="far fa-window-maximize maximize"></i> <i class="fas fa-times close_form"
+							style="display:none;"></i>
+					</div>
+					<div class="form_wrapper">
+						<div class="main_table_container">
+							<div class="StnSumryBox pt-0" style="padding-bottom:0px;"
+								*ngIf="stationReportData?.Table?.length != 0">
+								<h3>Meter Skid</h3>
+								<div *ngFor="let msItem of stationReportData?.Table">
+									<div class="StnSumryRow">
+										<div><span>Flow Meter Difference</span></div>
+										<div><span>{{msItem.MeterskitdiffAVG == null ? '00.00' :
+												msItem.MeterskitdiffAVG}}</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="StnSumryBox" style="padding-top:0px;"
+								*ngIf="stationReportData?.Table1?.length!=0">
+								<div *ngFor="let packageItem of stationReportData?.Table1" class="stn_loop"
+									style="margin-bottom:10px;">
+									<h3>Package: {{packageItem.PackageName}}</h3>
+									<div class="StnSumryRow">
+										<div><span>Suction Flow Meter Difference</span></div>
+										<div><span>{{packageItem.SuctionFlowMeterReading == null ? '00.00' :
+												packageItem.SuctionFlowMeterReading}}</span></div>
+									</div>
+									<div class="StnSumryRow">
+										<div><span>Discharge Flow Meter Difference</span></div>
+										<div><span>{{packageItem.DischargeFlowMeterReading == null ? '00.00' :
+												packageItem.DischargeFlowMeterReading}}</span></div>
+									</div>
+									<div class="StnSumryRow" *ngIf="packageItem.PrimeMover != 'M'">
+										<div><span>Engine Flow Meter Difference</span></div>
+										<div><span>{{packageItem.EngineFlowMeterReading == null ? '00.00' :
+												packageItem.EngineFlowMeterReading}}</span></div>
+									</div>
+									<div class="StnSumryRow" *ngIf="packageItem.PrimeMover == 'M'">
+										<div><span>Motor Flow Meter Difference</span></div>
+										<div><span>{{packageItem.EngineFlowMeterReading == null ? '00.00' :
+												packageItem.EngineFlowMeterReading}}</span></div>
+									</div>
+									<div class="StnSumryRow">
+										<div><span>Vent Flow Meter Difference</span></div>
+										<div><span>{{packageItem.VentFlowMeter == null ? '00.00' :
+												packageItem.VentFlowMeter}}</span></div>
+									</div>
+									<div class="StnSumryRow">
+										<div><span>Running Hours</span></div>
+										<div><span>{{packageItem.RunningHours == null ? '00:00' :
+												packageItem.RunningHours}}</span></div>
+									</div>
+									<div class="StnSumryRow">
+										<div><span>Schedule Shutdown Hours</span></div>
+										<div><span>{{packageItem.ScheduleShutdownHours == null ? '00:00' :
+												packageItem.ScheduleShutdownHours}}</span></div>
+									</div>
+									<div class="StnSumryRow">
+										<div><span>Unscheduled Shutdown Hours</span></div>
+										<div><span>{{packageItem.UnscheduledShutdownHours == null ? '00:00' :
+												packageItem.UnscheduledShutdownHours}}</span></div>
+									</div>
+									<div class="StnSumryRow">
+										<div><span>Breakdown Hours</span></div>
+										<div><span>{{packageItem.BreakdownHours == null ? '00:00' :
+												packageItem.BreakdownHours}}</span></div>
+									</div>
+									<div class="StnSumryRow">
+										<div><span>Suction Pressure</span></div>
+										<div><span>{{packageItem.SuctionPressure == null ? '00.00' :
+												packageItem.SuctionPressure}}</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="StnSumryBox" *ngIf="stationReportData?.Table3?.length!=0">
+								<h3>LCV - LCV-1</h3>
+								<div>
+									<div class="StnSumryRow" *ngFor="let gasGensetItem of stationReportData?.Table3">
+										<div><span>LCV Meter Difference</span></div>
+										<div><span>{{gasGensetItem.LCVMeterTotaliser == null ? '00.00' :
+												gasGensetItem.LCVMeterTotaliser}}</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="StnSumryBox" *ngIf="stationReportData?.Table2?.length!=0">
+								<h3>Gas Genset: GAS GENSET</h3>
+								<div *ngFor="let gasGensetItem of stationReportData?.Table2">
+									<div class="StnSumryRow">
+										<div><span>Running Hours</span></div>
+										<div><span>{{gasGensetItem.RunningHoursgenset == null ? '00:00' :
+												gasGensetItem.RunningHoursgenset}}</span></div>
+									</div>
+									<div class="StnSumryRow">
+										<div><span>Meter Difference</span></div>
+										<div><span>{{gasGensetItem.FlowMeterReadiGenset == null ? '00.00' :
+												gasGensetItem.FlowMeterReadiGenset}}</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="StnSumryBox" *ngIf="stationReportData?.Table?.length!=0">
+								<h3>Dispenser</h3>
+								<div *ngFor="let dispItem of stationReportData?.Table">
+									<div class="StnSumryRow">
+										<div><span>Total Sale</span></div>
+										<div><span>{{dispItem.DispenserTotalSale == null ? '00.00' :
+												dispItem.DispenserTotalSale}}</span></div>
+									</div>
+								</div>
+								<div class="StnSumryRow">
+									<div><span>Station Gas Loss</span></div>
+									<div><span>{{StationGasLoss == 0 ? '00.00' : StationGasLoss}}</span></div>
+								</div>
+							</div>
+							<div class="StnSumryBox">
+								<div>
+									<button [hidden]="summary.prm_id != 1" class="mybtn"
+										(click)="stationSummarySubmit()">Submit</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="MSmyAttachment" class="modal fade mypopup">
+				<div class="popup_container popup_container_jump_attc">
+					<div class="trigger_div">
+						<span class="mypop_heading_span">
+							<h4>Jump Attachment</h4>
+						</span>
+						<div class="mypop_head_right_div">
+							<span class="mypop_closebtn_span" title="Close">
+								<i class="fas fa-times" data-dismiss="modal"></i>
+							</span>
+						</div>
+					</div>
+					<div class="content_div content_div_jump_attc">
+						<div class="upld_img_cont" style="max-width:300%;">
+							<div *ngIf="isDataFound" class="data_not_found_msg">
+								There is no Attachment.
+							</div>
+							<span *ngIf="imgDisplay" class="upload_span">
+								<img [src]="imgURL" alt="image">
+							</span>
+							<span *ngIf="!imgDisplay" class="default_span">
+								<img src="../../../assets/Images/default_img.png" alt="image">
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+</div>

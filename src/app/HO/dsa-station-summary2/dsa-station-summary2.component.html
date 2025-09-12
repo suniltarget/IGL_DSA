@@ -1,0 +1,130 @@
+<div class="main_heading">
+  <span class="heading_span"><h1> Date From : </h1></span>
+  <span class="date_span" style="margin-right:auto"><ng-datepicker [(ngModel)]="SummeryDate" [options]="options" class="ngx-datepicker-container dt_for-rep" (ngModelChange)="OnDateChnagefrom($event)"></ng-datepicker></span>
+  <span class="heading_span" style="margin-left:-23vh"><h1>  To : </h1></span>
+  <span class="date_span" style="margin-right:auto;"><ng-datepicker [(ngModel)]="SummeryDateTo" [options]="options" class="ngx-datepicker-container dt_for-rep" (ngModelChange)="OnDateChnageTo($event)"></ng-datepicker></span>
+  <span style="margin-left:-22vh"><h1>Company : </h1></span>
+  <div class="input_container" style="width:20%;margin-left:10px">
+    <select class="form-control" name="Station" (change)="onCompanySelect($event.target.value)">
+    <option value="All" selected>All</option>
+    <option *ngFor="let itm of CompanyList" [value]="itm.CompanyId">{{itm.CompanyName}}</option>
+</select>
+</div>
+    <span style="margin-left:1vh"><h1>Station : </h1></span>
+  <div class="filer_container" style="width:20%;margin-left:10px;margin-top:10px">
+    <form class="custom_dropdown">
+        <input class="form-control filter_input"   type="text" name="stCodeMy" [(ngModel)] = "stCodeMy" (click)="filterBoxShow('')" readonly />
+    </form>
+    <div class="filter_box" *ngIf=(fiterBox) >
+        <input  class="form-control" name="search" [(ngModel)] ="filterdd" type="search" placeholder="Search.." autocomplete="off" >
+        <ul class="list-group fiter_ul" id="myList">
+            <li class="list-group-item"  *ngFor="let itm of StationList | filter:filterdd" (click)="filterBoxShow(itm)" [value]="itm.StationId">{{itm.StationName}}</li>
+        </ul>
+    </div> 
+</div>
+  <div class="head_right_div">
+      <span class="dwnld_btn_span" title="Download" (click)="ExportToPdf()">
+          <button><i class="fas fa-download"></i></button>
+      </span>
+  </div>
+</div>
+ <div class="mycard mycards">
+    <div class="main_table_container" style="padding-right:6px;">
+        <table class="dsa_stn_smry_table" *ngFor = "let mainItm of DispenserTableRes, let i = index">
+                <tbody>
+                    <tr>
+                        <td colspan="8" class="text-center" class="head_col"><h5>DSA REPORT</h5></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-center left_col"><h6>Name of Station : {{stCodeMy}}</h6></td>
+                        <td colspan="2" class="text-center left_col"><h6>Date : {{mainItm.SummeryDates | date:'dd-MMM-yyyy'}}</h6></td>
+                        <td colspan="2" class="text-center left_col" *ngFor = "let itm1 of mainItm.RemarkResponse1"><h6>Current Rate : {{itm1.CurrentRate}}</h6></td>
+                    </tr>
+                    <tr class="head_tr">
+                        <td colspan="1">SL.NO</td>
+                        <td colspan="3">PARTICULARS</td>
+                        <td colspan="2" class="text-center">TOTAL QUANTITY</td>
+                        <td colspan="2" class="text-center">TOTAL AMOUNT</td>
+                    </tr>
+                    <tr *ngFor = "let itm of mainItm.DispenserEntryRes, let i = index">
+                        <td colspan="1">{{i+1}}</td>
+                        <td colspan="3" [ngClass]="itm.Particulars == 'NET CASH SALE' || itm.Particulars == 'CASH COLLECTION FOR THE DAY (RS.)' || itm.Particulars == 'OPENING CASH BALANCE (RS.)' || itm.Particulars == 'CLOSING BALANCE (RS.)' || itm.Particulars == 'CASH DEPOSITED WITH BANK (RS.)' ? 'text_bold' : ''">
+                            {{itm.Particulars}}</td>
+                        <td colspan="2" class="text-right">{{itm.TotalQuntity}}</td>
+                        <td colspan="2" class="text-right">{{itm.TotalAmount}}</td>
+                    </tr>
+                    <tr class="remark_tr" *ngFor = "let itm1 of mainItm.RemarkResponse1">
+                        <td rowspan="6"></td>
+					<td rowspan="6" colspan="5">
+					 <strong>Remark : </strong> {{itm1.Remark}}
+                    <br>
+                    <br>
+                    <strong>Slip No : </strong> {{itm1.SlipNo}}
+                     <br>
+                     <br>
+                    <strong>No. of Cluster Bus : </strong> {{itm1.NoOfclusterBus}}
+                   </td>
+                    </tr>  
+                    <tr> <td> </td>  </tr> 
+                </tbody>
+        </table>
+  <div id="ConvertToPdf">
+  </div>
+    </div>
+</div>
+<div class="mypopup" id="myModal">  
+    <div class="popup_container popup_container_preview">
+        <div class="trigger_div">
+            <span class="mypop_heading_span">
+                <h4>Jump Attachment</h4>
+            </span>
+            <div class="mypop_head_right_div">
+                <span class="mypop_closebtn_span" title="Close">
+                    <i class="fas fa-times" data-dismiss="modal"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div content_div_jump_attc">
+            <div class="upld_img_cont" style="max-width:100%;">
+                <div *ngIf="!imgDisplay" class="data_not_found_msg">
+                    There is no Attachment.  
+                </div>
+                <span *ngIf="imgDisplay" class="upload_span">
+                    <img [src]="imgURL" alt="image">
+                </span> 
+                <span *ngIf="!imgDisplay" class="default_span">
+                    <img src="../../../assets/Images/default_img.png" alt="image">
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal2" class="modal mypopup" role="dialog">
+    <div class="popup_container popup_container_confirm">
+        <div class="trigger_div">
+            <span class="mypop_heading_span">
+                <h4>Confirmation Message</h4>
+            </span>
+            <div class="mypop_head_right_div">
+                <span class="mypop_closebtn_span" title="Close">
+                    <i class="fas fa-times" data-dismiss="modal"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div">
+            <div class="msg">
+                <p >DSA Summary entry button is locked for date <b>{{popupDate}}</b>.</p>
+                <p>Kindly Request to Admin for Unlock.</p>
+            </div>
+            <div class="inp_section">
+                <div><button class="mybtn" (click)="requestOTP()">Request OTP</button></div>
+                <p *ngIf="successMessage" class="successmsg">OTP sent successfully, Please Contact your Admin</p>
+                <div [ngClass]="enterOtpfields == true ? 'show' : 'hide'"><input type="number" placeholder="Enter OTP" maxlength="5" (input)="enteredotp = $event.target.value"></div>
+                <div [ngClass]="enterOtpfields == true ? 'show' : 'hide'">
+                    <button class="mybtn" (click)="confirmOtp()">Confirm</button>
+                    <button class="mybtn" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

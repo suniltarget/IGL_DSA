@@ -1,0 +1,143 @@
+<div class="main_heading">
+    <span class="heading_span"><h1> Station Details</h1></span>
+    <span class="search_span">
+        <input type="text" name="search" [(ngModel)] ="filter" placeholder="Search" class="form-control" autocomplete="off">  
+    </span>
+    <div class="head_right_div">
+        <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+            <button><i class="fas fa-download"></i></button>
+        </span>
+    </div>
+</div>
+<div class="mycard">
+    <div class="main_table_container">
+        <div class="vertScrollTbl">
+            <div class="divTableHeader">
+                <div class="divTableRow">
+                    <div class="divTableCell">
+                        Sr No.
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationCode')">
+                        Station Code <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationName')">
+                        Station Name <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StationAddress' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationAddress')">
+                        Station Address <i [className]="sortingColumn == 'StationAddress' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'RegionName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('RegionName')">
+                        Region Name <i [className]="sortingColumn == 'RegionName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'CompanyName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('CompanyName')">
+                        Company Name <i [className]="sortingColumn == 'CompanyName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StationTypeName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationTypeName')">
+                        Station Type <i [className]="sortingColumn == 'StationTypeName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'Status' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Status')">
+                        Status <i [className]="sortingColumn == 'Status' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div class="divTableCell">
+                        Dispenser Details
+                    </div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div *ngFor="let itm of listMOStation | orderBy: key: reverse | filter:filter; let i = index"  class="divTableRow">
+                    <div class="divTableCell">{{i+1}}</div>
+                    <div class="divTableCell"><div class="overTextTip">{{itm.StationCode}}</div></div>
+                    <div class="divTableCell"><div class="overTextTip">{{itm.StationName}}</div></div>
+                    <div class="divTableCell"><div class="overTextTip">{{itm.StationAddress}}</div></div>
+                    <div class="divTableCell">{{itm.RegionName}}</div>
+                    <div class="divTableCell">{{itm.CompanyName}}</div>
+                    <div class="divTableCell">{{itm.StationTypeName}}</div>
+                    <div class="divTableCell">
+                        <div class="toggle-pnl">
+                            <input class="tgl tgl-ios ng-pristine ng-untouched ng-valid ng-not-empty" id="{{itm.StationCode}}" type="checkbox" name = "Status" [checked]="itm.Status" (change)="openPopupForLock(itm.StationId,$event)">
+                            <label class="tgl-btn" for="{{itm.StationCode}}"></label>
+                        </div> 
+                    </div>
+                    <div class="divTableCell" (click)="openPopupForUpdate(itm.StationId)">
+                        <a>View Status</a> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="stationdetailMange mypopup" *ngIf=(soPopup)>
+    <div class="popup_container popup_container_stn_dispenser">
+        <div class="trigger_div main_heading">
+            <span class="mypop_heading_span">
+                <h4>{{title}}</h4>
+            </span>
+            <span class="search_span">
+                <input type="text"  name="search" [(ngModel)]="filter1" placeholder="Search" class="form-control" autocomplete="off">  
+            </span>
+            <div class="mypop_head_right_div">
+                <span class="mypop_savebtn_sapn"></span>
+                <span class="mypop_closebtn_span" (click)="soPopup = false" title="Close">
+                    <i class="fas fa-times"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div">
+            <div class="vertScrollTbl">
+                <div class="divTableHeader">
+                    <div class="divTableRow">
+                        <div class="divTableCell">
+                            Sr No. 
+                        </div>
+                        <div [ngClass]="sortingColumn1 == 'DispenserName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('DispenserName')">
+                            Dispenser Name <i [className]="sortingColumn1 == 'DispenserName' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                        </div>
+                        <div [ngClass]="sortingColumn1 == 'DispenserCodeA' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('DispenserCodeA')">
+                            Dispenser Code A <i [className]="sortingColumn1 == 'DispenserCodeA' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                        </div>
+                        <div [ngClass]="sortingColumn1 == 'DispenserCodeB' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('DispenserCodeB')">
+                            Dispenser Code B <i [className]="sortingColumn1 == 'DispenserCodeB' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                        </div>
+                        <div [ngClass]="sortingColumn1 == 'DispanserTypeCodeADisp' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('DispanserTypeCodeADisp')">
+                            Dispenser Type Code A <i [className]="sortingColumn1 == 'DispanserTypeCodeADisp' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                        </div>
+                        <div [ngClass]="sortingColumn1 == 'DispanserTypeCodeBDisp' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('DispanserTypeCodeBDisp')">
+                            Dispenser Type Code B <i [className]="sortingColumn1 == 'DispanserTypeCodeBDisp' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                        </div>
+                        <div [ngClass]="sortingColumn1 == 'StatusSort' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StatusSort')">
+                          Status <i [className]="sortingColumn1 == 'StatusSort' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="divTableBody">
+                    <div  *ngFor="let itm1 of listDisp | orderBy: key1 : reverse1 | filter:filter1; let i = index" class="divTableRow">
+                        <div class="divTableCell">{{i+1}}</div>
+                        <div class="divTableCell">{{itm1.DispenserName}}</div>   
+                        <div class="divTableCell">{{itm1.DispenserCodeA}}</div>
+                        <div class="divTableCell">{{itm1.DispenserCodeB}}</div>
+                        <div class="divTableCell">{{itm1.DispanserTypeCodeADisp}}</div>
+                        <div class="divTableCell">{{itm1.DispanserTypeCodeBDisp}}</div>
+                        <div class="divTableCell">{{itm1.StatusSort}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">dsda</div>
+        <div class="col-md-6"></div>
+        <div class="col-md-6"></div>
+        <div class="col-md-6"></div>
+        <div class="col-md-6"></div>
+        <div class="col-md-6"></div>
+    </div>
+</div>
+<section>
+    <div class="container">
+        <div class="row">
+            col
+        </div>
+    </div>
+</section>

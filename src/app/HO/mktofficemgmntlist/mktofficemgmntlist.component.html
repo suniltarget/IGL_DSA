@@ -1,0 +1,208 @@
+<div class="main_heading">
+        <span class="heading_span"><h1>AMO Management</h1></span>
+        <span class="search_span">
+            <input type="text" name="search" [(ngModel)] ="filter"  placeholder="Search" class="form-control" autocomplete="off">
+        </span>
+        <div class="head_right_div">
+            <span class="switch_span">
+                <div class="t_state_btn">
+                    <div class="floating_div" id="tgt_div"></div>
+                    <label>
+                        <input type="radio" id="ab" name="swth" (change)="OnChangeStatus($event, 'swthActive')"/> 
+                        <span>Active</span>
+                    </label>
+                    <label>
+                        <input type="radio" id="MKOcheck" name="swth" checked (change)="OnChangeStatus($event, 'swthAll')"/> 
+                        <span>All</span>
+                    </label>
+                    <label>
+                        <input type="radio" id="ef" name="swth" (change)="OnChangeStatus($event, 'swthInActive')"/> 
+                        <span>InActive</span>
+                    </label>
+                </div>
+            </span> 
+            <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+                <button><i class="fas fa-download"></i></button>
+            </span>
+            <span class="pop_btn_span">
+                <a title="Add New" (click)="addMom();"><i class="fa fa-plus" aria-hidden="true"></i></a>
+            </span>
+        </div>  
+    </div>
+    <div class="mycard">
+        <div class="main_table_container">
+            <div class="vertScrollTbl">
+                <div class="divTableHeader">
+                    <div class="divTableRow">
+                        <div class="divTableCell">
+                            Sr No.
+                        </div>
+                        <div [ngClass]="sortingColumn == 'Name' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click) = "sortCol('Name')">
+                            Name <i [className]="sortingColumn == 'Name' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                        </div>
+                        <div [ngClass]="sortingColumn == 'LoginId' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click) = "sortCol('LoginId')">
+                            Login Id <i [className]="sortingColumn == 'LoginId' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                        </div>
+                        <div [ngClass]="sortingColumn == 'EmailId' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click) = "sortCol('EmailId')">
+                            Email <i [className]="sortingColumn == 'EmailId' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                        </div>
+                        <div [ngClass]="sortingColumn == 'ContactNo' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('ContactNo')">
+                            Contact No <i [className]="sortingColumn == 'ContactNo' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                        </div>
+                        <div [ngClass]="sortingColumn == 'StatusSort' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StatusSort')">
+                            Status <i [className]="sortingColumn == 'StatusSort' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="divTableBody">
+                    <div *ngFor="let itm of listMO |  filter : filter  | orderBy: key : reverse ; let i = index" (click)="updateMom(itm)" [ngClass]="itm.UserId == uId ? 'divTableRow table_row_highlight' : 'divTableRow'">
+                        <div class="divTableCell">{{i+1}}</div>
+                        <div class="divTableCell">{{itm.Name}}</div>
+                        <div class="divTableCell ">{{itm.LoginId}}</div>
+                        <div class="divTableCell">{{itm.EmailId}}</div>
+                        <div class="divTableCell">{{itm.ContactNo}}</div>
+                        <div class="divTableCell">{{itm.StatusSort}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="addMarketingofficepoup mypopup" *ngIf=(momPopup)>
+            <div class="popup_container popup_container_updt_mkt_officer">
+                <div class="trigger_div">
+                    <span class="mypop_heading_span">
+                        <h4>{{title}}</h4>
+                    </span>
+                    <div class="mypop_head_right_div">
+                        <span class="mypop_savebtn_sapn"  title="Save">
+                            <i class="fa fa-floppy-o" aria-hidden="true" (click)="saveMO();"></i>
+                        </span>
+                        <span class="mypop_closebtn_span" title="Close">
+                            <i class="fas fa-times" (click)="closePopup();"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="content_div">
+                    <div class="row">
+                        <div class="col-12">
+                            <form class="form-horizontal old_popup" role="form">
+                                <div class="form-group">
+                                    <label for="firstName" class="control-label">Name<span class="star">*</span></label>
+                                    <div>
+                                        <input 
+                                          type="text" placeholder="Name" class="form-control uppercase" required=""
+                                          [(value)]="MOName" 
+                                          (input)="MOName = $event.target.value"
+                                        >
+                                    </div>
+                                </div>
+                                <div [ngStyle]="{'display':(actionFlag == 'Add') ? 'block' : 'none'}">
+                                  <div class="form-group">
+                                      <label for="revision" class=" control-label">Login Id<span class="star">*</span></label>
+                                      <div class="">
+                                          <input type="text" placeholder="Login Id" class="form-control" required=""
+                                          [value]="MOLoginId" 
+                                          (input)="MOLoginId = $event.target.value"
+                                          >
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="title" class=" control-label">User Password<span class="star">*</span></label>
+                                      <div class="">
+                                          <input type="password" data-ng-pattern="/^\S*$/" placeholder="Password" class="form-control" required=""
+                                          [value]="MOPassword" 
+                                          (input)="MOPassword = $event.target.value"
+                                          >
+                                      </div>
+                                  </div>
+                                  <div class="form-group marBot-10">
+                                      <label for="firstName" class=" control-label">Confirm Password<span class="star">*</span></label>
+                                      <div class="">
+                                          <input type="password" placeholder="Confirm Password" class="form-control" required="" 
+                                          [value]="CPwd" 
+                                          (input)="CPwd = $event.target.value"
+                                          >
+                                      </div>
+                                  </div>
+                                </div> 
+                                <div class="form-group">
+                                    <label for="firstName" class=" control-label">Primary Email<span class="star">*</span></label>
+                                    <div class="">
+                                        <input type="email" placeholder="Primary Email" class="form-control" required=""
+                                        [value]="MOEmailId" 
+                                        (input)="MOEmailId = $event.target.value"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstName" class=" control-label">Email Id 2</label>
+                                    <div class="">
+                                        <input type="text" placeholder="Email Id 2" class="form-control" required=""
+                                        [value]="MOEmailId2" 
+                                        (input)="MOEmailId2 = $event.target.value"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstName" class=" control-label">Email Id 3</label>
+                                    <div class="">
+                                        <input type="text" placeholder="Email Id 3" class="form-control" required=""
+                                        [value]="MOEmailId3" 
+                                        (input)="MOEmailId3 = $event.target.value">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstName" class=" control-label">Email Id 4</label>
+                                    <div class="">
+                                        <input type="text" placeholder="Email Id 4" class="form-control" required=""
+                                        [value]="MOEmailId4" 
+                                        (input)="MOEmailId4 = $event.target.value">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstName" class=" control-label">Primary Contact No<span class="star">*</span></label>
+                                    <div class="">
+                                        <input type="text" placeholder="Primary Contact No" class="form-control" required="" 
+                                        [value]="MOContactNo" 
+                                        (input)="MOContactNo = $event.target.value">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstName" class=" control-label">Contact No 2</label>
+                                    <div class="">
+                                        <input type="text" placeholder="Contact No 2" class="form-control" required="" 
+                                        [value]="MOContactNo2" 
+                                        (input)="MOContactNo2 = $event.target.value">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstName" class=" control-label">Contact No 3</label>
+                                    <div class="">
+                                        <input type="text" placeholder="Contact No 3" class="form-control" required="" 
+                                        [value]="MOContactNo3" 
+                                        (input)="MOContactNo3 = $event.target.value">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="firstName" class=" control-label">Contact No 4</label>
+                                    <div class="">
+                                        <input type="text" placeholder="Contact No 4" class="form-control" required="" 
+                                        [value]="MOContactNo4" 
+                                        (input)="MOContactNo4 = $event.target.value">
+                                    </div>
+                                </div>
+                                 <div class="form-group">
+                                    <label for="firstName" class="col-4 control-label">Status</label>
+                                    <div class="">
+                                        <div class="toggle-pnl">
+                                            <input class="tgl tgl-ios ng-pristine ng-untouched ng-valid ng-not-empty" id="InvstUnMap_66" type="checkbox" name = "Status" [(ngModel)] = "Status">
+                                            <label class="tgl-btn" for="InvstUnMap_66"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

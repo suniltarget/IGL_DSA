@@ -1,0 +1,16 @@
+.mypopup
+{
+    display: block;
+}
+.popup_container_entry_threshhold
+{
+    width:530px;
+}
+.main_table_container 
+{
+    overflow: hidden!important;
+}
+.vertScrollTbl 
+{
+    width: auto!important;
+}

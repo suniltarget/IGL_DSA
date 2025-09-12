@@ -1,0 +1,127 @@
+<div class="main_heading">
+    <span class="heading_span"><h1>Station Status</h1>
+    </span>
+</div>
+<div class="mycard">
+    <form class="stn_form">
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Date From <span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_input date_inuput">
+                        <ng-datepicker name="DateFrom" [(ngModel)]="DateFrom" [options]="options" class=" date_first dt_for-rep" (ngModelChange)="OnDateChnageFrom($event)" ></ng-datepicker>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Shift (From)<span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_select">
+                        <select class="form-control" name="optShiftId" [(ngModel)]='SelectedShiftId'  (change)="onShiftSelect($event.target.value)">
+                            <option>--Select Shift--</option>
+                            <option *ngFor="let itm of ShiftList" [value]="itm.ShiftId">{{itm.ShiftDetails}}</option>
+                        </select>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Sub Shift (From)<span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_select">
+                        <select class="form-control" name="optSubShiftId" [(ngModel)]='SubShiftId'>
+                            <option>--Select Sub-Shift--</option>
+                            <option *ngFor="let itm of SubShiftList" [value]="itm.SubShiftId">{{itm.SubShiftDetails}}</option>
+                        </select>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Date To <span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_input date_inuput">
+                        <ng-datepicker name="DateTo" [(ngModel)]="DateTo" [options]="options" class="ngx-datepicker-container dt_for-rep" (ngModelChange)="OnDateChnageTo($event)" ></ng-datepicker>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Shift (To)<span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_select">
+                        <select class="form-control" name="optShiftId_To" [(ngModel)]='SelectedShiftId_To'  (change)="onShiftSelect_To($event.target.value)">
+                            <option>--Select Shift--</option>
+                            <option *ngFor="let itm of ShiftList" [value]="itm.ShiftId">{{itm.ShiftDetails}}</option>
+                        </select>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Sub Shift (To)<span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_select">
+                        <select class="form-control" name="optSubShiftId_To" [(ngModel)]='SubShiftId_To'>
+                            <option>--Select Sub-Shift--</option>
+                            <option *ngFor="let itm of SubShiftList_To" [value]="itm.SubShiftId">{{itm.SubShiftDetails}}</option>
+                        </select>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="form_grp_row for_margin">
+            <div class="left_label_cont">
+                <label>Status</label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_input">
+                        <label class="radio-inline"><input type="radio" name="StatusFlag"  value="Active" [(ngModel)]="StatusFlag" /> Operational</label>
+                        <label class="radio-inline"><input type="radio" name="StatusFlag"  value="InActive" [(ngModel)]="StatusFlag" checked/> Non Operational</label>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Remark<span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_input">
+                        <textarea class="form-control" [value]="Remark" (input)="Remark=$event.target.value"></textarea>
+                    </div>
+                </div>  
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont"></div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_button">
+                        <button class="mybtn" (click)="insertRecord();" >Save</button>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </form>
+</div>

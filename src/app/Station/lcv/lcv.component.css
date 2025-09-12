@@ -1,0 +1,29 @@
+.main_heading
+{
+    justify-content:space-between;
+}
+.form_row 
+{
+    margin-bottom: 10px;
+}
+.choosefile{
+    margin-left: 4px;
+}
+.text-alignright{
+    text-align: right;
+}
+.panelbodymain{
+    padding: 5px;
+}
+.check_zoom
+{
+    transform: scale(1.6,1.6);
+    margin-left: 5px;
+}
+@media (max-width:1500px)
+{
+    .popup_container_lcv_reset_meter
+    {
+        width:500px;
+    }
+}

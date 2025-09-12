@@ -1,0 +1,53 @@
+<div class="main_heading">
+  <span>
+    <h1>General Entries </h1>
+  </span>
+  <span class="stn_nama_span"><strong>Station Name :</strong>{{stationName}}</span>
+</div>
+<div class="mycard mycards">
+    <div class="main_table_container">
+        <div class="panelbody">
+            <div class="form_container">
+                  <div class="">
+                      <form action="">
+                          <div class="row form_row">
+                              <div class="col-lg-2 col-md-12">
+                                    <div class="label_container">
+                                        <label>Number of Buses</label>
+                                    </div>
+                              </div>
+                              <div class="col-lg-4 col-md-7">
+                                  <div class="input_container">
+                                     <input type="text" name="NOB" [(ngModel)] = "NOB" class="form-control">
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row form_row">
+                              <div class="col-lg-2 col-md-12">
+                                  <div class="label_container">
+                                      <label>Number of LCV</label>
+                                  </div>
+                              </div>
+                              <div class="col-lg-4 col-md-7">
+                                  <div class="input_container">
+                                      <input type="text" name="NOL" [(ngModel)] = "NOL" class="form-control" >
+                                  </div>
+                              </div>
+                          </div>
+						<div class="row form_row">
+							<div class="col-lg-6 col-md-6 col-lg-offset-2 col-md-offset-0">
+								<div class="input_container">
+									<button class="mybtn"  [hidden]="isStationSubmitted > 0  || isCRSentToHo > 0" (click)="InsertGeneralEntry()">Save</button>
+								</div>
+							</div>
+						</div>
+                      </form>
+                    <div class="msg">
+                        <p class="data_submit_msg" [hidden]="isStationSubmitted == 0 ">* Data is submitted for the day</p>
+                        <p class="data_submit_msg" [hidden]="isCRSentToHo == 0 ">* Submission is closed for Today from Control Room.</p>
+                    </div>
+                </div>
+            </div>
+          </div>
+      </div>
+    </div>

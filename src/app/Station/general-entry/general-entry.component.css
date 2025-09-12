@@ -1,0 +1,27 @@
+.main_heading
+{
+    justify-content:space-between;
+}
+.panelbody
+{
+    padding: 10px;
+}
+.savecenter
+{
+    text-align: right;
+}
+.form_row
+{
+    margin-bottom: 10px;
+}
+/* .mycards{
+    background-color: #e2e2e2;
+} */
+.label_container
+{
+    margin-bottom: 6px;
+}
+.form_container
+{
+    margin-top:22px;
+}

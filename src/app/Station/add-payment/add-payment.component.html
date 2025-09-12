@@ -1,0 +1,183 @@
+<div class="main_heading" style="margin-bottom: 0px;">
+    <span class="heading_span"><h1>Bifurcation of Sale</h1></span>
+    <div class="head_right_div">
+        <span class="pop_btn_span"*ngIf="submitButton">
+            <button title="Previous" *ngIf="(showPrevious)" (click)="onClickPrevious();" class="mybtn" style="margin-right:5px;"><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Previous </button>
+            <button title="Save & Next" *ngIf="(showNext)" (click)="onClickNext();" class="mybtn">Save & Next&nbsp;&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+        </span>
+    </div>  
+</div>
+<div>
+    <div class="left_list_div">
+        <ul class="tab_ul">
+            <li  *ngFor="let itm of listDispensers" (click) = "onSelectDispenser(itm.DispenserId)">
+                <a href="javascript:void(0)" [ngClass]="{'active_tab': selectedDispId == itm.DispenserId}">{{itm.DispenserName}}</a>   
+            </li>
+        </ul>
+    </div>
+        <div class="right_form_div">
+            <form role="form" class="form-horizontal">
+                <div class="form-group">
+                    <label for="Shift" class="col-2 control-label">Shift<span class="star">*</span></label>
+                    <div class="col-6" >
+                        <select (change)="onSelectShift($event.target.value)"  name="optShift" class="form-control" [(ngModel)]="selectedShiftId">
+                            <option value="-1" selected>--Select Shift--</option>
+                            <option *ngFor="let itm of cmbShiftData" [value]="itm.ShiftId">{{itm.ShiftDetails}}</option>
+                        </select>
+                    </div>
+                    <label class="col-2 control-label">Current Price</label>
+                    <div class="col-2" >
+                        <label class="col-2 control-label">{{CurrentRate}}</label>
+                    </div>     
+                </div>
+                <div class="form-group">
+                    <div class="col-2"></div>
+                    <div class="col-2">
+                        <label for="Shift" class="control-label">Amount Arm A (&#8377;)</label>
+                    </div>
+                    <div class="col-1" ></div>
+                    <div class="col-2" >
+                        <label for="Shift" class="control-label">Quantity Arm A (Kg.)</label>
+                    </div>
+                    <div class="col-2" >
+                        <label for="Shift" class="control-label">Amount Arm B (&#8377;)</label>
+                    </div>
+                    <div class="col-1" ></div>
+                    <div class="col-2" >
+                        <label for="Shift" class="control-label">Quantity Arm B (Kg.)</label>
+                    </div>
+                </div>
+                <div class="form-group" required>
+                    <div class="col-2">
+                        <label for="Shift" class="control-label">DSM (Gas Filler) <span class="star">*</span></label>
+                    </div>
+                    <div class="col-2" >
+                        <select class="form-control" name="DSM1" [(ngModel)]='SelectedDSMIdArmA' (change)="onDSMSelectArmA($event.target.value)" >
+                            <option value="" selected>--Select--</option>
+                            <option *ngFor="let itm of listDSM" [value]="itm.DSMId">{{itm.DSMName}}</option>
+                            <option value="NA">NOT AVAILABLE</option>
+                        </select>
+                    </div>
+                    <div class="col-3" ></div>
+                    <div class="col-2" >
+                        <select class="form-control" name="DSM2" [(ngModel)]='SelectedDSMIdArmB' (change)="onDSMSelectArmB($event.target.value)">
+                            <option value="" selected>--Select--</option>
+                            <option *ngFor="let itm of listDSM" [value]="itm.DSMId">{{itm.DSMName}}</option>
+                            <option value="NA">NOT AVAILABLE</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Shift" class="col-2 control-label">Total Sale (&#8377;)</label>
+                    <div class="col-2" >
+                        <label for="Shift" class="control-label">{{TotalSalesA}}</label>
+                    </div>
+                    <div class="col-1" >
+                    </div>
+                    <div class="col-2" >
+                        <label for="Shift" class="control-label">{{TotalReadingsA}}</label>
+                    </div>
+                    <div class="col-2" >
+                        <label for="Shift" class="control-label">{{TotalSalesB}}</label>
+                    </div>
+                    <div class="col-1" >
+                    </div>
+                    <div class="col-2" >
+                        <label for="Shift" class="control-label">{{TotalReadingsB}}</label>
+                    </div>
+                </div>
+                <div *ngIf="this.company">
+                <div class="form-group" *ngFor="let pm of AddPaymentMode">   
+                    <div *ngIf="(pm.PaymentMode == 'Cash Sale' || pm.PaymentMode == 'Prepaid Card Sale')">
+                        <label for="{{pm.PaymentMode}" class="col-2 control-label" >{{pm.PaymentMode}} </label>
+                    <div class="col-2" >
+                        <input type="number" class="form-control" (input)="onPayemntEntry($event.target,pm.PaymentModeId,'A')" value="{{pm.PaymentAmountA}}"  value="0.00" min="0.00" (blur)="checkout()"> 
+                    </div>
+                    <div class="col-1" >
+                    </div>
+                    <div class="col-2" >
+                        <label for="Shift" class="control-label">{{pm.PaymentQuantityA}}</label>
+                    </div>
+                    <div class="col-2" >
+                        <input type="number" class="form-control" (input)="onPayemntEntry($event.target,pm.PaymentModeId,'B')" value="{{pm.PaymentAmountB}}"  value="0.00" min="0.00" (blur)="checkout()"> 
+                    </div>
+                    <div class="col-1" >
+                    </div>
+                    <div class="col-2" >
+                        <label for="Shift" class="control-label">{{pm.PaymentQuantityB}}</label>
+                    </div>
+                    </div>
+                   </div>
+                </div>
+                <div *ngIf="!this.company">
+                <div class="form-group" *ngFor="let pm of AddPaymentMode">
+                         <label for="{{pm.PaymentMode}" class="col-2 control-label" >{{pm.PaymentMode}} </label>
+                     <div class="col-2" >
+                         <input type="number" class="form-control" (input)="onPayemntEntry($event.target,pm.PaymentModeId,'A')" value="{{pm.PaymentAmountA}}"  value="0.00" min="0.00" (blur)="checkout()"> 
+                     </div>
+                     <div class="col-1" >
+                     </div>
+                     <div class="col-2" >
+                         <label for="Shift" class="control-label">{{pm.PaymentQuantityA}}</label>
+                     </div>
+                     <div class="col-2" >
+                         <input type="number" class="form-control" (input)="onPayemntEntry($event.target,pm.PaymentModeId,'B')" value="{{pm.PaymentAmountB}}"  value="0.00" min="0.00" (blur)="checkout()"> 
+                     </div>
+                     <div class="col-1" >
+                     </div>
+                     <div class="col-2" >
+                         <label for="Shift" class="control-label">{{pm.PaymentQuantityB}}</label>
+                     </div>
+                    </div>
+                 </div>
+                <div class="form-group">
+                    <label for="Shift" class="col-2 control-label">Total (&#8377;)</label>
+                    <div class="col-2" >
+                        <label for="Shift" class="control-label">{{TotalCurrentSalesA}}</label>
+                    </div>
+                    <div class="col-1" >
+                    </div>
+                    <div class="col-2" >
+                        <label for="Shift" class="control-label"></label>
+                    </div>
+                    <div class="col-2" >
+                        <label for="Shift" class="control-label">{{TotalCurrentSalesB}}</label>
+                    </div>
+                    <div class="col-1" >
+                    </div>
+                    <div class="col-2" >
+                        <label for="Shift" class="control-label"></label>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="myModal2" class="modal mypopup" role="dialog">
+            <div class="popup_container popup_container_confirm">
+                <div class="trigger_div">
+                    <span class="mypop_heading_span">
+                        <h4>Confirmation Message</h4>
+                    </span>
+                    <div class="mypop_head_right_div">
+                        <span class="mypop_closebtn_span" title="Close">
+                            <i class="fas fa-times" data-dismiss="modal"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="content_div">
+                    <div class="msg">
+                        <p >DSA entry button is locked for date <b>{{popupDate}}</b>.</p>
+                        <p>Kindly Request to Admin for Unlock.</p>
+                    </div>
+                    <div class="inp_section">
+                        <div><button class="mybtn" (click)="requestOTP()">Request OTP</button></div>
+                        <p *ngIf="successMessage" class="successmsg">OTP sent successfully, Please Contact your Admin</p>
+                        <div [ngClass]="enterOtpfields == true ? 'show' : 'hide'"><input type="number" placeholder="Enter OTP" maxlength="5" (input)="enteredotp = $event.target.value"></div>
+                        <div [ngClass]="enterOtpfields == true ? 'show' : 'hide'">
+                            <button class="mybtn" (click)="confirmOtp()">Confirm</button>
+                            <button class="mybtn" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

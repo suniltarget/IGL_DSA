@@ -1,0 +1,42 @@
+.main_heading
+{
+    justify-content:space-between;
+}
+.panelbody{
+    padding: 10px;
+}
+.savecenter{
+    text-align: right;
+}
+.form_row{
+    margin-bottom: 10px;
+}
+.stn_mtskid_form .form-group {
+    margin-bottom: 10px;
+}
+.my_form_row
+{
+    display: flex;
+}
+.my_form_row .left_form_label
+{
+    width:200px;
+    background-color:red;
+}
+.my_form_row .right_form_input
+{
+    width:500px;
+    background-color:green;
+}
+.check_zoom
+{
+    transform: scale(1.6,1.6);
+    margin-left: 5px;
+}
+@media (max-width:1500px)
+{
+    .popup_container_mtrskd_reset_meter
+    {
+        width:500px;
+    }
+}

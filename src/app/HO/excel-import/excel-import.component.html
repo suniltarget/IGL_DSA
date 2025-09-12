@@ -1,0 +1,56 @@
+<div class="main_heading">
+  <span class="heading_span">
+    <h1>Bulk Equipment</h1>
+  </span>
+  <div class="head_right_div">
+    <span class="pop_btn_span">
+    </span>
+  </div>
+</div>
+<div class="mycard">
+  <div class="main_table_container">
+    <form class="stn_form">
+      <div class="form_grp_row" style="margin-top: 20px;">
+        <div class="left_label_cont">
+          <label style="width: 140px;">Import Equipments</label>
+        </div>
+        <div class="right_input_cont">
+          <div class="right_input_cont" style="overflow: visible;">
+            <div class="for_input">
+              <div class="only_input date_inuput">
+                <select class="form-control" (change)="EquipmentsChange($event.target.value, 'SheetType')" style="width: 190px;">
+                  <option value='Station_Import'>Station</option>
+                  <option value='Dispenser_Import'>Dispenser</option>
+                  <option value='MeterSkid_Import'>Meter Skid</option>
+                  <option value='Package_Import'>Packages</option>
+                  <option value='LCV_Import'>LCV</option>
+                  <option value='GasGenset_Import'>Gas Genset</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form_grp_row">
+        <div class="left_label_cont">
+          <label style="width: 430px;"></label>
+        </div>
+        <div class="right_input_cont">
+          <div class="for_input">
+            <div class="only_input date_inuput">
+              <input type="file" id="All_Input" name="StationAttachmentInput"
+                (change)="UploadImportEquipment($event.target.files, $event)" class="form-control"
+                style="margin-top: 5px;margin-left: 10px;width: 240px;">
+            </div>
+          </div>
+        </div>
+        <div class="left_label_cont">
+          <a (click)="SampleDownload()" class="btn btn-default">Sample Sheet</a>
+        </div>
+        <div class="left_label_cont">
+          <a (click)="OnAll_Submit()" class="btn btn-primary">Import</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

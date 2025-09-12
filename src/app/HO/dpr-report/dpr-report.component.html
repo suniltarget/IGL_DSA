@@ -1,0 +1,130 @@
+<div class="main_heading">
+    <span class="heading_span"><h1>DPR - Report Management</h1></span>
+    <div class="head_right_div">
+        <span class="switch_span" >
+			<div class="t_state_btn_two" *ngIf="activeDPRReport">
+				<div class="floating_div_two" id="tgt_div"></div>
+				<label>
+                    <input type="radio" id="PMCheck" name="swth" checked 
+                    (change)="OnChangeStatus($event, 'dpr')"/> 
+					<span>DPR</span>
+				</label>
+				<label>
+					<input type="radio" id="ef" name="swth" (change)="OnChangeStatus($event, 'dprRegionSale')"/> 
+					<span>DPR Region Sale</span>
+				</label>
+			</div>
+            </span>
+        <span class="pop_btn_span">
+            <button id="viewbox" class="box" title="Show" *ngIf="IsJMRSelected" (click)="onReportShow()" data-popup-open="popup-1"><i class="fas fa-eye"></i><i id="viewtext">View</i></button>
+            <button class="box" title="Download" (click)="GetExportDPRreports()" data-popup-open="popup-1"><i class="fas fa-download"></i><i class="Downloadbutton">Download</i></button>
+        </span>
+    </div> 
+</div>
+<div class="mycard">	
+    <div class="main_table_container">
+        <div class="main_form_container">
+            <div class="report_row">
+                <div>
+                    <div class="label_container">
+                        <label>Report</label>
+                    </div>
+                    <div class="input_container">
+                        <select class="form-control" name="selectedReport" (change)="OnReportChnage($event)" [disabled]="dateRange">
+                            <option value="" selected>--Select--</option>
+                            <option value="DPR">DPR</option>
+                            <option value="OPENING CLOSING">OPENING CLOSING</option>  
+                            <option value="PENDING STATIONS">PENDING STATIONS</option> 
+                            <option value="REMARK HISTORY">REMARK HISTORY</option>  
+                            <option value="REJECT STATION HISTORY">REJECT STATION HISTORY</option>
+                            <option value="JUMP READING">JUMP READING</option>          
+                            <option value="JMR REPORT" *ngIf ="JMRReportVisibility">JMR REPORT</option>    
+                            <option value="DPR SUBMISSION REPORT">DPR SUBMISSION REPORT</option> 
+                            <option value="CR SUBMISSION REPORT">CR SUBMISSION REPORT</option>   
+                            <option value="GAS RECONCILIATION REPORT">GAS RECONCILIATION REPORT</option>  
+                            <option value="PACKAGE AVAILABILITY REPORT">PACKAGE AVAILABILITY REPORT</option>  
+                            <option value="DPR MOTOR DRIVEN PACKAGE">DPR MOTOR DRIVEN PACKAGE</option>
+                            <option value="TrendReports">TREND REPORT</option>
+                        </select>
+                    </div>
+                </div>
+                <div *ngIf=!IsRegionDisable>
+                    <div class="label_container" >
+                        <label>Region </label>
+                    </div>
+                    <div class="input_container">
+                        <select class="form-control" name="selectRegion" (change)="onRegionSelect($event.target.value)" [disabled]="IsRegionDisable">
+                            <option value="All" selected>All</option>
+                            <option *ngFor="let itm of RegionList" [value]="itm.RegionName">{{itm.RegionName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div *ngIf=!IsStationDisable>
+                    <div class="label_container">
+                        <label>Station</label>
+                    </div>
+                    <div class="input_container"  >
+                        <div class="filer_container" >
+                            <div class="custom_dropdown">
+                                <ng-multiselect-dropdown 
+                                name = "StationDropDown" 
+                                [placeholder]="'--Select Station--'"
+                                [data]="StationList" 
+                                [(ngModel)]="selectedStation" 
+                                [settings]="dropdownSettings"
+                                (onSelect)="onItemSelect($event)"
+                                (onDeSelect)="onItemDeSelect($event)"
+                                (onDeSelectAll)="onDeSelectAll()"
+                                (onSelectAll)="onSelectAll($event)"
+                              >
+                              </ng-multiselect-dropdown>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="label_container">
+                        <label>From <i class="far fa-calendar-alt date_icon" ></i></label>
+                    </div>
+                    <div class="input_container" style="border:1px solid #ccc;">
+                        <ng-datepicker [(ngModel)]="dateFrom" [options]="options" class="ngx-datepicker-container dt_for-rep" (ngModelChange)="OnDateChnagefrom($event)"></ng-datepicker>
+                    </div>
+                </div>
+                <div *ngIf="(todateshow)">
+                    <div class="label_container">
+                        <label>To <i class="far fa-calendar-alt date_icon" ></i></label>
+                    </div>
+                    <div class="input_container" style="border:1px solid #ccc;">
+                        <ng-datepicker [(ngModel)]="dateTo" [options]="options" class="ngx-datepicker-container dt_for-rep" (ngModelChange)="OnDateChnageTo($event)" [disabled]="IsDatesDisable"></ng-datepicker>
+                    </div>
+                </div>
+            </div>
+        </div>   
+        <div class="main_form_container">
+            <div class="report_row">
+                <div>
+                    <table id="myTable2" *ngIf="columns.length >0 " class="table table-bordered table-striped table-sm">
+                        <thead>
+                          <tr>
+                            <th (click)="sortCol('Sr. No.')">Sr. No.</th>
+                            <th (click)="sortCol(column)" *ngFor="let column of columns | filter : filter">{{column}}
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of ResponseList | orderBy: key: reverse | filter : filter 
+                          | paginate: { itemsPerPage: items, currentPage: Page }, let i = index" 
+                          class="divTableCell" data-toggle="modal" data-target="#updatePopup">
+                          <td>{{i+1}}</td>
+                            <td *ngFor="let column of columns | filter : filter">
+                              {{row[column]}}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+	  

@@ -1,0 +1,68 @@
+.divTableBody>.divTableRow .divTableCell:last-child a
+{
+    transition-duration: 0s;
+}
+.divTableBody>.divTableRow .divTableCell:last-child a:hover
+{
+    text-decoration: none;
+}
+.divTableBody>.divTableRow:hover .divTableCell:last-child a
+{
+    border: 1px solid white;
+    display: inline-block;
+    color: white;
+    border-radius: 2px;
+    padding: 0px 5px;
+    transition-duration: 0s;
+}
+.trigger_div.main_heading
+{
+    margin-bottom: 0px;
+}
+.trigger_div.main_heading>.search_span input[type="text"]
+{
+    width:220px;
+    height:29px!important;
+}
+.trigger_div.main_heading>.search_span input[type="text"]:focus
+{
+    width:260px;
+    height:29px!important;
+}
+.mypopup
+{
+    display:block;
+}
+.popup_container_stn_dispenser
+{
+    width:1000px;
+    min-width: unset;
+    max-width:unset;
+}
+.mypopup .popup_container_stn_dispenser .trigger_div 
+{
+    justify-content:unset;
+}
+.mypopup .popup_container_stn_dispenser .trigger_div .mypop_head_right_div
+{
+    margin-left:auto;
+}
+.mypopup .popup_container_stn_dispenser .content_div
+{
+    min-height: 500px;
+    padding:0px;
+}
+@media (max-width:1500px)
+{
+    .popup_container_stn_dispenser
+    {
+        width:950px;
+    }
+}
+@media (max-width:1400px)
+{
+    .popup_container_stn_dispenser
+    {
+        width:85%;
+    }
+}

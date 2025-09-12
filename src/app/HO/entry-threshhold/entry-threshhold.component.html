@@ -1,0 +1,117 @@
+<div class="main_heading">
+	<span class="heading_span"><h1>Entry Thresh Hold</h1></span>
+	<span class="search_span">
+		<input type="text"  name="search" [(ngModel)] ="filter" placeholder="Search" class="form-control" autocomplete="off">
+	</span>
+	<div class="head_right_div">
+		<span class="switch_span">
+			<div class="t_state_btn">
+				<div class="floating_div" id="tgt_div"></div>
+				<label>
+					<input type="radio" id="ab" name="swth" (change)="OnChangeStatus($event, 'swthActive')"/> 
+					<span>Active</span>
+				</label>
+				<label>
+					<input type="radio" id="ThresholdCheck" name="swth" checked (change)="OnChangeStatus($event, 'swthAll')"/> 
+					<span>All</span>
+				</label>
+				<label>
+					<input type="radio" id="ef" name="swth" (change)="OnChangeStatus($event, 'swthInActive')"/> 
+					<span>InActive</span>
+				</label>
+			</div>
+		</span> 
+		<span class="dwnld_btn_span" title="Download">
+			<button><i class="fas fa-download" (click)="exportFile()"></i></button>
+		</span>
+		<span class="pop_btn_span">
+			<a title="Add New"  data-toggle="modal" data-target="#myModal">
+				<i class="fa fa-plus" aria-hidden="true" (click)="openAddDisp();"></i>
+		   </a>
+		</span>
+	</div>
+</div>
+<div class="mycard">
+	<div class="main_table_container">
+		<div class="vertScrollTbl">
+			<div class="divTableHeader">
+				<div class="divTableRow">
+					<div class="divTableCell">
+						Sr. No.
+					</div>
+					<div [ngClass]="sortingColumn == 'MeterType' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('MeterType')">
+						Meter Type <i [className]="sortingColumn == 'MeterType' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>
+					<div [ngClass]="sortingColumn == 'ThreshHoldValue' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('ThreshHoldValue')">
+						Thresh Hold Value (in %) <i [className]="sortingColumn == 'ThreshHoldValue' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>
+					<div [ngClass]="sortingColumn == 'AverageDays' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('AverageDays')">
+						Average Days (in days) <i [className]="sortingColumn == 'AverageDays' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>
+					<div [ngClass]="sortingColumn == 'status' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('status')">
+                        Status <i [className]="sortingColumn == 'status' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div> 
+				</div>
+			</div>
+			<div class="divTableBody">
+				<div data-toggle="modal" data-target="#myModal" *ngFor="let itm of listEntryThreshold | orderBy: key: reverse | filter:filter let i = index" [ngClass]="itm.Id == uId ? 'divTableRow table_row_highlight' : 'divTableRow'" (click)="openPopupForUpdate(itm)">
+					<div class="divTableCell" >{{i+1}}</div>
+					<div class="divTableCell" >{{itm.MeterType}}</div>
+					<div class="divTableCell" >{{itm.ThresholdValue}}</div>
+					<div class="divTableCell" >{{itm.DaysForAverage}}</div>
+					<div class="divTableCell" >{{itm.status}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+  </div>
+<div id="myModal" class="modal fade" *ngIf=(EntryThresholdPopup)>
+	<div class="mypopup">
+		<div class="popup_container popup_container_entry_threshhold">
+			<div class="trigger_div">
+				<span class="mypop_heading_span">
+					<h4>{{title}} Entry Thresh Hold</h4>
+				</span>
+				<div class="mypop_head_right_div">
+					<span class="mypop_savebtn_sapn" title="Save" (click)="save();">
+						<i class="fa fa-floppy-o" aria-hidden="true"></i>
+					</span>
+					<span class="mypop_closebtn_span" title="Close">
+						<i class="fas fa-times" data-dismiss="modal"></i>
+					</span>
+				</div>
+			</div>
+			<div class="content_div">
+				<form>
+					<div class="form-group">
+						<label >Meter Type <span class="star">*</span></label>
+						<select class="form-control" (change)="metertypevalue($event.target.value)" [value]="MeterType" [disabled]="metervisible">
+							<option value="LCV">LCV</option>
+							<option value="Meter Skid">Meter Skid</option>
+							<option value="Package">Package</option>
+							<option value="Gas Genset">Gas Genset</option>
+							<option value="Dispenser">Dispenser</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Thresh Hold Value (in %) <span class="star">*</span></label>
+						<input type="text" class="form-control" name = "ThresholdValue" [(ngModel)] = "ThresholdValue" placeholder="Threshold Value">
+					</div>
+					<div class="form-group">
+						<label>Average Days (in days) <span class="star">*</span></label>
+						<input type="text" class="form-control" name = "DaysForAverage" [(ngModel)] = "DaysForAverage" placeholder="Days For Average">
+					</div>
+					<div class="row form-group">
+						<label for="Status" class="col-4 control-label">Status</label>
+						<div class="col-8">
+							<div class="toggle-pnl">
+								<input class="tgl tgl-ios ng-pristine ng-untouched ng-valid ng-not-empty" id="InvstUnMap_66" type="checkbox" name = "Status" [(ngModel)] = "Status">
+								<label class="tgl-btn" for="InvstUnMap_66"></label>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

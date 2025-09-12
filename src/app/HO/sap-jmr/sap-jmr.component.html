@@ -1,0 +1,122 @@
+<div class="main_heading">
+  <span class="heading_span"><h1>JMR - Report Management</h1></span>
+  <div class="head_right_div">
+      <span class="pop_btn_span">
+          <button id="viewbox" class="box" title="Show" (click)="onReportShow()" data-popup-open="popup-1"><i class="fas fa-eye"></i><i id="viewtext">View</i></button>
+          <button class="box" title="Download" (click)="GetExportJMRreports()" data-popup-open="popup-1"><i class="fas fa-download"></i><i class="Downloadbutton">Download</i></button>
+      </span>
+  </div> 
+</div>
+<div class="mycard">	
+  <div class="main_table_container">
+      <div class="main_form_container">
+          <div class="report_row">
+            <div>
+              <div>
+                <div class="label_container">
+                  <label>Select Year</label>
+              </div>
+              <div class="input_container">
+                  <select class="form-control" ([ngModel])="selectedYear" (change)="onyearselect($event.target.value)" >
+                    <option *ngFor="let year of years" [value]="year">{{ year }}</option> 
+                  </select>
+              </div>
+              </div>
+              </div>
+              <div>
+                  <div class="label_container">
+                      <label>Select Month</label>
+                  </div>
+                  <div class="input_container">
+                      <select class="form-control" name="selectedMonth" (change)="OnMonthChange($event)" >
+                          <option value="" selected>--Select--</option>
+                          <option value="Jan">January</option>  
+                          <option value="Feb">Feburary</option> 
+                          <option value="Mar">March</option>  
+                          <option value="Apr">April</option>
+                          <option value="May">May</option>          
+                          <option value="June">June</option>    
+                          <option value="July">July</option> 
+                          <option value="Aug">August</option>   
+                          <option value="Sep">September</option>  
+                          <option value="Oct">October</option>  
+                          <option value="Nov">November</option>
+                          <option value="Dec">December</option>
+                      </select>
+                  </div>
+              </div>
+              <div>
+                <div class="label_container">
+                    <label> Select Fortnight</label>
+                </div>
+                <div class="input_container">
+                    <select class="form-control" name="selectedfortnight" (change)="OnFortChnage($event)">
+                        <option value="" selected>--Select--</option>
+                        <option value="Fortnight1">Fortnight1</option>
+                        <option value="Fortnight2">Fortnight2</option>  
+                    </select>
+                </div>
+            </div>
+            <div *ngIf=IsRegionDisable>
+              <div class="label_container" >
+                  <label>Region </label>
+              </div>
+              <div class="input_container">
+                  <select class="form-control" name="selectRegion" (change)="onRegionSelect($event.target.value)">
+                      <option value="All" selected>All</option>
+                      <option *ngFor="let itm of RegionList" [value]="itm.RegionName">{{itm.RegionName}}</option>
+                  </select>
+              </div>
+          </div>
+          <div *ngIf=!IsStationDisable>
+              <div class="label_container">
+                  <label>Station</label>
+              </div>
+              <div class="input_container"  >
+                  <div class="filer_container" >
+                      <div class="custom_dropdown">
+                          <ng-multiselect-dropdown 
+                          name = "StationDropDown" 
+                          [placeholder]="'--Select Station--'"
+                          [data]="StationList" 
+                          [(ngModel)]="selectedStation" 
+                          [settings]="dropdownSettings"
+                          (onSelect)="onItemSelect($event)"
+                          (onDeSelect)="onItemDeSelect($event)"
+                          (onDeSelectAll)="onDeSelectAll()"
+                          (onSelectAll)="onSelectAll($event)"
+                        >
+                        </ng-multiselect-dropdown>
+                      </div>
+              </div>
+          </div>
+          </div>
+      </div>   
+      <div class="main_form_container">
+          <div class="report_row">
+              <div>
+                  <table id="myTable2" *ngIf="columns.length >0 " class="table table-bordered table-striped table-sm">
+                      <thead>
+                        <tr>
+                          <th (click)="sortCol('Sr. No.')">Sr. No.</th>
+                          <th (click)="sortCol(column)" *ngFor="let column of columns | filter : filter">{{column}}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let row of ResponseList | orderBy: key: reverse | filter : filter 
+                        | paginate: { itemsPerPage: items, currentPage: Page }, let i = index" 
+                        class="divTableCell" data-toggle="modal" data-target="#updatePopup">
+                        <td>{{i+1}}</td>
+                          <td *ngFor="let column of columns | filter : filter">
+                            {{row[column]}}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+  

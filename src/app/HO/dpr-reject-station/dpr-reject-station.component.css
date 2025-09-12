@@ -1,0 +1,9 @@
+.input_container input,.input_container select
+{
+    width:100%;
+}
+.label_container
+{
+    font-size: 15px;
+    margin-bottom: 5px;
+}

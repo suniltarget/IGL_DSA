@@ -1,0 +1,106 @@
+<div class="main_heading">
+	<span class="heading_span"><h1>DSA Summary</h1></span>
+	<div class="head_right_div">
+		<span class="dwnld_btn_span" title="Download" (click)="ExportToPdf()">
+			<button><i class="fas fa-download"></i></button>
+		</span>
+	</div>
+</div>
+<div class="mycard mycards">
+	<div class="main_table_container" style="padding-right:6px;padding-left:6px;">
+        <table class="dsa_stn_smry_table">
+			<tbody>
+				<tr>
+					<td colspan="8" class="text-center" class="head_col"><h5>Station Report </h5></td>
+				</tr>
+				<tr>
+					<td colspan="4" class="text-center left_col"><h6>Name of Station - {{stationName}}</h6></td>
+					<td colspan="4" class="text-center left_col"><h6>Date : {{detailsStation.SummeryDate}}</h6></td>
+				</tr>
+				<tr class="head_tr">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td colspan="2" class="text-center">NON DISCOUNT  ({{DispensarTable3[0].Rate}})</td>
+					<td colspan="2" class="text-center">DISCOUNT  ({{DispensarTable3[0].DisountedRate}})</td>
+					<td></td>
+				</tr>
+				<tr class="head_tr">
+					<td>SL.NO</td>
+					<td>PARTICULARS</td>
+					<td rowspan="2" class="text-center">TOTAL QUANTITY</td>
+					<td class="text-center">Qty.</td>
+					<td class="text-center">Amount = Rate * Qty</td>
+					<td class="text-center">Qty.</td>
+					<td class="text-center">Amount = Rate * Qty</td>
+					<td class="text-center">Total Amount</td>
+				</tr>
+				<tr class="head_tr">
+					<td></td>
+					<td></td>
+					<td class="text-center">A</td>
+					<td class="text-center">B</td>
+					<td class="text-center">C</td>
+					<td class="text-center">D</td>
+					<td class="text-center">E = (B+D)</td>
+				</tr>
+				<tr *ngFor = "let itm of DispensarTable5, let i = index">
+					<td>{{i+1}}</td>
+					<td [ngClass]="itm.Particulars == 'NET CASH SALE' || itm.Particulars == 'CASH COLLECTION FOR THE DAY (RS.)' || itm.Particulars == 'OPENING CASH BALANCE (RS.)' || itm.Particulars == 'CLOSING BALANCE (RS.)' || itm.Particulars == 'CASH DEPOSITED WITH BANK (RS.)' ? 'text_bold' : ''">
+						{{itm.Particulars}}</td>
+					<td class="text-right">{{itm.TotalQuntity}}</td>
+					<td class="text-right">{{itm.NonDiscount_QTY}}</td>
+					<td class="text-right">{{itm.NonDiscount_Amt}}</td>
+					<td class="text-right">{{itm.Discount_QTY}}</td>
+					<td class="text-right">{{itm.Discount_Amt}}</td>
+					<td class="text-right">{{itm.NonDiscount_Amt + itm.Discount_Amt | number:'1.2-2'}}</td>
+				</tr>
+				<tr class="remark_tr">
+					<td rowspan="6"></td>
+					<td rowspan="6" colspan="5">
+						<strong>Remark : </strong> {{DispensarTable7[0].Remark}}
+					<br><br>
+					<strong>Slip No : </strong> {{DispensarTable7[0].SlipNo}} </td>
+					<td colspan="2" rowspan="6"></td>
+				</tr>
+			</tbody>
+		</table>
+	  <div class="text-center" style="background: var(--gray_clr);padding-top: 20px;padding-bottom: 20px;    display: flex;
+         align-items: center;justify-content: space-around;">
+        <input type="file" style="outline: none;" [value]="submitFile" (change)="uploadImage($event.target.files, $event)">
+        <button type="button" class="mybtn" (click)="attchPopupShow()">View Attachement</button>
+      </div>
+	 <div class="StnSumryBox text-center">
+        <button class="mybtn" (click)="checkPendingEntry()" *ngIf="submitButton">{{Submitbtn}}</button>
+	    <span *ngIf="!submitButton"><h3 class="style">DSA Entry Locked For This Date..</h3></span>
+	</div>
+	 <br>
+	</div>
+</div>
+<div class="attchement_popup" *ngIf="attchPop">
+	<div class="popup_container popup_container_preview">
+        <div class="trigger_div">
+            <span class="mypop_heading_span">
+                <h4>Jump Attachment</h4>
+            </span>
+            <div class="mypop_head_right_div">
+                <span class="mypop_closebtn_span" title="Close">
+                    <i class="fas fa-times" (click)="attchPopupClose()"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div content_div_jump_attc">
+            <div class="upld_img_cont" style="max-width:100%;">
+                <div *ngIf="!imgDisplay" class="data_not_found_msg">
+                    There is no Attachment.  
+                </div>
+                <span *ngIf="imgDisplay" class="upload_span">
+                    <img [src]="imgURL" alt="image">
+                </span> 
+                <span *ngIf="!imgDisplay" class="default_span">
+                    <img src="../../../assets/Images/default_img.png" alt="image">
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

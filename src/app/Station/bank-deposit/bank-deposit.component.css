@@ -1,0 +1,29 @@
+.paymentConfirmation
+{
+    width: 326px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+.form-group label 
+{
+    margin-top: 0px!important;
+}
+#bankdeposit
+{
+    padding-top: 15px;
+}
+.form-horizontal .control-label
+{
+    padding-top:3px!important;
+}
+.form-group 
+{
+    margin-bottom: 18px;
+}
+.mypopup
+{
+    display: block;
+}

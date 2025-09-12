@@ -1,0 +1,47 @@
+<div class="main_heading">
+  <span><h1>DSA Sorting </h1></span>
+  <span class="search_span">
+    <input type="text"  name="search" [(ngModel)] ="filter" placeholder="Search Station" class="form-control" autocomplete="off">
+</span>
+</div>
+<div class="mycard">
+  <div class="main_table_container">
+      <div class="sorting_cont">  
+      <div class="row" style="height:100%;margin-right:0px;">
+          <div class="col-4" [ngClass]="IsStationDisable ? 'ww':'' ">
+              <table class="table  table-striped sorting_table" id="stationtbl">
+                  <thead>
+                      <tr>
+                          <th colspan="3">Station ({{listStations.length}})</th>
+                          <th><button class="" (click)="saveSorting('S');"><i class="fa fa-floppy-o"></i></button></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let itm of listStations | filter : filter">
+                          <td colspan="2">{{itm.StationName}}</td>
+                          <td><input type="number" id="StationSort" name="StationSort"  min="1" [(ngModel)]="itm.StationSort"/> </td>
+                          <td><button (click)="GetDispenser('D', itm.StationId);" [ngClass]="(StationName==itm.StationId)?'ff active_tab':'ff'"><i class="fas fa-chevron-right"></i> </button></td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+          <div class="col-4" [ngClass]="IsDispenserDisable ? 'ww':'' ">
+                  <table class="table  table-striped sorting_table">
+                  <thead>
+                      <tr>
+                          <th colspan="3">Dispenser ({{listDispenser.length}})</th>
+                          <th><button class="" (click)="saveSorting('D');"><i class="fa fa-floppy-o"></i></button></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let itm of listDispenser">
+                          <td colspan="2">{{itm.DispenserName}}</td>
+                          <td> <input type="number"  id="DispenserSort" name="DispenserSort" min="1" [(ngModel)]="itm.DispenserSort"/> </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+  </div>
+</div>

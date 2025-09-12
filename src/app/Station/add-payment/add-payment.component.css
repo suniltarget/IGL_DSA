@@ -1,0 +1,93 @@
+.right_form_div
+{
+    padding:28px 8px 10px 8px;
+}
+.form-group label
+{
+    margin-bottom: 5px;
+    margin-top: 0px!important;
+    padding-top: 0px;
+}
+.form-group 
+{
+    margin-bottom: 13px;
+}
+.popup_container_confirm .trigger_div
+{
+    background-color:white;
+    color:var(--dark_green_clr);
+    padding-top: 16px;
+}
+.mypopup .popup_container_confirm .trigger_div div.mypop_head_right_div .mypop_closebtn_span i
+{
+    color: red;
+}
+.mypop_heading_span
+{
+    margin-left: auto!important;
+    margin-right: auto!important;
+    padding-left: 46px;
+}
+.mypop_heading_span h4
+{
+    color: black;
+    font-size: 17px!important;
+}
+.msg
+{
+    margin-bottom: 20px;
+    margin-top: 17px;
+}
+.msg p
+{
+    text-align: center;
+    font-size: 15px;
+}
+.msg p:first-of-type
+{
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+/* .msg p:last-of-type
+{
+}
+.inp_section
+{
+} */
+.inp_section>div
+{
+    text-align: center;
+    margin-bottom: 12px;
+}
+.inp_section>div:last-of-type
+{
+    margin-top: 18px;
+}
+.inp_section>div:last-of-type button
+{
+    transition-duration:.2s;
+}
+.inp_section>div:last-of-type button:hover
+{
+    box-shadow: 0px 5px 5px rgba(0,0,0,.2);
+    transition-duration:.2s;
+}
+.inp_section>div:last-of-type button:first-child
+{
+    text-align: center;
+    margin-bottom: 15px;
+    background-color:green;
+}
+.inp_section>div:last-of-type button:last-child
+{
+    text-align: center;
+    margin-bottom: 15px;
+    background-color:red;
+    margin-left: 7px;
+}
+.successmsg {
+    text-align: center;
+    color: green;
+    font-size: 15px;
+    margin-bottom: 5px;
+}

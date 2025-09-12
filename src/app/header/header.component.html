@@ -1,0 +1,902 @@
+<header>
+    <div class="row mynavbar" >
+     <div class="logo_div">
+            <a class="logo"><img src="../../assets/Images/logo1.png" /></a> 
+        </div>
+        <div class="st_name_div">
+            <div class="stationname" *ngIf="showHeaderTitle == 'SOP'"><b>Station Name:  </b><span>{{LoginDetails.StationName}}</span></div>
+        </div>
+             <div class="head_right_div">
+                <div class="head_content_div">
+                    <div class="h_content" *ngIf="showHeaderTitle == 'HO'">
+                        <div class="h_c1 margin-right">
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Head Office User : </strong> {{LoginDetails.HeadOffice}}</p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Current Date :  </strong>  {{Cdate}}</p>
+                        </div>
+                        <div class="h_c2 margin-right">
+                            <p style="white-space: nowrap;font-size:11px;"><strong>DSA Date : </strong> {{LoginDetails.ShiftDate}} </p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Password Notification : </strong> 
+                                <a data-toggle="modal" data-target="#PasswordNotification">
+                                    <span style="cursor: pointer;" >{{LoginDetails.NotiCount}}</span>
+                                    <i class="fa fa-bell" aria-hidden="true"></i>
+                                </a>
+                            </p>
+                            <p class="help" (click)="helpsection()">
+                                <a href="javascript:void(0)" title="Help">Help</a>
+                            </p>
+                        </div>
+                    </div>
+                     <div class="h_content" *ngIf="showHeaderTitle == 'FA'">
+                        <div class="h_c1 margin-right">
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Head Office User : </strong> {{LoginDetails.HeadOffice}}</p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Current Date :  </strong>  {{Cdate}}</p>
+                        </div>
+                        <div class="h_c2 margin-right">
+                            <p style="white-space: nowrap;font-size:11px;"><strong>DSA Date : </strong> {{LoginDetails.ShiftDate}} </p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Password Notification : </strong> 
+                                <a data-toggle="modal" data-target="#PasswordNotification">
+                                    <span style="cursor: pointer;" >{{LoginDetails.NotiCount}}</span>
+                                    <i class="fa fa-bell" aria-hidden="true"></i>
+                                </a>
+                            </p>
+                            <p class="help" (click)="helpsection()">
+                                <a href="javascript:void(0)" title="Help">Help</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="h_content" *ngIf="showHeaderTitle == 'JMR'">
+                        <div class="h_c1 margin-right">
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Head Office User : </strong> {{LoginDetails.HeadOffice}}</p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Current Date :  </strong>  {{Cdate}}</p>
+                        </div>
+                        <div class="h_c2 margin-right">
+                            <p style="white-space: nowrap;font-size:11px;"><strong>DSA Date : </strong> {{LoginDetails.ShiftDate}} </p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Password Notification : </strong> 
+                                <a data-toggle="modal" data-target="#PasswordNotification">
+                                    <span style="cursor: pointer;" >{{LoginDetails.NotiCount}}</span>
+                                    <i class="fa fa-bell" aria-hidden="true"></i>
+                                </a>
+                            </p>
+                            <p class="help" (click)="helpsection()">
+                                <a href="javascript:void(0)" title="Help">Help</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="h_content" *ngIf="showHeaderTitle == 'MO'">
+                        <div class="h_c1 margin-right">
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Marketting Office Name:  </strong> {{LoginDetails.MOName}}</p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Contact No. : </strong> {{LoginDetails.ContactNo}}</p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>User : </strong> {{LoginDetails.MOLoginId}}</p>
+                        </div>
+                        <div class="h_c2 margin-right">
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Date : </strong> {{Cdate}} </p>
+                            <p style="white-space: nowrap;font-size:11px;">
+                                <strong> Notification :</strong>
+                                <a data-toggle="modal" data-target="#NotificationMO" (click)="getNotificationdataMO()">
+                                    <span style="cursor: pointer;" >{{LoginDetails.NotiCount}}</span>
+                                    <i class="fa fa-bell" aria-hidden="true"></i>
+                                </a> 
+                            </p>
+                            <p class="help" (click)="helpsection()">
+                                <a href="javascript:void(0)" title="Help">Help</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="h_content" *ngIf="showHeaderTitle == 'CO'">
+                        <div class="h_c1 margin-right">
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Control Office Name:  </strong> {{LoginDetails.COName}}</p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Contact No. : </strong> {{LoginDetails.ContactNo}}</p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>User : </strong> {{LoginDetails.COLoginId}}</p>
+                        </div>
+                        <div class="h_c2 margin-right">
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Date : </strong> {{Cdate}} </p>
+                            <p style="white-space: nowrap;font-size:11px;">
+                                <strong>Notification :</strong>
+                                <a data-toggle="modal" data-target="#NotificationCO" (click)="getNotificationdataCO()">
+                                    <span style="cursor: pointer;" >{{LoginDetails.NotiCount}}</span>
+                                    <i class="fa fa-bell" aria-hidden="true"></i>
+                                </a> 
+                            </p>
+                            <p class="help" (click)="helpsection()">
+                                <a href="javascript:void(0)" title="Help">Help</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="h_content" *ngIf="showHeaderTitle == 'SOP'">
+                        <div class="h_c1 margin-right">
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Station Operator Name:  </strong> {{LoginDetails.SOPName}}</p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Contact No. : </strong> {{LoginDetails.ContactNo}}</p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>User : </strong> {{LoginDetails.SOPLoginId}}</p>
+                        </div>
+                        <div class="h_c2 margin-right">
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Date : </strong> {{Cdate}} </p>
+                            <p style="white-space: nowrap;font-size:11px;">
+                                <strong>Notification :</strong>
+                                <a data-toggle="modal" data-target="#NotificationSOP" (click)="getNotificationdataSOP()">
+                                    <span style="cursor: pointer;" >{{LoginDetails.NotiCount}}</span>
+                                    <i class="fa fa-bell" aria-hidden="true"></i>
+                                </a> 
+                            </p>
+                            <p class="help" (click)="helpsection()">
+                                <a href="javascript:void(0)" title="Help">Help</a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="h_content" *ngIf="showHeaderTitle == 'SO'">
+                        <div class="h_c1 line-height">
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Marketting Officer Name:  </strong> {{LoginDetails.MOName}}</p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Station Name: </strong>  {{LoginDetails.StationName}}</p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Station Code: </strong>  {{LoginDetails.StationCode}}</p>
+                            <p class="help" (click)="ViewProfile()">
+                                <a href="javascript:void(0)" data-toggle="modal" data-target="#viewModal" title="Profile">View Profile</a>
+                            </p>
+                        </div>
+                        <div class="h_c2 line-height">
+                            <p style="white-space: nowrap;font-size:11px;"><strong>SAP Code: </strong>{{LoginDetails.SapCode}}</p>
+                            <p style="white-space: nowrap;font-size:11px;"><strong>Date :</strong> {{Cdate}} 
+                                <button (click)="RequestPassword()" type="button" class="btn-link active" data-color="link">
+                                    <i class="state-icon glyphicon glyphicon-check"></i>Reset Password
+                                </button>
+                            </p>
+                            <div>
+                           <p style="display: inline;"class="help" (click)="helpsection()">
+                                <a href="javascript:void(0)" title="Help">Help</a>
+                           </p>
+                           <p style="display: inline;"class="help" (click)="faq()">
+                                 <a href="javascript:void(0)" data-toggle="modal" data-target="#FAQModel" title="Ask">
+                                   <i class="glyphicon glyphicon-question-sign"></i> FAQ</a>
+                           </p>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="issue_log_div">
+                        <button class="issue_btn" id="issue_btn" title="Register Your Issue" (click)="issuePopOpen()">
+                            <img id="issue_img" [src]="issuepath" (mouseover)="pathChange()" (mouseleave)="pathChange1()" alt="Issue Image">
+                        </button>
+                    </div>
+                    <div class="h_logout">
+                        <div class="h_c3 logout_div">
+                            <button (click)="logoff()" type="button" title="Logout" data-color="link">
+                                <i class="fas fa-power-off"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div id="mypopup_passupdate" class="mypopup">
+        <div class="popup_container popup_container_upd_pass">
+            <div class="trigger_div">
+                <span class="mypop_heading_span">
+                    <h4>Update Password</h4>
+                </span>
+                <div class="mypop_head_right_div">
+                    <span class="mypop_savebtn_sapn"></span>
+                    <span class="mypop_closebtn_span">
+                        <i class="fas fa-times" id="pass_close"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="content_div content_div_upd_pass">
+                <div class="form-group">
+                    <input class="form-control " type="text" placeholder="OTP" [(ngModel)] = "StationOTP">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="password" placeholder="New Password" [(ngModel)] = "StationPassword">
+                </div>
+                <div class="form-group">
+                    <input class="form-control " type="password" placeholder="Confirm Password" [(ngModel)] = "StationCPassword">
+                </div>
+                <div class="">
+                    <button type="button" class="mybtn" (click)="UpdatePassword()"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="viewModal" class="modal fade mypopup" *ngIf="SMList.length > 0">
+        <div class="popup_container popup_container_offc_ctr">
+            <div class="trigger_div">
+                <span class="mypop_heading_span">
+                    <h4>Profile Details</h4>
+                </span>
+                <div class="mypop_head_right_div">
+                    <span class="mypop_closebtn_span" title="Close">
+                        <i class="fas fa-times" data-dismiss="modal"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="content_div profile_info_div">
+                <div class="row">
+                    <div class="col-sm-12 view_details">
+                        <div class="row">
+                            <div class="col-sm-3"><strong>Station Name :</strong></div>
+                            <div class="col-sm-9"><p>{{LoginDetails.StationName}}</p></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3"><strong>EmailId :</strong></div>
+                            <div class="col-sm-9"><p>{{LoginDetails.EmailId}}</p></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3"><strong>Address :</strong></div>
+                            <div class="col-sm-9"><p>{{LoginDetails.StationAddress}}</p></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3"><strong>Contact :</strong></div>
+                            <div class="col-sm-9"><p>91+ {{LoginDetails.ContactNo}}</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="col-sm-5">
+                        Station Operator Name
+                    </div>
+                    <div class="col-sm-7">
+                        {{SMList[0].Name === 'undefined' ? '' : SMList[0].Name}}
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="col-sm-5">
+                        Contact No. 
+                    </div>
+                    <div class="col-sm-7">
+                        {{SMList[0].ContactNo === 'undefined' ? '' : SMList[0].ContactNo}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        Station Manager 1
+                    </div>
+                    <div class="col-sm-7">
+                        {{SMList[0].ShiftAManager === 'undefined' ? '' : SMList[0].ShiftAManager}} 
+                    </div>
+                </div >
+                <div class="row">
+                    <div class="col-sm-5">
+                        Contact No. 
+                    </div>
+                    <div class="col-sm-7">
+                        {{SMList[0].ShiftAManagerContact === 'undefined' ? '' : SMList[0].ShiftAManagerContact}}
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="col-sm-5">
+                        Station Manager 2
+                    </div>
+                    <div class="col-sm-7">
+                        {{SMList[0].ShiftBManager === 'undefined' ? '' : SMList[0].ShiftBManager}}
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="col-sm-5">
+                        Contact No. 
+                    </div>
+                    <div class="col-sm-7">
+                        {{SMList[0].ShiftBManagerContact === 'undefined' ? '' : SMList[0].ShiftBManagerContact}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        Station Manager 3
+                    </div>
+                    <div class="col-sm-7">
+                        {{SMList[0].ShiftCManager === 'undefined' ? '' : SMList[0].ShiftCManager}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        Contact No. 
+                    </div>
+                    <div class="col-sm-7">
+                        {{SMList[0].ShiftCManagerContact === 'undefined' ? '' : SMList[0].ShiftCManagerContact}}
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="col-sm-5">
+                        Station Manager 4
+                    </div>
+                    <div class="col-sm-7">
+                        {{SMList[0].ShiftDManager === 'undefined' ? '' : SMList[0].ShiftDManager}}
+                    </div>
+                </div>
+                <div class="row" >
+                    <div class="col-sm-5">
+                        Contact No.
+                    </div>
+                    <div class="col-sm-7">
+                        {{SMList[0].ShiftDManagerContact === 'undefined' ? '' : SMList[0].ShiftDManagerContact}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div id="FAQModel" class="modal fade mypopup" *ngIf="SMList.length > 0">
+        <div class="popup_container popup_container_offc_ctr">
+            <div class="trigger_div">
+                <span class="mypop_heading_span">
+                    <h4>Questions To Ask</h4>
+                </span>
+                <div class="mypop_head_right_div">
+                    <span class="mypop_closebtn_span" title="Close">
+                        <i class="fas fa-times" data-dismiss="modal"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="content_div profile_info_div">
+                <div class="row">
+                    <div  class="col-sm-12 view_details">
+                        <div class="row">
+                            <div class="col-sm-12"><span style="color:red">*</span><strong>How to do Entry In Dispenser(Shift-Wise)</strong></div><br><br>
+                            <div class="col-sm-6" ><p id="dispensershiftwise" (click)="FAQDocument($event,'dispensershiftwise')"><a href="javascript:void(0)">View Document</a></p></div>
+                            <div class="col-sm-6"><p  id="disshiftvideo" class="fas fa-video" (click)="FAQView($event,'disshiftvideo')" title="View Video"><a href="javascript:void(0)"></a></p></div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12"><span style="color:red">*</span><strong>How to do Entry In Dispenser(Without Shift-Wise)</strong></div><br><br>
+                            <div class="col-sm-6" ><p id="dispensernoshiftwise" (click)="FAQDocument($event,'dispensernoshiftwise')"><a href="javascript:void(0)">View Document</a></p></div>
+                            <div class="col-sm-6"><p  id="disnoshiftvideo" class="fas fa-video" (click)="FAQView($event,'disnoshiftvideo')" title="View Video"><a href="javascript:void(0)"></a></p></div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12"><span style="color:red">*</span><strong>How to do Entry In MeterSkid</strong></div><br><br>
+                            <div class="col-sm-6" ><p id="MeterSkid" (click)="FAQDocument($event,'MeterSkid')"><a href="javascript:void(0)">View Document</a></p></div>
+                            <div class="col-sm-6"><p  id="meterskidvideo" class="fas fa-video" (click)="FAQView($event,'meterskidvideo')" title="View Video"><a href="javascript:void(0)"></a></p></div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12"><span style="color:red">*</span><strong>How to do Entry In Compressor Package</strong></div><br><br>
+                            <div class="col-sm-6" ><p id="Compressor" (click)="FAQDocument($event,'Compressor')"><a href="javascript:void(0)">View Document</a></p></div>
+                            <div class="col-sm-6"><p  id="Compressorvideo" class="fas fa-video" (click)="FAQView($event,'Compressorvideo')" title="View Video"><a href="javascript:void(0)"></a></p></div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12"><span style="color:red">*</span><strong>How to do Entry In LCV</strong></div><br><br>
+                            <div class="col-sm-6" ><p id="LCV" (click)="FAQDocument($event,'LCV')"><a href="javascript:void(0)">View Document</a></p></div>
+                            <div class="col-sm-6"><p  id="LCVvideo" class="fas fa-video" (click)="FAQView($event,'LCVvideo')" title="View Video"><a href="javascript:void(0)"></a></p></div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="col-sm-12"><span style="color:red">*</span><strong>How to do Entry In Gasgenset</strong></div><br><br>
+                            <div class="col-sm-6" ><p id="Gasgenset" (click)="FAQDocument($event,'Gasgenset')"><a href="javascript:void(0)">View Document</a></p></div>
+                            <div class="col-sm-6"><p  id="Gasgensetvideo" class="fas fa-video" (click)="FAQView($event,'Gasgensetvideo')" title="View Video"><a href="javascript:void(0)"></a></p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>          
+    <div class="modal fade mypopup" id="NotificationCO" role="dialog">
+        <div class="popup_container popup_container_notification_detail">
+            <div class="trigger_div main_heading">
+                <span class="mypop_heading_span">
+                    <h4>Notification Detail</h4>
+                </span>
+                <span class="search_span">
+                    <input type="text"  name="searchCO" [(ngModel)] ="filter" placeholder="Search" autocomplete="off" class="form-control">
+                </span>
+                <div class="mypop_head_right_div" style="margin-left:auto;">
+                    <span class="mypop_closebtn_span" title="Close" style="margin-right:0px;">
+                        <a title="Close" class="btn closer" data-dismiss="modal"> 
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class="content_div ">
+                <ul class="nav nav-tabs" >
+                    <li class="not_li active"><a (click)="getValueCO('PendingEntry')"  data-toggle="tab" href="#pendingEntryCO">Pending Entry</a></li>
+                    <li class="not_li" ><a (click)="getValueCO('JumpEntry')" data-toggle="tab" href="#jumpEntryCO">Jump Entry</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div  id="pendingEntryCO" class="tab-pane fade in active" >
+                        <div class="vertScrollTbl">
+                            <div class="divTableHeader">
+                                <div class="divTableRow">
+                                    <div class="divTableCell" >
+                                        Sr No.
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationCode')">
+                                        StationCode <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationName')">
+                                        StationName <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'Manager' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Manager')">
+                                        Manager <i [className]="sortingColumn == 'Manager' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'ManagerContact' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('ManagerContact')">
+                                        Contact <i [className]="sortingColumn == 'ManagerContact' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>                   
+                                    <div [ngClass]="sortingColumn == 'Remark' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Remark')">
+                                        Remark <i [className]="sortingColumn == 'Remark' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divTableBody">
+                                <div class="divTableRow" *ngFor="let itemPending of NotificationDetailsCOPending |  filter : filter  | orderBy: key: reverse ; let i = index">
+                                    <div class="divTableCell">{{i+1}}</div>
+                                    <div class="divTableCell">{{itemPending.StationCode}} </div>
+                                    <div class="divTableCell">{{itemPending.StationName}} </div>
+                                    <div class="divTableCell">{{itemPending.Manager}} </div>
+                                    <div class="divTableCell">{{itemPending.ManagerContact}}</div>
+                                    <div class="divTableCell">{{itemPending.Remark}}</div>                                      
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="jumpEntryCO"  class="tab-pane fade">
+                        <div class="vertScrollTbl">
+                            <div class="divTableHeader">
+                                <div class="divTableRow">
+                                    <div class="divTableCell" >
+                                        Sr No.
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationCode')">
+                                        Station Code <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationName')">
+                                        Station Name <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'Equipment' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Equipment')">
+                                        Equipment <i [className]="sortingColumn == 'Equipment' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'Type' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Type')">
+                                        Type <i [className]="sortingColumn == 'Type' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'Manager' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Manager')">
+                                        Manager <i [className]="sortingColumn == 'Manager' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'ContactNo' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('ContactNo')">
+                                        ContactNo <i [className]="sortingColumn == 'ContactNo' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'Remark' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Remark')">
+                                        Remark <i [className]="sortingColumn == 'Remark' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divTableBody">
+                                <div class="divTableRow" *ngFor="let item of NotificationDetailsCOJump |  filter : filter  | orderBy: key: reverse ; let i = index">
+                                    <div class="divTableCell">
+                                        {{i+1}}
+                                    </div>
+                                    <div class="divTableCell">
+                                        {{item.StationCode}}
+                                    </div>
+                                    <div class="divTableCell"> 
+                                        {{item.StationName}}
+                                    </div>
+                                    <div class="divTableCell"> 
+                                        {{item.Equipment}}
+                                    </div>
+                                    <div class="divTableCell"> 
+                                        {{item.Type}}
+                                    </div>
+                                    <div class="divTableCell"> 
+                                        {{item.Manager}}
+                                     </div>
+                                    <div class="divTableCell">
+                                        {{item.ContactNo}}
+                                    </div>
+                                    <div class="divTableCell">
+                                        {{item.Remark}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade mypopup" id="NotificationMO" role="dialog">
+        <div class="popup_container popup_container_notification_detail">
+            <div class="trigger_div main_heading">
+                <span class="mypop_heading_span">
+                    <h4>Notification Detail </h4>
+                </span>
+                <span class="search_span">
+                    <input type="text"  name="searchMO" [(ngModel)] ="filter" placeholder="Search" autocomplete="off" class="form-control">
+                </span>
+                <div class="mypop_head_right_div" style="margin-left:auto;">
+                    <span class="mypop_closebtn_span" title="Close" style="margin-right:0px;">
+                        <a title="Close" class="btn closer" data-dismiss="modal"> 
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class="content_div ">
+                <ul class="nav nav-tabs">
+                    <li class="not_li active"><a (click)="getValueMO('PendingEntry')" data-toggle="tab" href="#pendingEntry">Pending Entry</a></li>
+                    <li class="not_li"><a (click)="getValueMO('JumpEntry')" data-toggle="tab" href="#jumpEntry">Jump Entry</a></li>
+                </ul>
+                  <div class="tab-content">
+                    <div id="pendingEntry" class="tab-pane fade in active">
+                        <div class="vertScrollTbl">
+                            <div class="divTableHeader">
+                                <div class="divTableRow">
+                                    <div class="divTableCell" >
+                                        Sr No.
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationCode')">
+                                        Station Code <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationName')">
+                                        Station Name <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'Shift' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Shift')">
+                                        Shift <i [className]="sortingColumn == 'Shift' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'Manager' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Manager')">
+                                        Manager <i [className]="sortingColumn == 'Manager' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'ContactNo' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('ContactNo')">
+                                        ContactNo <i [className]="sortingColumn == 'ContactNo' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'EntryDate' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('EntryDate')">
+                                        Entry Date <i [className]="sortingColumn == 'EntryDate' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'Remark' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Remark')">
+                                        Remark <i [className]="sortingColumn == 'Remark' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divTableBody">
+                                <div class="divTableRow" *ngFor="let item of NotificationDetailsMOPending |  filter : filter  | orderBy: key: reverse; let i = index">
+                                    <div class="divTableCell"> {{i+1}}  </div>
+                                    <div class="divTableCell"> {{item.StationCode}} </div>
+                                    <div class="divTableCell"> {{item.StationName}} </div>
+                                    <div class="divTableCell"> 
+                                        {{item.ShiftName}}
+                                    </div>
+                                    <div class="divTableCell"> 
+                                       {{item.Manager}}
+                                    </div>
+                                    <div class="divTableCell"> 
+                                        {{item.ContactNo}}
+                                     </div>
+                                    <div class="divTableCell">
+                                        {{item.EntryDate}}
+                                    </div>
+                                    <div class="divTableCell">
+                                        {{item.Remark}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="jumpEntry" class="tab-pane fade">
+                        <div class="vertScrollTbl">
+                            <div class="divTableHeader">
+                                <div class="divTableRow" >
+                                    <div class="divTableCell" >
+                                        Sr No.
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationCode')">
+                                        StationCode <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationName')">
+                                        StationName <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'DispenserName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Shift')">
+                                        DispenserName <i [className]="sortingColumn == 'DispenserName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'DispanserBeforeJump' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('DispanserBeforeJump')">
+                                        DispanserBeforeJump <i [className]="sortingColumn == 'DispanserBeforeJump' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'DispanserAfterJump' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('DispanserAfterJump')">
+                                        DispanserAfterJump <i [className]="sortingColumn == 'DispanserAfterJump' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'DispenserCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('DispenserCode')">
+                                        DispenserCode <i [className]="sortingColumn == 'DispenserCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'DispanserSide' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('DispanserSide')">
+                                        DispanserSide <i [className]="sortingColumn == 'DispanserSide' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divTableBody">
+                                <div class="divTableRow" *ngFor="let item of NotificationDetailsMOJump |  filter : filter  | orderBy: key: reverse ; let i = index">
+                                    <div class="divTableCell">{{i+1}}</div>
+                                    <div class="divTableCell">{{item.StationCode}} </div>
+                                    <div class="divTableCell">{{item.StationName}} </div>
+                                    <div class="divTableCell">{{item.DispenserName}} </div>
+                                    <div class="divTableCell">{{item.DispanserBeforeJump}}</div>
+                                    <div class="divTableCell">{{item.DispanserAfterJump}}</div> 
+                                    <div class="divTableCell">{{item.DispenserCode}}</div>
+                                    <div class="divTableCell">{{item.DispanserSide}}</div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade mypopup" id="NotificationSOP" role="dialog">
+        <div class="popup_container popup_container_notification_detail">
+            <div class="trigger_div main_heading">
+                <span class="mypop_heading_span">
+                    <h4>Notification Detail</h4>
+                </span>
+                <span class="search_span">
+                    <input autocomplete="off" class="form-control" placeholder="Search" type="text" >
+                </span>
+                <div class="mypop_head_right_div" style="margin-left:auto;">
+                    <span class="mypop_closebtn_span" title="Close" style="margin-right:0px;">
+                        <a title="Close" class="btn closer" data-dismiss="modal"> 
+                            <i class="fas fa-times"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class="content_div ">
+                <div class="vertScrollTbl">
+                        <div class="divTableHeader">
+                            <div class="divTableRow">
+                                <div class="divTableCell" >
+                                    Sr No.
+                                </div>
+                                <div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationCode')">
+                                    Station Code <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                                <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationName')">
+                                    Station Name <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                                <div [ngClass]="sortingColumn == 'Shift' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Shift')">
+                                    Shift <i [className]="sortingColumn == 'Shift' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                                <div [ngClass]="sortingColumn == 'Manager' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Manager')">
+                                    Manager <i [className]="sortingColumn == 'Manager' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                                <div [ngClass]="sortingColumn == 'ContactNo' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('ContactNo')">
+                                    ContactNo <i [className]="sortingColumn == 'ContactNo' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                                <div [ngClass]="sortingColumn == 'EntryDate' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('EntryDate')">
+                                    Entry Date <i [className]="sortingColumn == 'EntryDate' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                                <div [ngClass]="sortingColumn == 'Remark' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Remark')">
+                                    Remark <i [className]="sortingColumn == 'Remark' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="divTableBody">
+                            <div class="divTableRow" *ngFor="let item of NotificationDetailsSOP | orderBy: key : reverse | filter:filter; let i = index">
+                                <div class="divTableCell">
+                                    {{i+1}}
+                                </div>
+                                <div class="divTableCell">
+                                    {{item.StationCode}}
+                                </div>
+                                <div class="divTableCell"> 
+                                    {{item.StationName}}
+                                </div>
+                                <div class="divTableCell"> 
+                                    {{item.ShiftName}}
+                                </div>
+                                <div class="divTableCell"> 
+                                   {{item.Manager}}
+                                </div>
+                                <div class="divTableCell"> 
+                                    {{item.ContactNo}}
+                                 </div>
+                                <div class="divTableCell">
+                                    {{item.EntryDate}}
+                                </div>
+                                <div class="divTableCell">
+                                    {{item.Remark}}
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade mypopup" style="z-index: 5100!important;" id="PasswordNotification" role="dialog">
+            <div class="popup_container popup_container_password_notification">
+                <div class="trigger_div main_heading">
+                    <span class="mypop_heading_span">
+                        <h4>Notification Details</h4>
+                    </span>
+                    <span class="search_span">
+                        <input  autocomplete="off" class="form-control" [(ngModel)] ="filter" name="search" placeholder="Search" type="text" >
+                    </span>
+                    <div class="mypop_head_right_div" style="margin-left: auto;">
+                        <span class="mypop_closebtn_span" title="Close">
+                            <i class="fas fa-times" data-dismiss="modal"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="content_div">
+                    <div class="main_table_container">
+                        <div class="vertScrollTbl">
+                            <div class="divTableHeader">
+                                <div class="divTableRow">
+                                    <div class="divTableCell">
+                                        Sr No.
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationCode')">
+                                        Station Code <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationName')">
+                                        Station Name <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'RegionName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('RegionName')">
+                                        Region Name <i [className]="sortingColumn == 'RegionName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'CompanyName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('CompanyName')">
+                                        Company Name <i [className]="sortingColumn == 'CompanyName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div [ngClass]="sortingColumn == 'StationTypeName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('StationTypeName')">
+                                        Station Type <i [className]="sortingColumn == 'StationTypeName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                    </div>
+                                    <div class="divTableCell">
+                                        Modify
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="divTableBody">
+                                <div class="divTableRow" *ngFor="let item of NotificationDetails | orderBy: key : reverse | filter:filter; let i = index">
+                                    <div class="divTableCell">
+                                        {{i+1}}
+                                    </div>
+                                    <div class="divTableCell">
+                                        {{item.StationCode}}
+                                    </div>
+                                    <div class="divTableCell">
+                                        {{item.StationName}}
+                                    </div>
+                                    <div class="divTableCell">
+                                        {{item.RegionName}}
+                                    </div>
+                                    <div class="divTableCell">
+                                        {{item.CompanyName}}
+                                    </div>
+                                    <div class="divTableCell">
+                                        {{item.StationTypeName}}
+                                    </div>
+                                    <div class="divTableCell" style="text-align: center;padding: 2px 8px;">
+                                        <button class="mybtn" style="min-width: auto;" (click)="show_mypopup(item.NotificationId)">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <div class="mypopup" style="display: block!important;z-index: 200;" *ngIf="issuePopup">
+        <div class="popup_container popup_container_issue_log">
+            <div class="trigger_div">
+                <span class="mypop_heading_span">
+                    <h4>Issue Log</h4>
+                </span>
+                <div class="mypop_head_right_div">
+                    <span class="mypop_savebtn_sapn"></span>
+                    <span class="mypop_closebtn_span">
+                        <i class="fas fa-times" (click)="issuePopClose()" id="pass_close"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="content_div content_div_issue_attach_pop">
+                <form class="issue_form">
+                    <div class="form-group">
+                        <label>Issue <span class="star">*</span></label>
+                        <input type="text" class="form-control" #heading>
+                    </div>
+                    <div class="form-group">
+                        <label>IssueDate <span class="star">*</span></label>
+                        <ng-datepicker class="exp_date" name="IssueDate" [(ngModel)]="IssueDate" [options]="options" (ngModelChange)="OnDateChnage($event)" ></ng-datepicker>
+                    </div>
+                    <div class="form-group">
+                        <label>Detail <span class="star">*</span></label>
+                        <textarea class="form-control" #details></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Attachment <span class="star"></span></label>
+                        <input type="file" name="issuefiles" id="issuefiles" (change)="fileupload($event.target.files, $event)" class="form-control issue_file"/>
+                    </div>
+                    <div class="">
+                        <button type="button" class="mybtn" (click)="InsertIssueLog(heading.value,details.value)">Submit</button>
+                    </div>
+                </form>
+                <div class="main_table_container table_cont2">
+                    <div class="vertScrollTbl issue_table">
+                        <div class="divTableHeader">
+                            <div class="divTableRow">
+                                <div class="divTableCell issue_sr_col">
+                                    Sr. No.
+                                </div>
+                                <div class="issue_issue_col" [ngClass]="sortingColumn == 'ReferenceNo' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('ReferenceNo')">
+                                    Reference No <i [className]="sortingColumn == 'ReferenceNo' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                                <div class="issue_issue_col" [ngClass]="sortingColumn == 'RequesterID' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('RequesterID')">
+                                    Requester ID <i [className]="sortingColumn == 'RequesterID' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                                <div class="issue_issue_col" [ngClass]="sortingColumn == 'Issue' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('IssueDate')">
+                                    IssueDate <i [className]="sortingColumn == 'IssueDate' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                                <div class="issue_issue_col" [ngClass]="sortingColumn == 'Issue' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Issue')">
+                                    Issue <i [className]="sortingColumn == 'Issue' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                                <div [ngClass]="sortingColumn == 'Detail' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Detail')">
+                                    Detail <i [className]="sortingColumn == 'Detail' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                                <div [ngClass]="sortingColumn == 'RemarksByDeveloper' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('RemarksByDeveloper')">
+                                    Remarks By Developer <i [className]="sortingColumn == 'RemarksByDeveloper' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                                <div [ngClass]="sortingColumn == 'Status' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('Status')">
+                                    Status <i [className]="sortingColumn == 'Status' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                                <div class="divTableCell">
+                                    Attachment 
+                                </div>
+                                <div class="divTableCell text_center">
+                                    Action
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="divTableBody">
+                            <div class="divTableRow" *ngFor="let itm of listIssueLog | orderBy: key: reverse | filter:filter let i = index">
+                                <div class="divTableCell">{{i+1}}</div>
+                                <div class="divTableCell">{{itm.IssueReferenceNo}}</div>
+                                <div class="divTableCell">{{itm.RequesterID}}</div>
+                                <div class="divTableCell">{{itm.IssueDate}}</div>
+                                <div class="divTableCell">{{itm.IssueHeading}}</div>
+                                <div class="divTableCell ">{{itm.IssueDetails}}</div>
+                                <div class="divTableCell ">{{itm.RemarksByDeveloper}}</div>
+                                <div class="divTableCell ">{{itm.CurrentStatus}}</div>
+                                <div class="divTableCell btn_cell">
+                                    <a href="javascript:void(0)" data-toggle="modal" data-target="#myModalIssueAtt" (click)="viewAttachment(itm.IssueReferenceNo)">View</a>
+                                </div>
+                                <div class="divTableCell text_center"><button type="button" class="btn-xs btn-danger" (click)="DeleteIssueLog(itm.IssueReferenceNo)"><i class="fa fa-trash" aria-hidden="true" ></i></button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div id="myModalIssueAtt" class="modal fade">
+    <div class="mypopup" style="display: block!important;">
+        <div class="popup_container popup_container_issue_logAt">
+            <div class="trigger_div">
+                <span class="mypop_heading_span">
+                    <h4>Issue Log Attachment</h4>
+                </span>
+                <div class="mypop_head_right_div">
+                    <span class="mypop_savebtn_sapn"></span>
+                    <span class="mypop_closebtn_span">
+                        <i class="fas fa-times" data-dismiss="modal"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="content_div content_div_issue_attach">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="issue_img_cont">
+                            <div class="upld_img_cont" style="max-width:100%;">
+                                <div *ngIf="!imgDisplay" class="data_not_found_msg">
+                                     There is no Attachment.  
+                                </div>
+                                <span *ngIf="imgDisplay" class="upload_span">
+                                    <img [src]="imgURL" alt="image">
+                                </span> 
+                                <span *ngIf="!imgDisplay" class="default_span">
+                                    <img src="../../../assets/Images/default_img.png" alt="image">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div> 

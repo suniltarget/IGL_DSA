@@ -1,0 +1,129 @@
+.mypopup
+{
+    display: block;
+}
+.popup_container_entry_threshhold
+{
+    width:530px;
+}
+.main_table_container 
+{
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.vertScrollTbl 
+{
+    width: auto!important;
+}
+.issue_btn
+{
+    background: transparent;
+    color: var(--black_clr);
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 46px;
+    height: 46px;
+    margin-right: 15px;
+    border: 2px solid var(--black_clr);
+    border-radius: 9px;
+}
+.issue_btn:hover
+{
+    background-color:var(--yellow_clr);
+}
+@media (max-width: 1500px)
+{
+    .issue_btn 
+    {
+        width: 41px;
+        height: 41px;
+        font-size: 25px;
+    }
+}
+.popup_container_issue_log
+{
+    width:750px;
+}
+.issue_table
+{
+    width:auto!important;
+    min-width:100%!important;
+}
+.issue_table .issue_sr_col
+{
+    width:60px;
+}
+.issue_table .issue_issue_col
+{
+    width:200px;
+}
+.issue_table .ref__col
+{
+    width:100px !important;
+}
+.issue_form
+{
+    width:400px;
+    margin-bottom: 20px;
+}
+.issue_file
+{
+    padding-left: 0px;
+    border: 1px solid #ddd;
+    height: 30px!important;
+    transform: scale(1,1)!important;
+}
+.content_div_issue_attach
+{
+    min-height:400px!important;
+    max-height:50px;
+}
+.issue_img_cont
+{
+    text-align: center;
+}
+.issue_img_cont img
+{
+    width:100%;
+}
+.divTableCell.btn_cell a
+{
+    padding-left:7px;
+    padding-right:7px;
+}
+.divTableBody > .divTableRow:hover .divTableCell.btn_cell a
+{
+    border: 1px solid white;
+    text-decoration: none;
+    color: white;
+    border-radius: 2px;
+}
+.listFixed{
+    width: 300px;
+    max-width: 300px;
+    overflow-wrap: break-word;
+    white-space: break-spaces;
+}
+.textareafixed{
+    width: 270px;
+    max-width: 270px; 
+}
+.ddFixed{
+max-width: 75px;
+}   
+.issue_table .Status_issue_col
+{
+    width:360px !important;
+}
+.mypopup .popup_container {
+    width: 1300px !important;
+    margin: 80px auto 20px auto;
+    border-left: 3px solid #045a33;
+    border-left: 3px solid var(--dark_green_clr);
+}
+.content_div
+{
+    width: 1300px !important;
+}

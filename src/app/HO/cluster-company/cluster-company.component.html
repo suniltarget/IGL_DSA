@@ -1,0 +1,76 @@
+<div class="main_heading">
+	<span class="heading_span"><h1>  Cluster Company Master</h1>
+	</span>
+</div>
+<div class="mycard">
+	<form class="stn_form">
+		<div class="form_grp_row">
+			<div class="left_label_cont">
+				<label>Company Name <span class="star">*</span></label>
+			</div>
+			<div class="right_input_cont">
+				<div class="for_input">
+					<div class="only_input date_inuput">
+						<input type="text" [value]="CompanyName" (input)="CompanyName=$event.target.value" class="form-control"  placeholder="Company Name">
+					</div>
+				</div>  
+			</div>
+		</div>
+		<div class="form_grp_row">
+			<div class="left_label_cont">
+				<label>SAP Code <span class="star"></span></label>
+			</div>
+			<div class="right_input_cont">
+				<div class="for_input">
+					<div class="only_input date_inuput">
+						<input type="text" [value]="SAPCode" (input)="SAPCode=$event.target.value" class="form-control"  placeholder="SAP Code">
+					</div>
+				</div>  
+			</div>
+		</div>
+		<div class="row form-group">
+			<label for="Status" class="col-4 control-label">Status</label>
+			<div class="col-8">
+				<div class="toggle-pnl">
+					<input class="tgl tgl-ios ng-pristine ng-untouched ng-valid ng-not-empty" id="InvstUnMap_66" type="checkbox" name = "Status" [(ngModel)] = "Status">
+					<label class="tgl-btn" for="InvstUnMap_66"></label>
+				</div>
+			</div>
+		</div>
+ 	<div class="form_grp_row">
+			<div class="left_label_cont"></div>
+			<div class="right_input_cont">
+				<div class="for_input">
+					<div class="only_button">
+						<button class="mybtn" (click)="OnSubmit();">Save</button>
+					</div>
+				</div>  
+			</div>
+		</div>
+	</form>
+	<div class="main_table_container">
+	<div class="vertScrollTbl">
+		<div class="divTableHeader">
+			<div class="divTableRow">
+				<div class="divTableCell">Sr No.</div>
+				<div class="divTableCell">Company Name</div>
+				<div class="divTableCell">SAP Code</div>
+				<div class="divTableCell">Status</div>
+				<div class="divTableCell" style="width:150px;text-align:center;">Action</div>
+			</div>
+		</div>
+		<div class="divTableBody">
+			<div class="divTableRow" *ngFor = "let itm of CompanyClusterList, let i = index">
+				<div class="divTableCell">{{i+1}}</div>
+				<div class="divTableCell">{{itm.name}}</div>
+				<div class="divTableCell">{{itm.SAPCode}}</div>
+				<div class="divTableCell">{{itm.Status}}</div>
+  			<div class="divTableCell" >
+					<button type="button" class="btn btn-xs btn-success width_50" (click) = "UpdateCompanyCluster(itm.id, itm)">Edit</button>
+					<button type="button" class="btn btn-xs btn-danger width_50" (click) ="DeleteCompanyCluster(itm.id, itm)">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</div>

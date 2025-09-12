@@ -1,0 +1,140 @@
+<div class="main_heading">
+    <span class="heading_span"><h1>DPR Other Attachments</h1></span>
+</div>
+<div class="mycard">
+    <div style="height:70px;margin-bottom: 3px;">
+        <div class="row">
+          <div class="col-sm-3" style="width:auto;">
+            <div class="input-group">
+              <label class="date_label">From</label>
+              <ng-datepicker [(ngModel)]="DateFrom" [options]="options"  (ngModelChange)="OnDateChnageFrom($event)"></ng-datepicker>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="input-group">
+              <label class="date_label">To</label>
+              <ng-datepicker [(ngModel)]="DateTo" [options]="options"  (ngModelChange)="OnDateChnageTo($event)"></ng-datepicker> 
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="main_table_container" style="height:calc(100% - 75px);">
+        <div class="vertScrollTbl">
+            <div class="divTableHeader">
+                <div class="divTableRow">
+                    <div class="divTableCell">
+                        Sr.No
+                    </div>
+                    <div [ngClass]="sortingColumn == 'name' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('name')">
+                        Attachment For <i [className]="sortingColumn == 'name' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'EntryDate' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('EntryDate')">
+                        Entry Date <i [className]="sortingColumn == 'EntryDate' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'CertificateType' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('CertificateType')">
+                        Type <i [className]="sortingColumn == 'CertificateType' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div class="divTableCell">
+                       Jump Attachment
+                    </div>
+                    <div class="divTableCell">
+                      Jump Certificate
+                     </div>
+                     <div class="divTableCell text_center">
+                        Approved By Instrumental <i [className]="sortingColumn == 'Instrumental' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div class="divTableCell text_center">
+                        Approved By ONM <i [className]="sortingColumn == 'ONM' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div class="divTableCell text_center">
+                        Approved By AMO <i [className]="sortingColumn == 'MO' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div *ngFor="let itm of AttachmentData | filter : filter | orderBy: key : reverse;  let i = index" class="divTableRow">
+                    <div class="divTableCell">{{i+1}}</div>
+                    <div class="divTableCell">{{itm.name}}</div>
+                    <div class="divTableCell">{{itm.EntryDate}}</div>
+                    <div class="divTableCell">{{itm.CertificateType}}</div>
+                    <div class="divTableCell btn_cell">
+                        <button *ngIf="itm.CertificatePath == '' " data-target="#UploadImage" data-toggle="modal" (click)="openPopup(itm);">Upload Attachement</button>
+                        <button *ngIf="itm.CertificatePath != '' " data-target="#viewImage" data-toggle="modal" (click)="showCertificates(itm)" >View Attachement</button>
+                    </div>
+                    <div class="divTableCell btn_cell">
+                        <button *ngIf="itm.IsApprovedByInstrumental == 1" (click)="GenerateJumpCertificate(itm);">Download</button>
+                    </div>
+                    <div class="divTableCell text_center" >
+                        <i class="fas fa-check mycheck"  *ngIf="itm.IsApprovedByInstrumental == 1"></i> 
+                        <i class="fas fa-times myclose" *ngIf="itm.IsApprovedByInstrumental==2"></i> 
+                        <i class="fas fa-minus myminus" *ngIf="itm.IsApprovedByInstrumental == 0"></i>
+                    </div>
+                    <div class="divTableCell text_center"  >
+                        <i class="fas fa-check mycheck" *ngIf="itm.IsApprovedByONM == 1"></i>  
+                        <i class="fas fa-times myclose" *ngIf="itm.IsApprovedByONM==2"></i> 
+                        <i class="fas fa-minus myminus" *ngIf="itm.IsApprovedByONM == 0"></i>
+                   </div>
+                    <div class="divTableCell text_center">
+                        <i class="fas fa-check mycheck" *ngIf="itm.IsApprovedByMO == 1"></i>   
+                        <i class="fas fa-times myclose" *ngIf="itm.IsApprovedByMO==2"></i> 
+                        <i class="fas fa-minus myminus" *ngIf="itm.IsApprovedByMO == 0"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ <div id="viewImage" class="modal fade ">
+    <div class="rateMnggemetnaddrate mypopup " >  
+        <div class="popup_container popup_container_jump_attc">
+            <div class="trigger_div">
+                <span class="mypop_heading_span">
+                    <h4>Jump Attachment</h4>
+                </span>
+                <div class="mypop_head_right_div">
+                    <span class="mypop_closebtn_span" title="Close">
+                        <i class="fas fa-times" data-dismiss="modal"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="content_div content_div_jump_attc">
+                <div class="upld_img_cont" style="max-width:100%;">
+                    <div *ngIf="isDataFound" class="data_not_found_msg">
+                        There is no Attachment.  
+                    </div>
+                    <span *ngIf="imgDisplay" class="upload_span">
+                        <img [src]="imgURL" alt="image">
+                    </span> 
+                    <span *ngIf="!imgDisplay" class="default_span">
+                        <img src="../../../assets/Images/default_img.png" alt="image">
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="UploadImage" class="modal fade "> 
+    <div class="mypopup">
+    <div class="popup_container popup_container_upload_attc">
+        <div class="trigger_div">
+            <span class="mypop_heading_span">
+                <h4>Upload Jump Attachment</h4>
+            </span>
+            <div class="mypop_head_right_div">
+                <span class="mypop_closebtn_span" title="Close">
+                    <i class="fas fa-times" data-dismiss="modal"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div content_div_jump_attc">
+            <div class="form-group">
+                <label>Upload File</label>
+                <input  type="file" id="fileInput" (change)="onChangeImage($event.target.files, $event)" class="form-control"  />
+            </div>
+            <div class="form-group">
+                <button class="mybtn" (click)="UpdateAttachment()">Upload</button>
+            </div>
+        </div>
+    </div>
+</div> 
+</div>

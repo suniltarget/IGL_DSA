@@ -1,0 +1,190 @@
+<div class="main_heading">
+  <span class="heading_span"><h1>Reviews</h1></span>
+  <span class="date_span" style="margin-right:auto;">
+      <ng-datepicker [(ngModel)]="DPREntryDate" [options]="options" class="ngx-datepicker-container dt_for-rep" (ngModelChange)="OnDateChnagefrom($event)"></ng-datepicker>
+   </span>
+  <div class="head_right_div">
+    <span class="switch_span" *ngIf="outerCheck == 1">
+      <strong style="border: 1px solid #d8b10d;padding: 5px 9px;font-size: 14px;">Already sent to HO for the day!</strong>    
+    </span> 
+    <span class="pop_btn_span">
+      <a title="Approve" (click)="makeFinalApprove()" *ngIf="outerCheck != 1"><i class="fas fa-clipboard-check"></i></a>
+      <a title="Send to HO" (click)="showRemarkPopupSendToHO(true)" data-toggle="modal" data-target="#reviewpoup" *ngIf="outerCheck != 1"><i class="fas fa-share"></i></a>
+      <a title="Download" (click)="GetExeclReportDprMaster()"><i class="fas fa-download"></i></a>
+    </span>
+</div> 
+</div>
+<div class="mycard">
+  <div class="main_table_container">
+    <div class="vertScrollTbl">
+      <div class="divTableHeader">
+         <div class="divTableRow">
+            <div class="divTableCell">
+              <input type="checkbox" style="height:auto!important;" [(ngModel)]="selectedAll"
+               (change)="selectAll()" *ngIf="stationToSubmit.length == arrReviewData.length">&nbsp;Action</div>
+          <div [ngClass]="sortingColumn == 'Region' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Region')">
+            Region <i [className]="sortingColumn == 'Region' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'CompanyName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('CompanyName')">
+              Company Name <i [className]="sortingColumn == 'CompanyName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationName')">
+              Station Name <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'ControlRoomCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('ControlRoomCode')">
+              Control Room Code <i [className]="sortingColumn == 'ControlRoomCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'PackageCapacity' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('PackageCapacity')">
+              Package Capacity (SCMH) <i [className]="sortingColumn == 'PackageCapacity' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'StationCapacity' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationCapacity')">
+              Station Capacity (SCMH) <i [className]="sortingColumn == 'StationCapacity' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'PreviousMonthAverageSale' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('PreviousMonthAverageSale')">
+              Previous Month Average Sale <i [className]="sortingColumn == 'PreviousMonthAverageSale' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'TotalGasFilledLCV' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('TotalGasFilledLCV')">
+              Total Gas Filled LCV <i [className]="sortingColumn == 'TotalGasFilledLCV' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'TotalSaleKG' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('TotalSaleKG')">
+              Total Sale KG. <i [className]="sortingColumn == 'TotalSaleKG' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'TotalBusGasSale' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('TotalBusGasSale')">
+              Total Bus Gas Sale <i [className]="sortingColumn == 'TotalBusGasSale' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'NumberOfLcv' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('NumberOfLcv')">
+              No OF LCV <i [className]="sortingColumn == 'NumberOfLcv' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'NumberOfBusses' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('NumberOfBusses')">
+              No OF BUS <i [className]="sortingColumn == 'NumberOfBusses' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'UTILIZATION' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('UTILIZATION')">
+              Utilization <i [className]="sortingColumn == 'UTILIZATION' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'PackageMake' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('PackageMake')">
+              Package Make <i [className]="sortingColumn == 'PackageMake' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'SAPEQUIPMENTNO' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('SAPEQUIPMENTNO')">
+              SAP Equipment No. <i [className]="sortingColumn == 'SAPEQUIPMENTNO' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'Prime_Mover' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Prime_Mover')">
+              Prime Mover <i [className]="sortingColumn == 'Prime_Mover' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'RunningHours' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('RunningHours')">
+              Running Hours <i [className]="sortingColumn == 'RunningHours' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'ScheduleShutdownHours' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('ScheduleShutdownHours')">
+              Schedule Shutdown Hours <i [className]="sortingColumn == 'ScheduleShutdownHours' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'UnscheduledShutdownHours' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('UnscheduledShutdownHours')">
+              Unschedule Shutdown Hours <i [className]="sortingColumn == 'UnscheduledShutdownHours' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'BreakdownHours' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('BreakdownHours')">
+              Breakdown Hours <i [className]="sortingColumn == 'BreakdownHours' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+          <div [ngClass]="sortingColumn == 'Remark' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Remark')">
+              Remarks <i [className]="sortingColumn == 'Remark' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
+         </div>
+      </div>  
+      <div class="divTableBody">
+         <div *ngFor="let itm of arrReviewData | orderBy: key: reverse | filter:filter let i = index"  class="divTableRow">
+                <div id="rejectpopup" class="modal fade" >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h4 class="modal-title">Remark
+                            <span class="popup_save_span">
+                              <button type="button" class="close_popup_btn" (click)="rejectionPopup(false, '')" data-dismiss="modal"><i class="fas fa-times"></i></button>
+                            </span>
+                          </h4>
+                        </div>
+                        <div class="modal-body">
+                          <div id="conts1"  >
+                            <div class="popup_container">
+                              <div class="content_div">
+                                <form >
+                                  <div class="conent">
+                                    <textarea class="form-control" rows="5" #remark placeholder="Remarks"></textarea>
+                                  </div>
+                                  <br/>
+                                  <div class="popup-buttons">
+                                    <button type="button" class="btn btn-success btn-sm pull-left" (click)="finalRejection(remark.value);">Save</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div> 
+                      </div>
+                    </div>  
+                  </div>
+            <div class="divTableCell first_cell">
+				<input type="checkbox" style="transform:scale(1.2,1.2);line-height:auto;height: auto!important;" [(ngModel)]="itm.selected" *ngIf="itm.isSentToHo != 1 && itm.SubmitStatus == 1" (change)="checkIfAllSelected();"> 
+			  	<span *ngIf="itm.SubmitStatus == 1">
+					<button class="mybtn" title="Reject" data-toggle="modal" *ngIf="itm.isSentToHo != 1" [disabled]="(itm.SubmitStatus=='NS')" data-target="#rejectpopup" (click)="rejectionPopup(true, itm)">Reject</button>
+                </span>
+              <div>
+                <span *ngIf="itm.SubmitStatus == 0" style="color:red;">Pending</span>
+                <span *ngIf="itm.SubmitStatus == 2" style="color:green;">Approved</span>
+                <span *ngIf="itm.SubmitStatus == 1">
+                  <button class="mybtn" title="Review" data-toggle="modal" *ngIf="itm.isSentToHo != 1" [disabled]="(itm.SubmitStatus=='NS')" (click)="OpenReviewWindow(itm)">Review</button>
+                        </span>
+              </div>
+            </div>
+            <div class="divTableCell" >{{itm.Region}}</div>
+            <div class="divTableCell" >{{itm.CompanyName}}</div>
+            <div class="divTableCell" >{{itm.StationName}}</div>
+            <div class="divTableCell" >{{itm.ControlRoomCode}}</div>
+            <div class="divTableCell" >{{itm.PackageCapacity}}</div>
+            <div class="divTableCell" >{{itm.StationCapacity}}</div>
+            <div class="divTableCell" >{{itm.PreviousMonthAverageSale}}</div>
+            <div class="divTableCell" >{{itm.TotalGasFilledLCV}}</div>
+            <div class="divTableCell" >{{itm.TotalSaleKG}}</div>
+            <div class="divTableCell" >{{itm.TotalBusGasSale}}</div>
+            <div class="divTableCell" >{{itm.NumberOfLcv}}</div>
+            <div class="divTableCell" >{{itm.NumberOfBusses}}</div>
+            <div class="divTableCell" >{{itm.UTILIZATION}}</div>
+            <div class="divTableCell" >{{itm.PackageMake}}</div>
+            <div class="divTableCell" >{{itm.SAPEQUIPMENTNO}}</div>
+            <div class="divTableCell" >{{itm.Prime_Mover}}</div>
+            <div class="divTableCell" >{{itm.RunningHours}}</div>
+            <div class="divTableCell" >{{itm.ScheduleShutdownHours}}</div>
+            <div class="divTableCell" >{{itm.UnscheduledShutdownHours}}</div>
+            <div class="divTableCell" >{{itm.BreakdownHours}}</div>
+            <div class="divTableCell" >{{itm.Remark}}</div>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="reviewpoup" class="modal fade" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Remark
+          <span class="popup_save_span">
+            <button type="button" class="close_popup_btn" data-dismiss="modal" (click)="showRemarkPopupSendToHO(false)"><i class="fas fa-times"></i></button>
+          </span>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div id="conts1"  >
+          <div class="popup_container">
+            <div class="content_div">
+              <form >
+                <div class="conent">
+                  <textarea class="form-control" rows="5" #remark id="divRemarksSendToHO" placeholder="Remarks"></textarea>
+                </div>
+                <br/>
+                <div class="popup-buttons">
+                  <button type="button" class="btn btn-success btn-sm pull-left" (click)="SendToHO(remark.value);">Save</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>      
+    </div>
+  </div>  
+</div>

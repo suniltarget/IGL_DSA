@@ -1,0 +1,87 @@
+<div class="main_heading">
+    <span class="heading_span"><h1>Control Office </h1></span>
+    <span class="search_span">
+        <input type="text"  name="search" [(ngModel)] ="filter" placeholder="Search" class="form-control" autocomplete="off">
+    </span>
+    <div class="head_right_div">
+        <span class="switch_span">
+        </span> 
+        <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+            <button><i class="fas fa-download"></i></button>
+        </span>
+        <span class="pop_btn_span">
+            <a title="Add New"  data-toggle="modal" (click)="openAddDisp();"  data-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </span>
+    </div>
+</div>
+<div class="mycard">
+    <div class="main_table_container">
+        <div class="vertScrollTbl">
+            <div class="divTableHeader">
+                <div class="divTableRow">
+                    <div class="divTableCell">
+                        Sr. No.
+                    </div>
+                    <div [ngClass]="sortingColumn == 'ControlRoomCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('ControlRoomCode')">
+                        Control Office Code <i [className]="sortingColumn == 'ControlRoomCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'ControlRoomName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('ControlRoomName')">
+                        Control Office Name <i [className]="sortingColumn == 'ControlRoomName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'Latitude' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Latitude')">
+                        Latitude <i [className]="sortingColumn == 'Latitude' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'Longitude' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Longitude')">
+                        Longitude <i [className]="sortingColumn == 'Longitude' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div *ngFor="let itm of listCRRooms | filter : filter  | orderBy: key: reverse ; let i = index" data-toggle="modal" data-target="#myModal" (click)="openUpdatePopup(itm)" [ngClass]="itm.Id == uId ? 'divTableRow table_row_highlight' : 'divTableRow'">
+                    <div class="divTableCell">{{i+1}}</div>
+                    <div class="divTableCell">{{itm.ControlRoomCode}}</div>
+                    <div class="divTableCell">{{itm.ControlRoomName}}</div>
+                    <div class="divTableCell">{{itm.Latitude}}</div>
+                    <div class="divTableCell">{{itm.Longitude}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal fade mypopup" *ngIf=(CRoomPopup) role="dialog">
+    <div class="popup_container popup_container_offc_ctr">
+        <div class="trigger_div">
+            <span class="mypop_heading_span">
+                <h4>{{title}} Office Control</h4>
+            </span>
+            <div class="mypop_head_right_div">
+                <span class="mypop_savebtn_sapn"  title="Save">
+                    <i class="fa fa-floppy-o" aria-hidden="true" (click)="save();"></i>
+                </span>
+                <span class="mypop_closebtn_span" title="Close">
+                    <i class="fas fa-times" data-dismiss="modal"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div">
+            <form >
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Control Office Code<span class="star">*</span></label>
+                    <input type="text" class="form-control"  name = "CRcode" [(ngModel)] = "CRcode" placeholder="Control Room Code">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Control Office Name<span class="star">*</span></label>
+                    <input type="text" class="form-control uppercase" name = "CRname" [(ngModel)] = "CRname" placeholder="Control Room">
+                </div>
+                <div class="form-group">
+                    <label for="Latitude">Latitude<span class="star">*</span></label>
+                    <input type="text" class="form-control" name = "Latitude" [(ngModel)] = "Latitude" placeholder="Latitude">
+                </div>
+                <div class="form-group">
+                    <label for="Longitude">Longitude<span class="star">*</span></label>
+                    <input type="text" class="form-control" name = "Longitude" [(ngModel)] = "Longitude" placeholder="Longitude">
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>

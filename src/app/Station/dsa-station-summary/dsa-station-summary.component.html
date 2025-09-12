@@ -1,0 +1,138 @@
+<div class="main_heading">
+  <span class="heading_span"><h1>DSA Summary</h1></span>
+  <span class="date_span" style="margin-right:auto;"><ng-datepicker [(ngModel)]="SummeryDate" [options]="options" class="ngx-datepicker-container dt_for-rep" (ngModelChange)="OnDateChnagefrom($event)"></ng-datepicker></span>
+  <span class="stn_nama_span"><strong>Station Name : </strong>{{stationName}}</span>
+  <div class="head_right_div">
+      <span class="dwnld_btn_span" title="Download" (click)="ExportToPdf()">
+          <button><i class="fas fa-download"></i></button>
+      </span>
+  </div>
+</div>
+ <div class="mycard mycards">
+	<div class="main_table_container" style="padding-right:6px;">
+        <table class="dsa_stn_smry_table">
+                <tbody>
+                    <tr>
+                        <td colspan="8" class="text-center" class="head_col"><h5>DSA REPORT</h5></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" class="text-center left_col"><h6>Name of Station - {{stationName}}</h6></td>
+                        <td colspan="4" class="text-center left_col"><h6>Date : {{SummeryDate}}</h6></td>
+                    </tr>
+                    <tr class="head_tr">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="2" class="text-center">NON DISCOUNT</td>
+                        <td colspan="2" class="text-center">DISCOUNT</td>
+                        <td></td>
+                    </tr>
+                    <tr class="head_tr">
+                        <td>SL.NO</td>
+                        <td>PARTICULARS</td>
+                        <td rowspan="2" class="text-center">TOTAL QUANTITY</td>
+                        <td class="text-center">Qty.</td>
+                        <td class="text-center">Amount = Rate * Qty</td>
+                        <td class="text-center">Qty.</td>
+                        <td class="text-center">Amount = Rate * Qty</td>
+                        <td class="text-center">Total Amount</td>
+                    </tr>
+                    <tr class="head_tr">
+                        <td></td>
+                        <td></td>
+                        <td class="text-center">A</td>
+                        <td class="text-center">B</td>
+                        <td class="text-center">C</td>
+                        <td class="text-center">D</td>
+                        <td class="text-center">E = (B+D)</td>
+                    </tr>
+                    <tr *ngFor = "let itm of DispensarTable5, let i = index">
+                        <td>{{i+1}}</td>
+                        <td [ngClass]="itm.Particulars == 'NET CASH SALE' || itm.Particulars == 'CASH COLLECTION FOR THE DAY (RS.)' || itm.Particulars == 'OPENING CASH BALANCE (RS.)' || itm.Particulars == 'CLOSING BALANCE (RS.)' || itm.Particulars == 'CASH DEPOSITED WITH BANK (RS.)' ? 'text_bold' : ''">
+                            {{itm.Particulars}}</td>
+                        <td class="text-right">{{itm.TotalQuntity}}</td>
+                        <td class="text-right">{{itm.NonDiscount_QTY}}</td>
+                        <td class="text-right">{{itm.NonDiscount_Amt}}</td>
+                        <td class="text-right">{{itm.Discount_QTY}}</td>
+                        <td class="text-right">{{itm.Discount_Amt}}</td>
+                        <td class="text-right">{{itm.NonDiscount_Amt + itm.Discount_Amt | number:'1.2-2'}}</td>
+                    </tr>
+                    <tr class="remark_tr">
+                        <td rowspan="6"></td>
+                        <td rowspan="6" colspan="5">REMARKS:</td>
+                        <td colspan="2" rowspan="6"></td>
+                    </tr>            
+                </tbody>
+        </table>
+  <div id="ConvertToPdf">
+  </div>
+    <div class="text-center" style="background: var(--gray_clr);padding-top: 20px;padding-bottom: 20px;    display: flex;
+    align-items: center;justify-content: space-around;">
+        <input type="file" style="outline: none;" [value]="submitFile" (change)="uploadImage($event.target.files, $event)">
+        <button type="button" class="mybtn" data-toggle="modal" data-target="#myModal">View Attachement</button>
+    </div>
+    <div class="StnSumryBox text-center" *ngIf="!SubmittedBySOFlaglocal">
+        <button class="mybtn" (click)="checkPendingEntry()" *ngIf="submitButton">{{Submitbtn}}</button>
+    </div>
+    <br>
+		<div class="text-center" *ngIf="SubmittedBySOFlaglocal" >
+            <button data-toggle="modal" data-target="#myModal2" class="mybtn" (click)="requestPopup()"><i class="fas fa-lock"></i></button>
+        </div>
+    </div>
+</div>
+<div class="mypopup" id="myModal">  
+    <div class="popup_container popup_container_preview">
+        <div class="trigger_div">
+            <span class="mypop_heading_span">
+                <h4>Jump Attachment</h4>
+            </span>
+            <div class="mypop_head_right_div">
+                <span class="mypop_closebtn_span" title="Close">
+                    <i class="fas fa-times" data-dismiss="modal"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div content_div_jump_attc">
+            <div class="upld_img_cont" style="max-width:100%;">
+                <div *ngIf="!imgDisplay" class="data_not_found_msg">
+                    There is no Attachment.  
+                </div>
+                <span *ngIf="imgDisplay" class="upload_span">
+                    <img [src]="imgURL" alt="image">
+                </span> 
+                <span *ngIf="!imgDisplay" class="default_span">
+                    <img src="../../../assets/Images/default_img.png" alt="image">
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal2" class="modal mypopup" role="dialog">
+    <div class="popup_container popup_container_confirm">
+        <div class="trigger_div">
+            <span class="mypop_heading_span">
+                <h4>Confirmation Message</h4>
+            </span>
+            <div class="mypop_head_right_div">
+                <span class="mypop_closebtn_span" title="Close">
+                    <i class="fas fa-times" data-dismiss="modal"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div">
+            <div class="msg">
+                <p >DSA Summary entry button is locked for date <b>{{popupDate}}</b>.</p>
+                <p>Kindly Request to Admin for Unlock.</p>
+            </div>
+            <div class="inp_section">
+                <div><button class="mybtn" (click)="requestOTP()">Request OTP</button></div>
+                <p *ngIf="successMessage" class="successmsg">OTP sent successfully, Please Contact your Admin</p>
+                <div [ngClass]="enterOtpfields == true ? 'show' : 'hide'"><input type="number" placeholder="Enter OTP" maxlength="5" (input)="enteredotp = $event.target.value"></div>
+                <div [ngClass]="enterOtpfields == true ? 'show' : 'hide'">
+                    <button class="mybtn" (click)="confirmOtp()">Confirm</button>
+                    <button class="mybtn" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="main_heading">
+  <span class="heading_span"><h1>Payment Reconciliation</h1>
+  </span>
+  <div class="head_right_div">
+    <span class="pop_btn_span">
+        <button class="box" title="Show" title="Download Sample Format" *ngIf="isSheetSelected" (click)="onSampleDownload()" data-popup-open="popup-1"><i class="fa fa-file"></i><i class="Downloadbutton">Sample</i></button>
+        <button id="viewbox" class="box" title="Show" (click)="OnSubmitView()" data-popup-open="popup-1"><i class="fas fa-eye"></i><i id="viewtext">View</i></button>
+        <button class="box" title="Download" (click)="OnSubmit()" data-popup-open="popup-1"><i class="fas fa-download"></i><i class="Downloadbutton">Download</i></button>
+    </span>
+</div>
+</div>
+<div class="mycard">
+  <div class="main_table_container">
+  <form class="stn_form">
+    <br>
+      <div class="form_grp_row">
+        <div class="left_label_cont">
+            <label>Sheet Type <span class="star">*</span></label>
+        </div>
+        <div class="right_input_cont">
+            <div class="for_input">
+                <div class="only_input date_inuput">
+                  <select class="form-control" (change)="resetchange($event.target.value, 'SheetType')">
+                    <option value='Bank'>Bank</option>
+                    <option value='Paytm'>Paytm</option>
+                    <option value='Mobikwik'>Mobikwik</option>
+                    <option value='PhonePe'>PhonePe</option>
+                    <option value='Credit Card'>Credit Card</option>
+                    <option value='Prepaid Card'>Prepaid Card</option>
+                  </select>
+                </div>
+            </div>  
+        </div>
+    </div>
+    <div class="form_grp_row" style="display:none">
+      <div class="left_label_cont">
+				<label for="FileFormat" class="control-label">File Format Type</label>
+			</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <div>
+            <label class="checkbox-inline myckecinline">
+              <input type="radio"  value="1" name="IsOldFile" (change)="GetValue($event)" [(ngModel)]="IsOldFile" checked>  
+          </label>&nbsp;&nbsp;New
+            <label class="checkbox-inline myckecinline" style="margin-left:23px;">
+              <input type="radio"  value="0" name="IsOldFile" (change)="GetValue($event)" [(ngModel)]="IsOldFile"> 
+          </label>&nbsp;&nbsp;Old
+      </div>
+      </div>
+    <div *ngIf="isPrepaidSelected">
+    <div class="form_grp_row1">
+			<div class="left_label_cont1">
+				<label for="ExpiryDate" class="control-label">Transaction Date</label>
+			</div>
+			<div class="right_input_cont1">
+				<div class="for_input">
+          <ng-datepicker class="exp_date" [(ngModel)]="TransactionDate" [options]="options" (ngModelChange)="OnDateChnagefrom($event)" name="ExpiryDate" ></ng-datepicker>
+				</div>
+			</div>
+    </div>
+    </div>
+    <br>
+      <div class="form_grp_row">
+        <div class="left_label_cont">
+            <label>Attachment <span class="star">*</span></label>
+        </div>
+        <div class="right_input_cont">
+            <div class="for_input">
+                <div class="only_input date_inuput">
+                  <input type="file"  id="CashReconInput" name="StationAttachmentInput" (change)="fileuploadreset($event.target.files, $event)" class="form-control" style="margin-top: 5px;margin-left: 10px;">
+                </div>
+            </div>  
+        </div>
+    </div>
+  </form>
+  <div class="main_form_container">
+    <div class="report_row">
+        <div>
+            <table id="myTable2" *ngIf="columns.length >0 " class="table table-bordered table-striped table-sm">
+                <thead>
+                  <tr>
+                     <th style="text-align: center;"> 
+                     <input type="checkbox" style="height:auto!important;" [(ngModel)]="selectedAll" (change)="selectAll()">&nbsp;&nbsp;All</th>
+                      <th (click)="sortCol('Sr. No.')">Sr. No.</th>
+                      <th (click)="sortCol(column)" *ngFor="let column of columns | filter : filter">{{column}}
+                     </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of ResponseList | orderBy: key: reverse | filter : filter 
+                  | paginate: { itemsPerPage: items, currentPage: Page } let i = index" 
+                  class="divTableCell" data-toggle="modal" data-target="#updatePopup" >
+                  <td style="text-align: center; font-size: 14pt;">
+                  <input type="checkbox" style="height:auto!important;" [(ngModel)]="row.selected" (change)="checkIfAllSelected();"></td>
+                   <td>{{i+1}}</td>
+                   <td *ngFor="let column of columns | filter : filter">{{row[column]}} </td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+</div>
+</div>

@@ -1,0 +1,45 @@
+.summryheader{
+    position: relative;
+    top: 6px;
+}
+.ngx-datepicker-container{
+    position: absolute;
+    background: #fff;
+    -webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,.08);
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,.08);
+    border: 1px solid #dfe3e9;
+    border-radius: 4px;
+    z-index: 10 !important;
+}
+.ngx-datepicker-container .ngx-datepicker-input{
+    padding: 5px 10px;
+    font-size: 14px;
+    width: 324px !important;
+    outline: 0;
+    border: 1px solid #dfe3e9;
+}
+.prg_row
+{
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #efefef;
+    padding-bottom: 10px;
+}
+.prg_row>.col-md-2
+{
+    width:200px;
+}
+.progress_sec
+{
+    height:100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    padding-top:30px;
+}
+.progress
+{
+    width: 100%;
+    min-width: 535px;
+}

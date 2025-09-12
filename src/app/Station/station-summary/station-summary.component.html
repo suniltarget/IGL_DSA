@@ -1,0 +1,101 @@
+<div class="main_heading">
+	<span class="heading_span"><h1>DPR Station Summary </h1></span>
+	<span class="date_span" style="margin-right:auto;">
+		<ng-datepicker [(ngModel)]="SummeryDate" [options]="options" class="ngx-datepicker-container dt_for-rep" (ngModelChange)="OnDateChnagefrom($event)"></ng-datepicker></span>
+	<span class="stn_nama_span"><strong>Station Name : </strong>{{stationName}}</span>
+	<div class="head_right_div">
+		<span class="dwnld_btn_span" title="Download" (click)="ExportToPdf()">
+			<button><i class="fas fa-download"></i></button>
+		</span>
+	</div>
+</div>
+<div class="mycard mycards">
+	<div class="main_table_container">
+			    <div class="StnSumryBox pt-0" style="margin-top:15px;padding-bottom:0px;" *ngIf="stationReportData.Table.length != 0">
+					<h3>Meter Skid</h3>
+					<div *ngFor="let msItem of stationReportData.Table">
+						<div class="StnSumryRow">
+							<div><span>Flow Meter Difference</span></div>
+							<div><span>{{msItem.MeterskitdiffAVG == null ? '00.00' : msItem.MeterskitdiffAVG}}</span></div>
+						</div>
+					</div>
+				</div>
+				<div class="StnSumryBox" *ngIf="stationReportData.Table1.length!=0" style="padding-top:0px;">
+					<div *ngFor="let packageItem of stationReportData.Table1" class="stn_loop"  style="margin-bottom:10px;">
+						<h3>Package: {{packageItem.PackageName}}</h3>
+						<div class="StnSumryRow">
+							<div><span>Suction Flow Meter Difference</span></div>
+							<div><span>{{packageItem.SuctionFlowMeterReading == null ? '00.00' : packageItem.SuctionFlowMeterReading}}</span></div>
+						</div>
+						<div class="StnSumryRow">
+							<div><span>Discharge Flow Meter Difference</span></div>
+							<div><span>{{packageItem.DischargeFlowMeterReading == null ? '00.00' : packageItem.DischargeFlowMeterReading}}</span></div>
+						</div>
+						<div class="StnSumryRow" *ngIf="packageItem.PrimeMover == 'E'">
+							<div><span>Engine Flow Meter Difference</span></div>
+							<div><span>{{packageItem.EngineFlowMeterReading == null ? '00.00' : packageItem.EngineFlowMeterReading}}</span></div>
+						</div>
+						<div class="StnSumryRow">
+							<div><span>Running Hours</span></div>
+							<div><span>{{packageItem.RunningHours == null ? '00:00' : packageItem.RunningHours}}</span></div>
+						</div>
+						<div class="StnSumryRow">
+							<div><span>Schedule Shutdown Hours</span></div>
+							<div><span>{{packageItem.ScheduleShutdownHours == null ? '00:00' : packageItem.ScheduleShutdownHours}}</span></div>
+						</div>
+						<div class="StnSumryRow">
+							<div><span>Unscheduled Shutdown Hours</span></div>
+							<div><span>{{packageItem.UnscheduledShutdownHours == null ? '00:00' : packageItem.UnscheduledShutdownHours}}</span></div>
+						</div>
+						<div class="StnSumryRow">
+							<div><span>Breakdown Hours</span></div>
+							<div><span>{{packageItem.BreakdownHours == null ? '00:00' : packageItem.BreakdownHours}}</span></div>
+						</div>
+						<div class="StnSumryRow">
+							<div><span>Suction Pressure</span></div>
+							<div><span>{{packageItem.SuctionPressure == null ? '00.00' : packageItem.SuctionPressure}}</span></div>
+						</div>
+					</div>
+				</div>
+				<div class="StnSumryBox" *ngIf="stationReportData.Table3.length!=0">
+					<h3>LCV - LCV-1</h3>
+					<div *ngFor="let gasGensetItem of stationReportData.Table3">
+						<div class="StnSumryRow" >
+							<div><span>LCV Meter Difference</span></div>
+							<div><span>{{gasGensetItem.LCVMeterTotaliser == null ? '00.00' : gasGensetItem.LCVMeterTotaliser}}</span></div>
+						</div>
+					</div>
+				</div>
+				<div class="StnSumryBox" *ngIf="stationReportData.Table2.length!=0">
+					<h3>Gas Genset: GAS GENSET</h3>
+					<div *ngFor="let gasGensetItem of stationReportData.Table2">
+						<div class="StnSumryRow" >
+							<div><span>Running Hours</span></div>
+							<div><span>{{gasGensetItem.RunningHoursgenset == null ? '00:00' : gasGensetItem.RunningHoursgenset}}</span></div>
+						</div>
+						<div class="StnSumryRow">
+							<div><span>Meter Difference</span></div>
+							<div><span>{{gasGensetItem.FlowMeterReadiGenset == null ? '00.00' : gasGensetItem.FlowMeterReadiGenset}}</span></div>
+						</div>
+					</div>
+				</div>
+				<div class="StnSumryBox" *ngIf="stationReportData.Table.length!=0">
+					<h3>Dispenser</h3>
+					<div *ngFor="let dispItem of stationReportData.Table">
+						<div class="StnSumryRow" >
+							<div><span>Total Sale</span></div>
+							<div><span>{{dispItem.DispenserTotalSale == null ? '00.00' : dispItem.DispenserTotalSale}}</span></div>
+						</div>
+					</div>
+					<div class="StnSumryRow">
+						<div><span>Station Gas Loss</span></div>	
+						<div><span>{{StationGasLoss == 0 ? '00.00' : StationGasLoss}}</span></div>
+					</div>
+				</div>
+				<div class="StnSumryBox">
+					<div>
+						<button [hidden]="summary.prm_id != 1" class="mybtn" (click)="stationSummarySubmit()">Submit</button>
+					</div>
+				</div>
+	</div>
+</div>

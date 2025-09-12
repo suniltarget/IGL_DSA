@@ -1,0 +1,23 @@
+<div class="sidebar marBot-0">
+    <div class="panel-heading menu_tab">
+        <span>Menu </span>
+    </div>    
+    <div class="panel marBot-0">
+        <div class="main clearfix">
+            <div class="left-navigation leftmenubar" id="main-left-nav">
+                <div class="list-item">
+                    <ul id="NavigaionTabs" class="left-navigation">
+                        <li *ngFor="let objMenu of arrMenus" [id]="objMenu.MenuId"  class="uuu" (click)="showhide(objMenu.MenuId)">   
+                            <a (click)="showContentPage(objMenu)" [ngClass]="{'active': objMenu.URL == Getfunct(),'submenu_tab': objMenu.ParentId!=0}" > 
+                                {{objMenu.MenuName}}
+                                <span style="margin-left:auto;font-size: 15px;" [hidden]="objMenu.URL!=''">
+                                    <i class="fas fa-chevron-down" [hidden]="objMenu.URL!=''"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div> 
+    </div>    
+</div>

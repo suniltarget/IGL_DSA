@@ -1,0 +1,150 @@
+<div class="main_heading">
+  <span class="heading_span"><h1>Users Management</h1></span>
+  <span class="search_span">
+      <input type="text"  name="search" [(ngModel)] ="filter" placeholder="Search" class="form-control" autocomplete="off">
+  </span>
+  <div class="head_right_div">
+    <span class="switch_span">
+        <div class="t_state_btn">
+            <div class="floating_div" id="tgt_div"></div>
+            <label>
+                <input type="radio" id="ab" name="swth" (change)="OnChangeStatus($event, 'swthActive')"/> 
+                <span>Active</span>
+            </label>
+            <label>
+                <input type="radio" id="UsersCheck" name="swth" [checked]="Status == ''" (change)="OnChangeStatus($event, 'swthAll')"/> 
+                <span>All</span>
+            </label>
+            <label>
+                <input type="radio" id="ef" name="swth" (change)="OnChangeStatus($event, 'swthInActive')"/> 
+                <span>InActive</span>
+            </label>
+        </div>
+    </span> 
+      <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+          <button><i class="fas fa-download"></i></button>
+      </span>
+      <span class="pop_btn_span">
+          <a title="Add New"  data-toggle="modal" (click)="openAddUsers();"  data-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i></a>
+      </span>
+  </div>
+</div>
+<div class="mycard">
+  <div class="main_table_container">
+      <div class="vertScrollTbl">
+          <div class="divTableHeader">
+              <div class="divTableRow">
+                  <div class="divTableCell">
+                      Sr. No.
+                  </div>
+                  <div [ngClass]="sortingColumn == 'LoginId' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('LoginId')">
+                     login Id <i [className]="sortingColumn == 'LoginId' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+                  <div [ngClass]="sortingColumn == 'EmpCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('EmpCode')">
+                      Emp Code <i [className]="sortingColumn == 'EmpCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+                  <div [ngClass]="sortingColumn == 'EmailId' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('EmailId')">
+                      Email Id <i [className]="sortingColumn == 'EmailId' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                 </div>
+                  <div [ngClass]="sortingColumn == 'Name' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Name')">
+                       Name <i [className]="sortingColumn == 'Name' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                  </div>
+                  <div [ngClass]="sortingColumn == 'DepartmentCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DepartmentCode')">
+                      User Permission  <i [className]="sortingColumn == 'DepartmentCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                  <div [ngClass]="sortingColumn == 'Status' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Status')">
+                      Status <i [className]="sortingColumn == 'Status' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                 </div>
+              </div>
+          </div>
+          <div class="divTableBody">
+              <div *ngFor="let itm of listUsers | filter : filter  | orderBy: key: reverse ; let i = index" data-toggle="modal" data-target="#myModal" (click)="openUpdatePopup(itm)" [ngClass]="itm.Id == uId ? 'divTableRow table_row_highlight' : 'divTableRow'">
+                  <div class="divTableCell">{{i+1}}</div>
+                  <div class="divTableCell">{{itm.LoginId}}</div>
+                  <div class="divTableCell">{{itm.EmpCode}}</div>
+                  <div class="divTableCell">{{itm.EmailId}}</div>
+                  <div class="divTableCell">{{itm.Name}}</div>
+                  <div class="divTableCell">{{itm.DepartmentCode}}</div>
+                  <div class="divTableCell">{{itm.Status}}</div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<div id="myModal" class="modal fade mypopup" *ngIf=(UsersPopup) role="dialog">
+  <div class="popup_container popup_container_offc_ctr">
+      <div class="trigger_div">
+          <span class="mypop_heading_span">
+              <h4>{{title}} Users</h4>
+          </span>
+          <div class="mypop_head_right_div">
+              <span class="mypop_savebtn_sapn"  title="Save">
+                  <i class="fa fa-floppy-o" aria-hidden="true" (click)="save();"></i>
+              </span>
+              <span class="mypop_closebtn_span" title="Close">
+                  <i class="fas fa-times" data-dismiss="modal"></i>
+              </span>
+          </div>
+      </div>
+      <div class="content_div">
+          <form >
+              <div class="form-group">
+                  <label for="LoginId">Login Id<span class="star">*</span></label>
+                  <input type="text" class="form-control" name= "LoginId" [(ngModel)]= "LoginId" placeholder="Login Id">
+              </div>
+              <div class="form-group">
+                <label for="UserCode">Employee Id<span class="star">*</span></label>
+                <input type="text" class="form-control" name = "UserCode" [(ngModel)] = "UserCode" placeholder="Emp Code">
+             </div>
+             <div class="form-group">
+                <label for="EmailId">Email Id<span class="star">*</span></label>
+                <input type="email" class="form-control" name = "EmailId" [(ngModel)] = "EmailId" placeholder="EmailId">
+             </div>
+              <div class="form-group">
+                  <label for="exampleInputPassword1">Name<span class="star">*</span></label>
+                  <input type="text" class="form-control" name = "UserName" [(ngModel)] = "UserName" placeholder="Name">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password<span class="star">*</span></label>
+                <input type="password" placeholder="Password" class="form-control" name="Password" [(ngModel)] = "Password"> 
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Confirm Password<span class="star">*</span></label>
+                <input type="password" placeholder="Confirm Password" class="form-control" name = "ConfPassword" [(ngModel)] = "ConfPassword">    
+              </div>
+              <div class="form-group">
+                <label for="StationName">User Permission<span class="star">*</span></label>
+                <select class="form-control" name="selectedPermision" [(ngModel)]='selectedPermision' (change)="onPermisionSelect($event.target.value, item)">
+                    <option value="" selected>-Select--</option>
+                    <option *ngFor="let itm of listPermision" [value]="itm.DepartmentId">{{itm.DepartmentName}}</option>
+                </select>
+              </div>
+              <div class="form-group"  *ngIf="!IsStationDisable">
+                <label for="StationName">Station<span class="star">*</span></label>
+                      <div class="filer_container">
+                        <form class="custom_dropdown">
+                            <input class="form-control filter_input" type="text" name="stCodeMy" [(ngModel)] = "stCodeMy" (click)="filterBoxShow()"  readonly />
+                        </form>
+                        <div class="filter_box" *ngIf=(fiterBox)>
+                            <input class="form-control" name="search" [(ngModel)] ="filterdd" type="search" placeholder="Search.." autocomplete="off" >
+                            <ul class="list-group fiter_ul" id="myList">
+                                <li class="list-group-item" *ngFor="let itm of StationList | filter:filterdd" (click)="filterBoxShow(itm)" [value]="itm.StationId">{{itm.StationName}}</li>
+                            </ul>
+                        </div> 
+                    </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                    <label for="firstName" class="col-3 control-label">Status</label>
+                    <div class="col-9">
+                        <div class="toggle-pnl">
+                            <input class="tgl tgl-ios ng-pristine ng-untouched ng-valid ng-not-empty" id="InvstUnMap_66" type="checkbox"  name = "DS" [(ngModel)] = "DS">
+                            <label class="tgl-btn" for="InvstUnMap_66"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </form>
+      </div>
+  </div>
+</div>

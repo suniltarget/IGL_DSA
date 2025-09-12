@@ -1,0 +1,35 @@
+.main_heading
+{
+    justify-content:space-between;
+}
+.panelbody{
+    padding: 10px;
+}
+.savecenter{
+    text-align: right;
+}
+.form_row{
+    margin-bottom: 10px;
+}
+.stn_mtskid_form .form-group {
+    margin-bottom: 10px;
+}
+/* .mycards{
+    background-color: transparent;
+} */
+.label_container
+{
+    margin-bottom: 6px;
+}
+.check_zoom
+{
+    transform: scale(1.6,1.6);
+    margin-left: 5px;
+}
+@media (max-width:1500px)
+{
+    .popup_container_package_reset_meter
+    {
+        width:500px;
+    }
+}

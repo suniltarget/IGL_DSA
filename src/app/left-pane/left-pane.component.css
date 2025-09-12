@@ -1,0 +1,28 @@
+.menu_tab
+{
+    color: white;
+    font-size: 18px;
+    background: #045a33;
+}
+.submenu_tab {
+    padding-left: 25px;
+}
+.rotate_icon
+{
+    transform:rotate(-90deg);
+    transition-duration:.2s;
+}
+.rotate_icon0
+{
+    transform:rotate(0deg);
+    transition-duration:.2s;
+}
+.submenu_iconnone {
+    display: none;
+    font-size:7px;
+    margin-right:7px;
+}
+.submenu_icon {
+    font-size:7px;
+    margin-right:7px;
+}

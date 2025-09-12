@@ -1,0 +1,287 @@
+<div class="main_heading">
+    <span class="heading_span">
+        <h1>DSA - Report Management</h1>
+    </span>
+    <div class="head_right_div">
+        <span class="switch_span" >
+			<div class="t_state_btn_two" *ngIf="activeCashRecon">
+				<div class="floating_div_two" id="tgt_div"></div>
+				<label>
+                    <input type="radio" id="PMCheck" name="swth" checked 
+                    (change)="OnChangeStatus($event, 'dailyCash')"/> 
+					<span>Daily Cash Recon</span>
+				</label>
+				<label>
+					<input type="radio" id="ef" name="swth" (change)="OnChangeStatus($event, 'cashRecon')"/> 
+					<span>Cash Recon</span>
+				</label>
+			</div>
+		</span> 
+        <span class="pop_btn_span">
+            <button id="viewbox" class="box" title="Show" *ngIf="IsJMRSelected" (click)="onReportShow()" data-popup-open="popup-1"><i class="fas fa-eye"></i><i id="viewtext">View</i></button>
+            <button class="box" title="Download" (click)="onReportSelect()" data-popup-open="popup-1"><i class="fas fa-download"></i><i class="Downloadbutton">Download</i></button>
+            <button id="viewbox" class="box" title="Sent Email" (click)="MailSentCashRecon()" data-popup-open="popup-1"><i class="fas fa-envelope"></i><i id="viewtext">Mail</i></button>
+        </span>
+    </div>
+</div>
+<div class="mycard">
+    <div class="main_table_container">
+        <div class="main_form_container">
+            <div class="report_row">
+                <div>
+                    <div class="label_container">
+                        <label>Report</label>
+                    </div>
+                    <div class="input_container">
+                        <select class="form-control" name="selectedReport" (change)="OnReportChnage($event)"
+                            [disabled]="dateRange">
+                            <option value="" selected>--Select--</option>
+                            <option value="CASH RECON">CASH RECON AMOUNT</option>
+                            <option value="QUANTITY">CASH RECON QUANTITY</option>
+                            <option value="OPENING CLOSING">OPENING CLOSING</option>
+                            <option value="STATION ENTRY STATUS">STATION ENTRY STATUS</option>
+                            <option value="EXCEPTIONAL REPORT">EXCEPTIONAL REPORT</option>
+                            <option value="STATION STATUS REPORT">STATION STATUS REPORT</option>
+                            <option value="ZERO SALE">ZERO SALE</option>
+                            <option value="GAS TESTING">GAS TESTING</option>
+                            <option value="METER RESET">METER RESET HISTORY</option>
+                            <option value="REMARK HISTORY">REMARK HISTORY</option>
+                            <option value="DATA MODIFICATION">DATA MODIFICATION</option>
+                            <option value="JUMP READING">JUMP READING</option>
+                            <option value="DSA SUBMISSION REPORT">DSA SUBMISSION REPORT</option>
+                            <option value="STATION OPERATOR SUBMISSION REPORT">STATION OPERATOR SUBMISSION REPORT</option>
+                            <option value="GAS SALE (QUANTITY)">SALE QTY. & VALUES</option>
+                            <option value="JMR REPORT" *ngIf ="JMRReportVisibility">JMR REPORT</option>  
+                            <option value="CLUSTER COMPANY">CLUSTER REPORT</option>
+                            <option value="BANK DEPOSIT ENTRY">BANK DEPOSIT ENTRY</option>
+                            <option value="BUS & NON-BUS SALE">BUS & NON-BUS SALE</option>
+                            <option value="SHIFT WISE SALE">SHIFT WISE SALE</option>
+                            <option value="SHIFT WISE PCS">SHIFT WISE PCS</option>
+                            <option value="PAYMENT RECONCILIATION">PAYMENT RECONCILIATION</option>
+                            <option value="PAYMENT RECONCILIATION (2)">PAYMENT RECONCILIATION (By Amt Difference)</option>
+                            <option value="OPE BALANCE">OPE BALANCE REPORT</option>
+                            <option value="DSM REPORT">DSM REPORT</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div class="label_container">
+                        <label>Region</label>
+                    </div>
+                    <div class="input_container">
+                        <select class="form-control" name="selectRegion"
+                            (change)="onRegionSelect($event.target.value, 'CompanyId')" [disabled]="IsRegionSelected">
+                            <option value="All">All</option>
+                            <option *ngFor="let itm of RegionList" [value]="itm.RegionId">{{itm.RegionName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div class="label_container">
+                        <label>Company</label>
+                    </div>
+                    <div class="input_container">
+                        <select class="form-control" name="Station" (change)="onCompanySelect($event.target.value)"
+                            [disabled]="IsStationDisable">
+                            <option value="0" selected>All</option>
+                            <option *ngFor="let itm of CompanyList" [value]="itm.CompanyId">{{itm.CompanyName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div *ngIf=(!IsStationDisabled)>
+                    <div class="label_container">
+                        <label>Station</label>
+                    </div>
+                    <div class="input_container">
+                        <div class="filer_container">
+                            <div class="custom_dropdown">
+                                <ng-multiselect-dropdown 
+                                name = "StationDropDown" 
+                                [placeholder]="'--Select Station--'"
+                                [data]="StationList" 
+                                [(ngModel)]="selectedStation" 
+                                [settings]="dropdownSettings"
+                                (onSelect)="onItemSelect($event)"
+                                (onDeSelect)="onItemDeSelect($event)"
+                                (onDeSelectAll)="onDeSelectAll()"
+                                (onSelectAll)="onSelectAll($event)"
+                              >
+                              </ng-multiselect-dropdown>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="label_container">
+                        <label>From <i class="far fa-calendar-alt date_icon"></i></label>
+                    </div>
+                    <div class="input_container" style="border:1px solid #ccc;">
+                        <ng-datepicker [(ngModel)]="dateFrom" style="right:0;left:auto" [options]="options"
+                            class="ngx-datepicker-container dt_for-rep" (ngModelChange)="OnDateChnagefrom($event)"
+                            [disabled]="IsDatedisable"></ng-datepicker>
+                    </div>
+                </div>
+                <div>
+                    <div class="label_container">
+                        <label>To <i class="far fa-calendar-alt date_icon"></i></label>
+                    </div>
+                    <div class="input_container" style="border:1px solid #ccc;">
+                        <ng-datepicker [(ngModel)]="dateTo" [options]="options"
+                            class="ngx-datepicker-container dt_for-rep" (ngModelChange)="OnDateChnageTo($event)"
+                            [disabled]="IsDatedisable"></ng-datepicker>
+                    </div>
+                </div>
+                <div *ngIf="isZeroSale">
+                    <div class="label_container">
+                        <label>Filter</label>
+                    </div>
+                    <div class="input_container">
+                        <select class="form-control" name="selectedFilter" (change)="OnFilterChnage($event)"
+                            [disabled]="dateRange">
+                            <option value="All" selected>--All--</option>
+                            <option value="BOTH">BOTH THE ARMS HAS ZERO SALE</option>
+                            <option value="ONE">ANY OF ARM HAS ZERO SALE</option>
+                        </select>
+                    </div>
+                </div>
+                <div *ngIf=(IsPaymentTypeDisable)>
+                    <div class="label_container">
+                        <label>Payment Type</label>
+                    </div>
+                    <div class="input_container">
+                        <select class="form-control"  (change)="OnPaymentTypeChnage($event)">
+                            <option value='All'>All</option>
+                            <option value='Bank'>Bank</option>
+                            <option value='Paytm'>Paytm</option>
+                            <option value='Mobikwik'>Mobikwik</option>
+                            <option value='PhonePe'>PhonePe</option>
+                            <option value='Credit Card'>Credit Card</option>
+                            <option value='Prepaid Card'>Prepaid Card</option>
+                          </select>
+                    </div>
+                </div>
+                <div *ngIf=(IsDiffTextDisable)>
+                    <div class="label_container">
+                        <label>Min. Difference</label>
+                    </div>
+                    <div class="input_container">
+                        <input type="text" [value]="AmtDiff" (input)="AmtDiff=$event.target.value" class="form-control"  placeholder="Amount">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="isClusterSelected" class="main_form_container">
+            <div class="report_row">
+                <div>
+                    <table id="myTable2" *ngIf="columns?.length >0 " class="table table-bordered table-striped table-sm">
+                        <thead>
+                          <tr>
+                              <th (click)="sortCol('Sr. No.')">Sr. No.</th>
+                              <th >Date</th>
+                              <th >Station Name</th>
+                              <th >Shift Code</th>
+                              <th >Cluster Companies</th>
+                            <th >No. of Cluster Bus</th>
+                            <th >Sale Qty</th>
+                            <th >Voucher Image</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let row of ResponseList | orderBy: key: reverse | filter : filter 
+                          | paginate: { itemsPerPage: items, currentPage: Page } let i = index" 
+                          class="divTableCell" data-toggle="modal" data-target="#updatePopup">
+                          <td>{{i+1}}</td>
+                            <td> {{row.Date}} </td>
+                            <td> {{row.StationName}} </td>
+                            <td> {{row.ShiftCode}} </td>
+                            <td> {{row.Clustercompanies}} </td>
+                            <td> {{row.NoOfClusterBus}} </td>
+                            <td> {{row.SaleQty}} </td>
+                            <td><button data-toggle="modal" (click)="ViewVoucherImage(row.ImagePath, '')" [attr.data-target]="ModalName" (click)="resetPopup(true)" class="btn btn-xs btn-primary width_50" style="margin-left: 3px;margin-right: 3px;">View</button></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!IsPaymentTypeDisable" class="main_form_container">
+                <div class="report_row">
+                    <div>
+                        <table id="myTable2" *ngIf="columns?.length >0" class="table table-bordered table-striped table-sm">
+                            <thead>
+                            <tr>
+                                <th (click)="sortCol('Sr. No.')">Sr. No.</th>
+                                <th (click)="sortCol(column)" *ngFor="let column of columns | filter : filter">{{column}}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor="let row of ResponseList | orderBy: key: reverse | filter : filter 
+                            | paginate: { itemsPerPage: items, currentPage: Page } let i = index" 
+                            class="divTableCell" data-toggle="modal" data-target="#updatePopup">
+                                <td>{{i+1}}</td>
+                                <td *ngFor="let column of columns | filter : filter">
+                                {{row[column]}}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+       <div *ngIf="IsPaymentTypeDisable" class="main_form_container">
+        <div class="report_row">
+            <div>
+                <table id="myTable2" *ngIf="columns?.length >0" class="table table-bordered table-striped table-sm">
+                    <thead>
+                      <tr>
+                        <th style="text-align: center;" > 
+                        <input type="checkbox" style="height:auto!important;" [(ngModel)]="selectedAll" (change)="selectAll()">&nbsp;&nbsp;All</th>
+                        <th (click)="sortCol('Sr. No.')">Sr. No.</th>
+                        <th (click)="sortCol(column)" *ngFor="let column of columns | filter : filter">{{column}}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let row of ResponseList | orderBy: key: reverse | filter : filter 
+                      | paginate: { itemsPerPage: items, currentPage: Page } let i = index" 
+                      class="divTableCell" data-toggle="modal" data-target="#updatePopup">
+                      <td *ngIf="row.Particulars.startsWith('--')" style="text-align: center; font-size: 14pt;" >
+                      <input type="checkbox" style="height:auto!important;" [(ngModel)]="row.selected" (change)="checkIfAllSelected();">
+                     </td>
+                      <td *ngIf="!row.Particulars.startsWith('--')" style="text-align: center; font-size: 14pt;">
+                        </td>
+                       <td>{{i+1}}</td>
+                        <td *ngFor="let column of columns | filter : filter">
+                          {{row[column]}}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+       </div>
+    </div>
+</div>
+<div id="myModalVoucher" class="modal fade ">
+    <div class="rateMnggemetnaddrate mypopup " >  
+        <div class="popup_container popup_container_jump_attc">
+            <div class="trigger_div">
+                <span class="mypop_heading_span">
+                    <h4>Voucher Image</h4>
+                </span>
+                <div class="mypop_head_right_div">
+                    <span class="mypop_closebtn_span" title="Close">
+                        <i class="fas fa-times" data-dismiss="modal"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="content_div content_div_jump_attc">
+                <div class="upld_img_cont" style="max-width:100%;">
+                    <span class="upload_span">
+                          <img [src]="DocumentImagePath" class="img-responsive" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/No_image_available_600_x_450.svg/600px-No_image_available_600_x_450.svg.png';"  />
+                    </span> 
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>

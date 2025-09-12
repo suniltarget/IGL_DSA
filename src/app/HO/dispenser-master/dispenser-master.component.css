@@ -1,0 +1,82 @@
+.panel-heading-btns a[title="Save"]:hover
+{
+    background-color:white;
+    color:var(--black_clr);
+    opacity: 1;
+}
+.old_pop_form_div form .form-group label
+{
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 7px;
+    margin-top:5px;
+    display: block;
+}
+.panel-heading
+{
+    height: 37px!important;
+    min-height: unset;
+    padding: 0px;
+    padding-left: 12px;
+}
+.panel-heading-btns .btn
+{
+    height:37px;
+    line-height: 37px;
+}
+.mypopup
+{
+    display:block;
+}
+.popup_container_upd_dispenser
+{
+    width:750px;
+}
+.hgt
+{
+    height:75vh;
+}
+.popup_container_history_pop
+{
+    width:1100px;
+}
+.mypopup .popup_container .trigger_div.main_heading
+{
+    justify-content: unset!important;
+    margin-bottom: 0px!important;
+}
+.divTableBody>.divTableRow:hover .divTableCell:last-child a
+{
+    border: 1px solid white;
+    display: inline-block;
+    color: white;
+    border-radius: 2px;
+    padding: 0px 5px;
+    transition-duration: 0s;
+}
+@media (max-width: 1380px)
+{
+    .vertScrollTbl 
+    {
+        width: auto;
+    }
+}
+@media (max-width:980px)
+{
+    .popup_container_upd_dispenser
+    {
+        width:650px;
+    }
+}
+@media (max-width:700px)
+{
+    .popup_container_upd_dispenser
+    {
+        width:90%;
+    }
+}
+.list-group-item.active, .list-group-item.active:hover, .list-group-item:hover 
+{
+    border-right: none;
+    margin-right: 0px;
+}

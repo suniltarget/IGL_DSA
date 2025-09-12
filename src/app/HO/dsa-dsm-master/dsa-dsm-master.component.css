@@ -1,0 +1,9 @@
+.popup_container_offc_ctr
+{
+    width: 500px;
+}
+.popup_container_offc_ctr .content_div
+{
+    min-height: 450px;
+    height: auto;
+}

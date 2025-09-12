@@ -1,0 +1,59 @@
+<section  class="login_sec">
+    <div class="container">
+       <figcaption class="text-center logo_new">
+        <img src="../../assets/Images/igl_logo.png" class="" alt="logo">
+      </figcaption>
+      <div class="login_container">
+        <div class="icon">
+            <i class="fas fa-user"></i>
+        </div>
+        <h3 class="mt-3">Login To Your Account</h3>
+            <form action="/action_page.php" class="login_form">
+              <div class="form-group">
+                <label for="email" class="">Station Code</label>
+                <input type="text" class="form-control" [value]="StationCode" (input)="StationCode = $event.target.value" (focusout)="hideEmployeeCode()" placeholder="Station Code" id="txtLoginId" value="username">
+              </div>
+              <div class="form-group" *ngIf = "empField">
+                <label for="email" class="">Employee Code</label>
+                <input type="text" class="form-control" [value]="EmployeeCode" (input)="EmployeeCode = $event.target.value" placeholder="Employee Code" id="txtLoginId" value="username">
+              </div>
+              <div class="form-group">
+                <label for="pwd" class="">Password:</label>
+                <input type="Password" class="form-control" [value]="Password" (input)="Password = $event.target.value" placeholder="Password" id="txtpwd" value="username">
+              </div>
+              <div class="text-center">
+                <button type="button" class="btn rounded-0 text-white" id="btn-login" (click)="login()" >Login <i class="fas fa-sign-in-alt"></i> &nbsp;<span class="loaderIcon" style="font-size: 10px;
+    color: #fff;"  *ngIf="(loginLoader)"><i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i></span></button>
+                  <br />
+                  <a href="javascript:void(0);" style="margin-top: 10px;display: inline-block;font-size: 15px;color: var(--red_clr);" id="forgPass">Forgot Password?</a>
+            </div>
+            </form>
+      </div>
+    </div>
+  </section>
+<div class="mypopup" id="forgPassPopup">
+    <div class="popup_container popup_container_forgot_pass">
+        <div class="trigger_div">
+            <span class="mypop_heading_span">
+                <h4>Reset Your Password?</h4>
+            </span>
+            <div class="mypop_head_right_div">
+                <span class="mypop_closebtn_span" id="ForgCloseBtn" title="Close">
+                    <i class="fas fa-times" data-dismiss="modal"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div">
+            <div class="row_div">
+                <label style="">Enter Your Station Id:</label>
+                <div>
+                    <input type="text" [value]="stationId" (input)="stationId = $event.target.value" placeholder="Enter Your Station Id"/>
+                </div>
+            </div>
+            <h5 class="h5" style="margin-top: 15px;
+            margin-bottom: 15px;
+            color: #7f6a12;"><i class="far fa-hand-point-right"></i> Password will be sent to admin registered Email Id.</h5>
+            <button class="mybtn" (click)="forgotPassword()">Next</button>
+        </div>
+    </div>
+</div>

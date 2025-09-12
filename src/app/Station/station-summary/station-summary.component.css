@@ -1,0 +1,13 @@
+.main_heading
+{
+    justify-content:space-between;
+}
+.stn_loop>h3
+{
+    border-bottom: 1px solid var(--gray_clr);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    font-size: 15px;
+    color: var(--dark_green_clr);
+    margin-top: 30px;
+}

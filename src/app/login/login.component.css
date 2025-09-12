@@ -1,0 +1,56 @@
+.login_containers {
+    width: 100%;
+    max-width: 1800px;
+    min-width: 1460px;
+    border: 1px solid #333;
+    margin: auto;
+}
+.borderbottom {
+    border: 0px solid #E46D0A;
+}
+.row_div
+{
+    margin-bottom:7px;
+}
+.row_div>label
+{
+    display: block;
+    margin-bottom: 7px;
+    font-size: 14px
+}
+.row_div>div input[type="text"]
+{
+    width:100%;
+}
+.mypopup .popup_container 
+{
+    border-left:none;
+}
+.mypopup .popup_container .trigger_div
+{
+    background-color:#575757;
+}
+.popup_container_forgot_pass
+{
+    width:550px;
+}
+.mypopup .popup_container .content_div 
+{
+    width: 100%;
+    background-color: white;
+    overflow-x: auto;
+    min-height: 175px;
+    padding: 15px 40px 20px 40px;
+}
+@media (max-width:1500px)
+{
+    .form-group 
+    {
+        margin-bottom: 2px;
+    }
+    .login_container>h3
+    {
+        font-size: 23px;
+        margin-bottom: 5px;
+    }
+}

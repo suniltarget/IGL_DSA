@@ -1,0 +1,38 @@
+    .reject{
+        background-color: green;
+        padding: 5px 13px;
+        color: #fff;
+    }
+    .mybtn
+    {
+        min-width: 68px;
+    height: 30px;
+    font-weight: 500;
+    border: none;
+    font-size: 16px;
+    color: white;
+    padding: 0px 3px;
+    border-radius: 3px;
+    border: 1px solid gray;
+    color: black;
+    background-color: #e2e2e2;
+    }
+    .first_cell
+    {
+        display: flex;
+        align-items: center;
+    }
+    .first_cell span button
+    {
+        background-color:transparent!important;
+        height: 22px!important;
+        font-size: 12px;
+        width: 46px;
+        min-width: auto;
+        margin-left:5px;
+    }
+    .divTableRow:hover .first_cell span button
+    {
+        color:white!important;
+        border:1px solid white!important;
+    }

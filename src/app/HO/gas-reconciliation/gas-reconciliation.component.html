@@ -1,0 +1,48 @@
+<div class="main_heading">
+	  <span class="heading_span"><h1>Gas Reconciliation Case</h1></span>
+	  <div class="head_right_div">
+		  <span class="dwnld_btn_span">
+			<button type="button" title="Save" (click)="OnSubmit();"><i class="fa fa-floppy-o"></i></button>
+		  </span>
+	  </div>
+</div>
+<div class="mycard">
+	<div class="main_table_container">
+		<div class="vertScrollTbl">
+			<div class="divTableHeader">
+				<div class="divTableRow">
+					<div class="divTableCell" style="width:70px;">
+                        Sr No.
+					</div>
+					<div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" >
+						Station Code <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>
+					<div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" >
+						Station Name <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>
+					<div [ngClass]="sortingColumn == 'Region' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" style="width:150px;">
+						Case Selection <i [className]="sortingColumn == 'Region' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>
+					<div [ngClass]="sortingColumn == 'Remarks' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" style="width:450px;">
+						Remark <i [className]="sortingColumn == 'Remarks' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>
+				</div>
+			</div>
+			<div class="divTableBody">
+				<div class="divTableRow" *ngFor = "let itm of GasReconciliationCaseList, let i = index">
+					<div class="divTableCell">{{i+1}}</div>
+					<div class="divTableCell">{{itm.StationCode}}</div>
+					<div class="divTableCell">{{itm.Station_Name}}</div>
+					<div class="divTableCell" >
+						<select class="form-control select" [(ngModel)]="itm.StationCase"  name="resetTypeJsonSelectedEFM" (change)="resetchange($event.target.value, 'EFM')">
+							<option *ngFor="let itm of CaseSeletionCasesJson" [value]="itm.Text">{{itm.Text}}</option>
+						</select> 
+					</div>
+					<div class="divTableCell last_cell">
+						<input type="text" [(ngModel)]="itm.Remarks" (input)="Readingvalue($event.target.value)" (input)="DocumentName=$event.target.value" class="form-control"  placeholder="Remarks">
+						</div>
+				  </div>
+			</div>
+		</div>
+	</div>
+</div>

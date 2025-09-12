@@ -1,0 +1,48 @@
+.panel-heading-btns a[title="Save"]:hover
+{
+    background-color:white;
+    color:var(--black_clr);
+    opacity: 1;
+}
+.old_pop_form_div form .form-group label
+{
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 7px;
+    margin-top:5px;
+    display: block;
+}
+.panel-heading
+{
+    height: 37px!important;
+    min-height: unset;
+    padding: 0px;
+    padding-left: 12px;
+}
+.panel-heading-btns .btn
+{
+    height:37px;
+    line-height: 37px;
+}
+.mypopup
+{
+    display:block;
+}
+.popup_container_updt_mkt_officer
+{
+    width:750px;
+}
+@media (max-width:980px)
+{
+    .popup_container_updt_mkt_officer
+    {
+        width:650px;
+    }
+}
+@media (max-width:700px)
+{
+    .popup_container_updt_mkt_officer
+    {
+        width:90%;
+    }
+}

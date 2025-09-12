@@ -1,0 +1,28 @@
+.old_pop_form_div form .form-group label
+{
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 7px;
+    margin-top:5px;
+    display: block;
+}
+.panel-heading
+{
+    height: 37px!important;
+    min-height: unset;
+    padding: 0px;
+    padding-left: 12px;
+}
+.panel-heading-btns .btn
+{
+    height:37px;
+    line-height: 37px;
+}
+.mypopup
+{
+    display:block;
+}
+.popup_container_add_region
+{
+    width:500px;
+}

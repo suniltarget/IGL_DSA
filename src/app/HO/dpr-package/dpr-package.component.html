@@ -1,0 +1,194 @@
+<div class="main_heading">
+    <span class="heading_span"><h1> Package Name</h1></span>
+    <span class="search_span">
+        <input type="text"  name="search" [(ngModel)] ="filter" placeholder="Search" class="form-control" autocomplete="off"> 
+    </span>
+    <div class="head_right_div">
+        <span class="switch_span">
+            <div class="t_state_btn">
+                <div class="floating_div" id="tgt_div"></div>
+                <label>
+                    <input id="ab" type="radio" name="swth" (change)="OnChangeStatus($event, 'swthActive')"/> 
+                    <span>Active</span>
+                </label>
+                <label>
+                    <input type="radio" id="PackageCheck" name="swth" checked (change)="OnChangeStatus($event, 'swthAll')"/> 
+                    <span>All</span>
+                </label>
+                <label>
+                    <input id="ef" type="radio" name="swth" (change)="OnChangeStatus($event, 'swthInActive')"/> 
+                    <span>InActive</span>
+                </label>
+            </div>   
+        </span> 
+        <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+            <button><i class="fas fa-download"></i></button>
+        </span>
+        <span class="pop_btn_span">
+            <a title="Add New" data-toggle="modal" (click)="openAddDisp();" data-target="#myModal"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </span>
+    </div>  
+</div>
+<div class="mycard">
+    <div class="main_table_container">
+        <div class="vertScrollTbl">
+            <div class="divTableHeader">
+                <div class="divTableRow">
+                    <div class="divTableCell">
+                        Sr No.
+                    </div>
+                    <div [ngClass]="sortingColumn == 'PackageName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('PackageName')">
+                        Package Name <i [className]="sortingColumn == 'PackageName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'PackageCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('PackageCode')">
+                        Package Code <i [className]="sortingColumn == 'PackageCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationName')">
+                        Station Name <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationCode')">
+                        Station Code <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'PackageMake' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('PackageMake')">
+                        Package Maker <i [className]="sortingColumn == 'PackageMake' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'PackageCapacity' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('PackageCapacity')">
+                        Package Capacity <i [className]="sortingColumn == 'PackageCapacity' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'PrimeMover' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('PrimeMover')">
+                        Prime Mover <i [className]="sortingColumn == 'PrimeMover' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'VentFlow' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('VentFlow')">
+                        Vent Flow <i [className]="sortingColumn == 'VentFlow' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'Ownership' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Ownership')">
+                        Ownership <i [className]="sortingColumn == 'Ownership' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'status' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('status')">
+                        Status <i [className]="sortingColumn == 'status' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div *ngFor="let itm of listPackages | orderBy: key: reverse | filter:filter let i = index" data-toggle="modal" data-target="#myModal" (click)="openPopupForUpdate(itm)" [ngClass]="itm.PackageId == uId ? 'divTableRow table_row_highlight' : 'divTableRow'">
+                    <div class="divTableCell">{{i+1}}</div>
+                    <div class="divTableCell">{{itm.PackageName}}</div>
+                    <div class="divTableCell">{{itm.PackageCode}}</div>
+                    <div class="divTableCell">{{itm.StationName}}</div>
+                    <div class="divTableCell">{{itm.StationCode}}</div>
+                    <div class="divTableCell">{{itm.PackageMake}}</div>                       
+                    <div class="divTableCell">{{itm.PackageCapacity}}</div>
+                    <div class="divTableCell">{{itm.PrimeMover}}</div>
+                    <div class="divTableCell">{{itm.IsVentFlow}}</div>
+                    <div class="divTableCell">{{itm.PkgOwnership}}</div>
+                    <div class="divTableCell">{{itm.status}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal fade mypopup" *ngIf=(PackagePopup) role="dialog">
+    <div class="popup_container">
+        <div class="trigger_div">
+            <span class="mypop_heading_span">
+                <h4>{{title}} Package</h4>
+            </span>
+            <div class="mypop_head_right_div">
+                <span class="mypop_savebtn_sapn"  title="Save">
+                    <i class="fa fa-floppy-o" aria-hidden="true" (click)="save();"></i>
+                </span>
+                <span class="mypop_closebtn_span" title="Close">
+                    <i class="fas fa-times" data-dismiss="modal"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div">
+            <form >
+                <div class="form-group">
+                    <label for="exampleInputEmail1"><strong>Station Name</strong>  <span class="star">*</span></label>
+                    <div class="filer_container">
+                        <form class="custom_dropdown">
+                            <input class="form-control filter_input" type="text" name="stCodeMy" [(ngModel)] = "stCodeMy" (click)="filterBoxShow()"  readonly />
+                        </form>
+                        <div class="filter_box" *ngIf=(fiterBox)>
+                            <input class="form-control" name="search" [(ngModel)] ="filterdd" type="search" placeholder="Search.." autocomplete="off" >
+                            <ul class="list-group fiter_ul" id="myList">
+                                <li class="list-group-item" *ngFor="let itm of listStation | filter:filterdd" (click)="filterBoxShow(itm)" [value]="itm.StationCode">{{itm.StationName}}</li>
+                            </ul>
+                        </div> 
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1"><strong>Package code</strong> <span class="star">*</span></label>
+                    <input type="text" class="form-control" name="PackageCode" [(ngModel)]="PackageCode" placeholder="Package code">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1"><strong>Package Name</strong> <span class="star">*</span></label>
+                <input type="text" class="form-control uppercase" name="PackageName" [(ngModel)]="PackageName" placeholder="Package Name">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1"><strong>Package Maker</strong> <span class="star">*</span></label>
+                    <input type="text" class="form-control" name="PackageMaker" [(ngModel)]="PackageMaker" placeholder="Package Maker">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1"><strong>Package Capacity</strong> <span class="star">*</span></label>
+                    <input type="text" class="form-control" name="PackageCapacity" [(ngModel)]="PackageCapacity" placeholder="Package Capacity">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1"><strong>Prime Mover</strong>  <span class="star">*</span></label>
+                    <select [(ngModel)]='SelectedPrimeMover' name="PrimeMover" id="" class="form-control" (input)="prime($event)">
+                        <option value="" selected>--Select--</option>
+                        <option *ngFor="let itm of PrimeMover" [value]="itm.value">{{itm.PMName}}</option>
+                    </select> 
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1"><strong>Ownership</strong>  <span class="star">*</span></label>
+                    <select [(ngModel)]='ownerShip' name="ownerShip" id="" class="form-control">
+                        <option value="" selected>--Select--</option>
+                        <option value="Inhouse">Inhouse</option>
+                        <option value="AMC" >AMC</option>
+                        <option value="Not in operation">Not in operation</option>
+                    </select> 
+                </div>
+                <div class="form-group">
+                    <label for="DesignSuctionPressure"><strong>Design Suction Pressure</strong> <span class="star">*</span></label>
+                    <input type="number" class="form-control" name="DesignSuctionPressure" [(ngModel)]="DesignSuctionPressure" placeholder="Design Suction Pressure">
+                </div>
+                <div class="form-group">
+                <label for="exampleInputEmail1"><strong>Vent Flow</strong> </label>
+                <div>
+                    <label class="checkbox-inline myckecinline">
+                        <input type="radio"  value="1" name="IsVentFlow" [(ngModel)]="IsVentFlow" checked> Yes 
+                    </label>
+                    <label class="checkbox-inline myckecinline" style="margin-left:23px;">
+                        <input type="radio"  value="0" name="IsVentFlow" [(ngModel)]="IsVentFlow"> No
+                    </label>
+                </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1"><strong>Description</strong> </label>
+                    <textarea name="" name="PKDescription" [(ngModel)]="PKDescription" class="form-control" ></textarea>
+                </div>
+                <div class="form-group required">
+                    <label for="date" class="control-label">Effective Date</label>
+                    <div class="">
+                        <ng-datepicker [(ngModel)]="date" name="date" [options]="options" (ngModelChange)="OnDateChnage($event)" name="EffectiveDate" [disabled]="IsDateVisible"></ng-datepicker>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="Status" class="control-label">Status</label>
+                        </div>
+                        <div class="col-8">
+                            <div class="toggle-pnl">
+                                <input class="tgl tgl-ios ng-pristine ng-untouched ng-valid ng-not-empty" id="InvstUnMap_66" type="checkbox" name = "Status" [(ngModel)] = "Status">
+                                <label class="tgl-btn" for="InvstUnMap_66"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

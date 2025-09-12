@@ -1,0 +1,80 @@
+<div class="main_heading">
+    <span class="heading_span"><h1>Activity Log DSA</h1></span>
+    <span class="search_span">
+        <input type="text" name="search" [(ngModel)] ="filter" placeholder="Search" class="form-control" autocomplete="off">
+    </span>
+    <div class="head_right_div">
+        <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+            <button><i class="fas fa-download"></i></button>
+        </span>
+    </div>
+</div>
+<div class="mycard">
+    <div class="main_form_container" style="padding-top: 10px;background-color:#f7f7f7;">
+        <div style="display: flex;padding:15px;">
+            <div style="margin-right: 15px;">
+                <div class="label_container">
+                    <label>Date <i class="far fa-calendar-alt date_icon" ></i></label>
+                </div>
+                <div class="input_container">
+                        <ng-datepicker [(ngModel)]="dateFrom" [options]="options" class="ngx-datepicker-container" (ngModelChange)="OnDateChnageFrom($event)"></ng-datepicker> 
+                </div>
+            </div>
+            <div >
+                <div class="label_container">
+                    <label for="SelectedUserId" class="control-label">User Type</label>
+                </div>
+                <div class="input_container">
+                    <select class="form-control" name="SelectedUserId" (change)="OnUserChange($event.target.value)">
+                        <option value="">--All--</option>
+                        <option *ngFor="let itm of ListUsers" [value]="itm.UserType">{{itm.Station_Name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="pagination">
+                <pagination-controls (pageChange)="page = $event"></pagination-controls>
+            </div>
+        </div>
+    </div>
+    <div class="main_table_container" style="height:calc(100% - 101px);">
+        <div class="vertScrollTbl">
+            <div class="divTableHeader">
+                <div class="divTableRow">
+                    <div class="divTableCell">
+                        Sr No.
+                    </div>
+                    <div [ngClass]="sortingColumn == 'Name' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Name')">
+                        User <i [className]="sortingColumn == 'Name' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'Action' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Action')">
+                        Action <i [className]="sortingColumn == 'Action' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationName')">
+                        Station Name <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>	
+                    </div>
+                    <div [ngClass]="sortingColumn == 'Menu' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Menu')">
+                        Menu <i [className]="sortingColumn == 'Menu' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'Details' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Details')">
+                        Details <i [className]="sortingColumn == 'Details' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'LDateTime' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('LDateTime')">
+                        Date & Time <i [className]="sortingColumn == 'LDateTime' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div *ngFor="let itm of ActivityLogData | paginate: { itemsPerPage: 25, currentPage: page } | orderBy: key: reverse | filter:filter let i = index" class="divTableRow">
+                    <div class="divTableCell">{{i+1}}</div>
+                    <div class="divTableCell">{{itm.Name}}</div>
+                    <div class="divTableCell">{{itm.Action}}</div>
+                    <div class="divTableCell">{{itm.StationName}}</div>
+                    <div class="divTableCell">{{itm.Menu}}</div>
+                    <div class="divTableCell">{{itm.Details}}</div>
+                    <div class="divTableCell">{{itm.LDateTime}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  

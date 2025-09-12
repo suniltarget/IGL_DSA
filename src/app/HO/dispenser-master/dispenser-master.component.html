@@ -1,0 +1,265 @@
+<div class="main_heading">
+    <span class="heading_span"><h1>Dispenser Management </h1></span>
+    <span class="search_span">
+        <input type="text" name="search" [(ngModel)] ="filter" placeholder="Search" class="form-control" autocomplete="off">
+    </span>
+    <div class="head_right_div">
+        <span class="switch_span">
+            <div class="t_state_btn">
+                <div class="floating_div" id="tgt_div"></div>
+                <label>
+                    <input type="radio" id="ab" name="swth" (change)="OnChangeStatus($event, 'swthActive')"/> 
+                    <span>Active</span>
+                </label>
+                <label>
+                    <input type="radio" id="DispenserCheck" name="swth" checked (change)="OnChangeStatus($event, 'swthAll')"/> 
+                    <span>All</span>
+                </label>
+                <label>
+                    <input type="radio" id="ef" name="swth" (change)="OnChangeStatus($event, 'swthInActive')"/> 
+                    <span>InActive</span>
+                </label>
+            </div>   
+         </span> 
+         <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+            <button><i class="fas fa-download"></i></button>
+        </span>
+        <span class="pop_btn_span">
+            <a title="Add New" data-target="#updatePopup"  data-toggle="modal" (click)="addDisp();"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </span>
+    </div>  
+</div>
+<div class="mycard"> 
+    <div class="main_table_container">
+        <div class="vertScrollTbl">
+            <div class="divTableHeader">
+                <div class="divTableRow">
+                    <div class="divTableCell">
+                        Sr No.
+                    </div>
+                    <div [ngClass]="sortingColumn == 'DispenserName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DispenserName')">
+                        Dispenser Name <i [className]="sortingColumn == 'DispenserName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                        </div>
+                    <div [ngClass]="sortingColumn == 'DispenserCodeA' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DispenserCodeA')">
+                        Dispenser Code A <i [className]="sortingColumn == 'DispenserCodeA' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'DispenserCodeB' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DispenserCodeB')">
+                        Dispenser Code B <i [className]="sortingColumn == 'DispenserCodeB' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'DispanserTypeCodeADisp' ? 'divTableCell highlighted_tableCell' : 'divTableCell'"  (click)="sortCol('DispanserTypeCodeADisp')">
+                        Dispenser Type Code A <i [className]="sortingColumn == 'DispanserTypeCodeADisp' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'DispanserTypeCodeBDisp' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('DispanserTypeCodeBDisp')">
+                        Dispenser Type Code B <i [className]="sortingColumn == 'DispanserTypeCodeBDisp' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationName')">
+                        Station Name <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationCode')">
+                        Station Code <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'StatusSort' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StatusSort')" >
+                        Status <i [className]="sortingColumn == 'StatusSort' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                     <div class="divTableCell">History</div> 
+                     <div [ngClass]="sortingColumn == 'StatusSort' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StatusSort')" >
+                        Equipment Number <i [className]="sortingColumn == 'StatusSort' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div *ngFor="let itm of listDisp | orderBy: key: reverse | filter:filter let i = index"   [ngClass]="itm.DispenserId == uId ? 'divTableRow table_row_highlight' : 'divTableRow'">
+                    <div class="divTableCell" data-toggle="modal" data-target="#updatePopup" (click)="openPopupForUpdate(itm.DispenserId)">{{i+1}} </div>
+                    <div class="divTableCell" data-toggle="modal" data-target="#updatePopup" (click)="openPopupForUpdate(itm.DispenserId)">{{itm.DispenserName}} </div>
+                    <div class="divTableCell" data-toggle="modal" data-target="#updatePopup" (click)="openPopupForUpdate(itm.DispenserId)">{{itm.DispenserCodeA}}</div>
+                    <div class="divTableCell" data-toggle="modal" data-target="#updatePopup" (click)="openPopupForUpdate(itm.DispenserId)">{{itm.DispenserCodeB}}  </div>
+                    <div class="divTableCell" data-toggle="modal" data-target="#updatePopup" (click)="openPopupForUpdate(itm.DispenserId)">{{itm.DispanserTypeCodeADisp}}</div>
+                    <div class="divTableCell" data-toggle="modal" data-target="#updatePopup" (click)="openPopupForUpdate(itm.DispenserId)">{{itm.DispanserTypeCodeBDisp}}</div>
+                    <div class="divTableCell" data-toggle="modal" data-target="#updatePopup" (click)="openPopupForUpdate(itm.DispenserId)">{{itm.StationName}} </div>
+                    <div class="divTableCell" data-toggle="modal" data-target="#updatePopup" (click)="openPopupForUpdate(itm.DispenserId)">{{itm.StationCode}} </div>
+                    <div class="divTableCell" data-toggle="modal" data-target="#updatePopup" (click)="openPopupForUpdate(itm.DispenserId)">{{itm.StatusSort}} </div>
+                    <div class="divTableCell">
+                        <a href="javascrip:void(0)"  (click)="GetDispHistory(itm.DispenserId);">View History</a>        
+                    </div>
+                    <div class="divTableCell" data-toggle="modal" data-target="#updatePopup" (click)="openPopupForUpdate(itm.DispenserId)">{{itm.DispenserCode}} </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="updatePopup" class="modal fade">
+    <div class="mypopup">
+  <div class="popup_container popup_container_upd_dispenser">
+      <div class="trigger_div">
+          <span class="mypop_heading_span">
+              <h4>{{title}}</h4>
+          </span>
+          <div class="mypop_head_right_div">
+                <span class="mypop_savebtn_sapn" (click)="saveDisp();" title="Save">
+                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                </span>
+                <span class="mypop_closebtn_span" data-dismiss="modal" title="Close">
+                    <i class="fas fa-times"></i>
+                </span>
+          </div>
+      </div>
+      <div class="content_div">
+          <div class="row">
+              <div class="col-12">
+                  <form class="form-horizontal old_popup" role="form" >
+                        <div class="form-group required">
+                            <label for="dispName" class="control-label">Dispenser Name</label>
+                            <div class="">
+                            <input type="text" placeholder="Dispenser Name" class="form-control uppercase" name="dispName" [(ngModel)] = "DispenserName">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="equip" class="control-label">Equipment Number</label>
+                            <div class="">
+                            <input type="text" placeholder="Equipment Number" class="form-control" name="equip" [(ngModel)] = "DispenserCode">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="DispenserTypeIdA" class="control-label">Dispenser Type Code A</label>
+                            <div class="">
+                                <select [(ngModel)]='DispenserTypeIdA' name="DispenserTypeIdA" class="form-control" >
+                                        <option value="" selected>--Select Dispenser Type Code A--</option>
+                                    <option *ngFor="let itm of dataDispTypesA" [value]="itm.DispanserTypeId">{{itm.DispanserTypeCode}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="DispenserCodeA" class="control-label">Dispenser Code A</label>
+                            <div class="">
+                                <input type="text" placeholder="Dispenser Code A" class="form-control"
+                                name = "DispenserCodeA" [(ngModel)] = "DispenserCodeA">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="CurrentReadingA" class="control-label">Current Reading A</label>
+                            <div class="">
+                                <input type="text" placeholder="Current Reading A" class="form-control" name="CurrentReadingA" [(ngModel)] = "CurrentReadingA" [disabled]="IsCReadingVisible">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                          <label for="DispenserTypeIdB" class="control-label">Dispenser Type Code B</label>
+                          <div class="">
+                            <select [(ngModel)]='DispenserTypeIdB' name="DispenserTypeIdB" (change)=OnChangeDisTypeB($event.target.value) class="form-control" >
+                                    <option value="" selected>--Select Dispenser Type Code B--</option>
+                                <option *ngFor="let itm of FinalDispTypesB" [value]="itm.DispanserTypeId">{{itm.DispanserTypeCode}}</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="DispenserCodeB" class="control-label">Dispenser Code B</label>
+                            <div class="">
+                              <input type="text" placeholder="Dispenser Code B" class="form-control" name="DispenserCodeB" [(ngModel)]= "DispenserCodeB" [disabled]="IsDispenserCodeB">
+                            </div>
+                          </div>
+                          <div class="form-group ">
+                            <label for="CurrentReadingB" class="control-label">Current Reading B</label>
+                            <div class="">
+                              <input type="text" placeholder="Current Reading B" class="form-control" name="CurrentReadingB" [(ngModel)]= "CurrentReadingB" [disabled]="IsCReadingVisible">
+                            </div>
+                          </div>
+                        <div class="form-group required">
+                            <label for="optStation" class="control-label">Station</label>
+                            <div class="">
+                                <div class="filer_container">
+                                    <form class="custom_dropdown">
+                                        <input class="form-control filter_input" type="text" name="stCodeMy" [(ngModel)] = "stCodeMy" (click)="filterBoxShow('')"  readonly />
+                                    </form>
+                                     <div class="filter_box" *ngIf=(fiterBox)>
+                                        <input class="form-control" name="search" [(ngModel)] ="DDfilter" type="search" placeholder="Search.." autocomplete="off" >
+                                        <ul class="list-group fiter_ul" id="myList">
+                                            <li class="list-group-item" *ngFor="let itm of dataStationMaster | filter:DDfilter" (click)="filterBoxShow(itm)" [value]="itm.StationId">{{itm.StationCode}}</li>
+                                        </ul>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label for="dispName" class="control-label">Effective Date</label>
+                            <div class="">
+                                <ng-datepicker [(ngModel)]="date" [options]="options" (ngModelChange)="OnDateChnage($event)" name="EffectiveDate" [disabled]="IsDateVisible"></ng-datepicker>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Status" class="col-4 control-label">Status</label>
+                            <div class="col-8">
+                                <div class="toggle-pnl">
+                                    <input class="tgl tgl-ios ng-pristine ng-untouched ng-valid ng-not-empty" id="InvstUnMap_66" type="checkbox" name = "Status" [(ngModel)] = "Status">
+                                    <label class="tgl-btn" for="InvstUnMap_66"></label>
+                                </div>
+                            </div>
+                        </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+</div>
+<div  class="mypopup" *ngIf=(historyPopup)>
+    <div class="popup_container popup_container_history_pop">
+        <div class="trigger_div main_heading">
+            <span class="mypop_heading_span">
+                <h4>Disp. History</h4>
+            </span>
+            <span class="search_span">
+                <input type="text"  name="search" [(ngModel)]="filter1" placeholder="Search" class="form-control" autocomplete="off">  
+            </span>
+            <div class="mypop_head_right_div" style="margin-left: auto;">
+                <span class="mypop_closebtn_span" title="Close">
+                    <i class="fas fa-times" (click)="closeHistoryPop()"></i>
+                </span>
+            </div>
+        </div>
+        <div class="content_div" style="padding:0px;">
+            <div class="main_table_container hgt">
+                <div class="vertScrollTbl">
+                    <div class="divTableHeader">
+                        <div class="divTableRow">
+                            <div class="divTableCell">
+                                Sr No. 
+                            </div>
+                            <div [ngClass]="sortingColumn1 == 'DispenserName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('DispenserName')">
+                                Dispenser Name <i [className]="sortingColumn1 == 'DispenserName' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                            </div>
+                            <div [ngClass]="sortingColumn1 == 'FromStation' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('FromStation')">
+                                Transfer From <i [className]="sortingColumn1 == 'FromStation' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                            </div>
+                            <div [ngClass]="sortingColumn1 == 'ToStation' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('ToStation')">
+                                Transfer To <i [className]="sortingColumn1 == 'ToStation' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                            </div>
+                            <div [ngClass]="sortingColumn1 == 'DispanserTransferArmReadingA' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('DispanserTransferArmReadingA')">
+                                Transfer Arm Reading A <i [className]="sortingColumn1 == 'DispanserTransferArmReadingA' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                            </div>
+                            <div [ngClass]="sortingColumn1 == 'DispanserTransferArmReadingB' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('DispanserTransferArmReadingB')">
+                                Transfer Arm Reading B <i [className]="sortingColumn1 == 'DispanserTransferArmReadingB' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                            </div>
+                            <div [ngClass]="sortingColumn1 == 'EntryDate' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('EntryDate')">
+                            Entry Date <i [className]="sortingColumn1 == 'EntryDate' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                            </div>
+                            <div [ngClass]="sortingColumn1 == 'EntryDate' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortColPopUp('EntryDate')">
+                                Equipment Number <i [className]="sortingColumn1 == 'EntryDate' && reverse1==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="divTableBody">
+                        <div  *ngFor="let itm1 of listDispHistory | orderBy: key1 : reverse1 | filter:filter1; let i = index" class="divTableRow">
+                            <div class="divTableCell">{{i+1}}</div>
+                            <div class="divTableCell">{{itm1.DispenserName}}</div>   
+                            <div class="divTableCell">{{itm1.FromStation}}</div>
+                            <div class="divTableCell">{{itm1.ToStation}}</div>
+                            <div class="divTableCell">{{itm1.DispanserTransferArmReadingA}}</div>
+                            <div class="divTableCell">{{itm1.DispanserTransferArmReadingB}}</div>
+                            <div class="divTableCell">{{itm1.EntryDate}}</div>
+                            <div class="divTableCell">{{itm1.DispenserCode}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

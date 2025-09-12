@@ -1,0 +1,40 @@
+.main_heading
+{
+    justify-content:space-between;
+}
+.panelbodymain
+{
+    padding: 5px;
+}
+.savecenter
+{
+    text-align: right;
+}
+.choosefile
+{
+    margin-left: 4px;
+}
+.textlabel
+{
+    font-size: 16px;
+}
+/* .mycards
+{
+    background-color: transparent;
+} */
+.label_container
+{
+    margin-bottom: 6px;
+}
+.check_zoom
+{
+    transform: scale(1.6,1.6);
+    margin-left: 5px;
+}
+@media (max-width:1500px)
+{
+    .popup_container_reset_meter
+    {
+        width:500px;
+    }
+}

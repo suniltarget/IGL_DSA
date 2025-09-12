@@ -1,0 +1,86 @@
+.rght_form_cont .table
+{
+    margin-bottom: 0px;
+    width:3500px;
+}
+.rght_form_cont .table thead
+{
+    background-color:#2d2d2d;
+    color: white;
+} 
+.rght_form_cont .table thead th,.rght_form_cont .table tbody td
+{
+    font-size: 15px;
+} 
+.main_form_container>.row
+{
+    margin-bottom: 15px;
+}
+.main_form_container
+{
+    padding-top:20px;
+}
+.ngx-datepicker-container .ngx-datepicker-input
+{
+    width:100%!important;
+}
+.ngx-datepicker-container
+{
+    position: absolute;
+    background: #fff;
+    /* -webkit-box-shadow: 0 1px 4px 0 rgba(0,0,0,.08); */
+    /* box-shadow: 0 1px 4px 0 rgba(0,0,0,.08); */
+    /* border-radius: 4px; */
+    z-index: 10 !important;
+    display: block;
+    border-radius: 0px;
+    height: auto;
+    box-shadow: none;
+}
+.input_container input,.input_container select
+{
+    width:100%;
+}
+.label_container
+{
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+.report_row
+{
+    width:100%;
+    display: flex;
+    padding:0px 5px;
+}
+.report_row>div
+{
+    flex:1;
+    padding:5px;
+}
+.date_icon
+{
+    font-size: 18px;
+}
+/*This will work on every browser but Chrome Browser*/
+.table-fixed thead {
+    background-color:black;
+    color:white;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+}
+/*This will work on every browser*/
+.table-fixed thead th {
+  background-color:black;
+  color:white;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+}
+th {
+  background: var(--green_clr);
+  position: sticky;
+  top: 0; /* Don't forget this, required for the stickiness */
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+  color: var(--white_clr);
+}

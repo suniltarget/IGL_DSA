@@ -1,0 +1,41 @@
+<div class="mypopup" data-popup="popup-1">
+    <div class="popup_container popup_container_dsa_entry">
+		<div class="trigger_div">
+			<span class="mypop_heading_span">
+				<h4>DSA Entry ({{DDate}})</h4>
+			</span>
+			<div class="mypop_head_right_div">
+				<span class="mypop_savebtn_sapn"></span>
+				<span class="mypop_closebtn_span">
+					<i class="fas fa-times" id="pass_close" (click)="ClosePopup(isOpen)"></i>
+				</span>
+			</div>
+		</div>
+        <div class="content_div content_div_dsa_entry">
+            <ul class="nav nav-tabs">
+				<li class="active"><a data-target="#Dispenser" data-toggle="tab" (click)="GetActiveTab('Dispenser')">Dispenser</a></li>
+				<li *ngIf="!IsFinanceTabsDisable"><a  data-target="#Payment" data-toggle="tab" (click)="GetActiveTab('Payment')">Payment Collection</a></li>
+				<li *ngIf="(this.dCompany && !IsFinanceTabsDisable)"><a  data-target="#OtherSales" data-toggle="tab" (click)="GetActiveTab('Other')">Other Sales</a></li>
+				<li *ngIf="!IsFinanceTabsDisable"><a  data-target="#BankDeposit" data-toggle="tab" (click)="GetActiveTab('Bank')">Bank Deposit</a></li>
+				<li *ngIf="!IsFinanceTabsDisable"><a  data-target="#DsaSmryDeposit" data-toggle="tab" (click)="GetActiveTab('Summary')">DSA Summary</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="Dispenser">
+					<app-dipenser-reading></app-dipenser-reading>
+				</div>
+				<div class="tab-pane" id="Payment">
+					<app-add-payment></app-add-payment>
+				</div>
+				<div class="tab-pane" id="OtherSales">
+					<app-other-sales></app-other-sales>
+				</div>
+				<div class="tab-pane" id="BankDeposit">
+					<app-bank-deposit></app-bank-deposit>
+				</div>
+				<div class="tab-pane" id="DsaSmryDeposit">
+					<app-dsa-summary></app-dsa-summary>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>
