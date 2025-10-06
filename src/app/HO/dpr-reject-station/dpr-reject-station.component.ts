@@ -13,6 +13,7 @@ declare var $:any;
   styleUrls: ['./dpr-reject-station.component.css']
 })
 export class DPRRejectStationComponent implements OnInit {
+  controlRooms: any[];
   listStation: any[];
   SelectedCRoom:string='';
   SelectedStationCode:string='';
@@ -40,6 +41,7 @@ export class DPRRejectStationComponent implements OnInit {
     this.objDbServ.LeftMenu.emit(true);
    }
   ngOnInit() {
+    this.loadControlRooms();
     this.Rejectiondate= this.objCook.get('CurrentDate');
     if(this.DepartmentCode=='HO')
       this.IsDepartmentHO=true;
@@ -53,6 +55,19 @@ export class DPRRejectStationComponent implements OnInit {
     this.SelectedCRoom = evt.target.value;
     this.getRejectDetails();
   }
+
+  loadControlRooms() {
+    this.objDbServ.GetControlOfficeForDropDown({}).subscribe(
+      (resp: Response) => {
+        this.controlRooms=JSON.parse(resp.json()).Table
+      },
+      (error) => {alert("Something went wrong.");
+       this.objDbServ.ShowLoaders.emit(false);
+      }
+    )
+  }
+
+  
   getRejectDetails() {
     this.objDbServ.getRejectDetails({ControlRoomCode:this.SelectedCRoom, Flag:'FillStation', Rejectiondate: this.Rejectiondate}).subscribe(
       (resp: Response) => {

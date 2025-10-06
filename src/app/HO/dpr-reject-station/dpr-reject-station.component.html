@@ -16,24 +16,7 @@
 						<div class="input_container" (change)="OnSelectCRoom($event)">
 							<select [(ngModel)]='SelectedCRoom' name="jsonRejectCR" id="" class="form-control">
 								<option value="" selected>--Select--</option>
-								<option value="CR001">SARAI KALE KHAN (CR001)</option>
-								<option value="CR002">LADO SARAI (CR002)</option>
-								<option value="CR003">JAIL ROAD (CR003)</option>
-								<option value="CR004">DHEERPUR (CR004)</option>
-								<option value="CR005">CBD (CR005)</option>
-								<option value="CR006">SHAKURPUR (CR006)</option>
-								<option value="CR007">ROHINI (CR007)</option>
-								<option value="CR008">DWARKA (CR008)</option>
-								<option value="CR021">REWARI (CR021)</option>
-								<option value="CR023">GURUGRAM (CR023)</option>
-								<option value="CR024">KARNAL (CR024)</option>
-								<option value="CR025">KAITHAL (CR025)</option>
-								<option value="CR031">NOIDA (CR031)</option>
-								<option value="CR033">GHAZIABAD (CR033)</option>
-								<option value="CR034">MUZZAFARNAGAR (CR034)</option>  
-								<option value="CR035">KANPUR CR (CR035)</option> 
-								<option value="CR036">KANPUR (CR036)</option> 
-								<option value="CR041">AJMER CR (CR041)</option>  																
+								<option *ngFor="let itm of controlRooms" [value]="itm.cid">{{itm.cname}}</option>														
 							</select>
 						</div>
 					</div>

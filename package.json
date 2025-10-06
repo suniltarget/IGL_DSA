@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start:ssl": "ng serve --ssl true --ssl-key ssl/key.pem --ssl-cert ssl/cert.pem",
-    "start:local": "cross-env NODE_OPTIONS=--openssl-legacy-provider ng serve",
+    "start:local": "ng serve",
     "start": "ng serve",
     "build": "ng build --prod",
     "test": "ng test",
@@ -23,6 +23,7 @@
     "@angular/platform-browser": "^5.2.11",
     "@angular/platform-browser-dynamic": "^5.2.11",
     "@angular/router": "^5.2.11",
+    "@ng-select/ng-select": "^20.2.0",
     "angular-font-awesome": "^3.1.2",
     "bootstrap": "^3.4.1",
     "classlist.js": "^1.1.20150312",

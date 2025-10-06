@@ -91,6 +91,7 @@ import { DSAEntryUnlockComponent } from './HO/dsaentry-unlock/dsaentry-unlock.co
 import { ECDCreditComponent } from './Station/ecdcredit/ecdcredit.component';
 import { ECDMasterComponent } from './HO/ecdmaster/ecdmaster.component';
 import { LCVvehicleComponent } from './Station/lcvvehicle/lcvvehicle.component';
+import { DocumentListComponent } from './HO/document-list/document-list.component';
 const appRoutes = [
   { path: '', component: LoginComponent },
   { path: 'Mom', component: MktofficemgmntlistComponent, canActivate: [RouteGuardService] },
@@ -160,6 +161,7 @@ const appRoutes = [
   { path: 'ECDCredit', component: OtherSalesComponent, canActivate: [RouteGuardService] },
   { path: 'ECDMaster', component: ECDMasterComponent, canActivate: [RouteGuardService] },
   { path: 'LCVvehicle', component: LCVvehicleComponent, canActivate: [RouteGuardService] },
+  { path: 'StationDocuments', component: DocumentListComponent, canActivate: [RouteGuardService] },
 ];
 @NgModule({
   declarations: [
@@ -237,6 +239,7 @@ const appRoutes = [
     ECDCreditComponent,
     ECDMasterComponent,
     LCVvehicleComponent,
+    DocumentListComponent,
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -245,10 +248,10 @@ const appRoutes = [
     NgDatepickerModule,
     Ng2SearchPipeModule,
     NgMultiSelectDropDownModule,
-    NgxPaginationModule, 
+    NgxPaginationModule,
   ],
   providers: [dbService, CookieService, { provide: LocationStrategy, useClass: HashLocationStrategy },
-  RouteGuardService, DatePipe],
+    RouteGuardService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule implements OnInit {

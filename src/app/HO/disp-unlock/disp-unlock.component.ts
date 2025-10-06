@@ -13,6 +13,7 @@ declare var $:any;
   styleUrls: ['./disp-unlock.component.css']
 })
 export class DispUnlockComponent implements OnInit {
+  controlRooms: any[];
   listStation: any[];
   SelectedCRoom:string='';
   SelectedStationCode:string='';
@@ -26,7 +27,7 @@ export class DispUnlockComponent implements OnInit {
   minYear: 2018,
   locale: enLocale,
   displayFormat: 'DD-MMM-YYYY',
-  maxDate:new Date(Date.now())
+  maxDate:new Date(Date.now()),  
  };
  monthNames = [
   "Jan", "Feb", "Mar",
@@ -40,6 +41,7 @@ export class DispUnlockComponent implements OnInit {
     this.objDbServ.LeftMenu.emit(true);
    }
   ngOnInit() {
+    this.loadControlRooms();
     this.Rejectiondate = this.objCook.get('CurrentDate');
     if(this.DepartmentCode=='HO')
       this.IsDepartmentHO=true;
@@ -52,7 +54,20 @@ export class DispUnlockComponent implements OnInit {
   OnSelectCRoom(evt) {
     this.SelectedCRoom = evt.target.value;
     this.getRejectDetails();
+    
   }
+  
+  loadControlRooms() {
+    this.objDbServ.GetControlOfficeForDropDown({}).subscribe(
+      (resp: Response) => {
+        this.controlRooms=JSON.parse(resp.json()).Table
+      },
+      (error) => {alert("Something went wrong.");
+       this.objDbServ.ShowLoaders.emit(false);
+      }
+    )
+  }
+   
   getRejectDetails() {
     this.objDbServ.getRejectDetails({ControlRoomCode:this.SelectedCRoom, Flag:'FillStation', Rejectiondate: this.Rejectiondate}).subscribe(
       (resp: Response) => {

@@ -1,0 +1,136 @@
+<div class="main_heading">
+  <span class="heading_span">
+    <h1>Station Documents</h1>
+  </span>
+  <span class="search_span">
+    <input type="text" [(ngModel)]="filter" placeholder="Search Document" class="form-control" autocomplete="off">
+  </span>
+  <div class="head_right_div">
+
+    <span class="pop_btn_span">
+      <a title="Upload Document" (click)="openUploadPopup()">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+      </a>
+    </span>
+  </div>
+</div>
+
+<div class="mycard">
+  <div class="main_table_container">
+    <div class="vertScrollTbl">
+      <div class="divTableHeader">
+        <div class="divTableRow">
+          <div class="divTableCell">Sr No.</div>
+          <div class="divTableCell" (click)="sortData('StationName')">
+            Station Name <i *ngIf="sortColumn==='StationName'" class="fa"
+              [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+          </div>
+          <div class="divTableCell" (click)="sortData('StationCode')">
+            Station Code <i *ngIf="sortColumn==='StationCode'" class="fa"
+              [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+          </div>
+          <div class="divTableCell" (click)="sortData('FileName')">
+            File Name <i *ngIf="sortColumn==='FileName'" class="fa"
+              [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+          </div>
+          <div class="divTableCell" (click)="sortData('TypeName')">
+            Document Type <i *ngIf="sortColumn==='TypeName'" class="fa"
+              [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+          </div>
+
+          <div class="divTableCell" (click)="sortData('UploadedBy')">
+            Uploaded By <i *ngIf="sortColumn==='UploadedBy'" class="fa"
+              [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+          </div>
+          <div class="divTableCell" (click)="sortData('UploadedOn')">
+            Uploaded On <i *ngIf="sortColumn==='UploadedOn'" class="fa"
+              [ngClass]="sortDirection==='asc' ? 'fa-sort-asc' : 'fa-sort-desc'"></i>
+          </div>
+          <div class="divTableCell">Action</div>
+        </div>
+      </div>
+      <div class="divTableBody">
+        <div *ngFor="let doc of documents | filter:filter; let i = index"
+          [ngClass]="doc.DocumentId == selectedDocId ? 'divTableRow table_row_highlight' : 'divTableRow'">
+          <div class="divTableCell">{{ i+1 }}</div>
+          <div class="divTableCell">{{ doc.StationName }}</div>
+          <div class="divTableCell">{{ doc.StationCode }}</div>
+          <div class="divTableCell">
+            <div class="overTextTip">{{ doc.FileName }}</div>
+          </div>
+          <div class="divTableCell">{{ doc.TypeName }}</div>
+         
+          <div class="divTableCell">{{ doc.UploadedBy }}</div>
+          <div class="divTableCell">{{ doc.UploadedOn | date:'dd-MMM-yyyy hh:mm a' }}</div>
+          <div class="divTableCell">
+            <a [href]="doc.FilePath" target="_blank" title="View">
+              <i class="fa fa-eye"></i>
+            </a>
+            &nbsp;&nbsp;
+            <a title="Delete" (click)="confirmDelete(doc.DocumentId)">
+              <i class="fa fa-trash text-danger"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Popup -->
+<div class="stationMngemantpoup mypopup" *ngIf="uploadPopup">
+  <div class="popup_container">
+    <div class="trigger_div">
+      <span class="mypop_heading_span">
+        <h4>Upload Document</h4>
+      </span>
+      <div class="mypop_head_right_div">
+        <span class="mypop_savebtn_sapn" title="Save">
+          <i class="fa fa-floppy-o" (click)="uploadDocument()"></i>
+        </span>
+        <span class="mypop_closebtn_span" title="Close">
+          <i class="fas fa-times" (click)="uploadPopup = false"></i>
+        </span>
+      </div>
+    </div>
+    <div class="content_div">
+      <form class="form-horizontal old_popup" role="form">
+        <div class="form-group required">
+          <label>Station</label>
+
+          <div class="filer_container">
+            <form class="custom_dropdown">
+              <input class="form-control filter_input" type="text" name="stCodeMy" [(ngModel)]="stCodeMy"
+                (click)="filterBoxShow()" readonly />
+            </form>
+            <div class="filter_box" *ngIf=(fiterBox)>
+              <input class="form-control" name="search" [(ngModel)]="filterdd" type="search" placeholder="Search.."
+                autocomplete="off">
+              <ul class="list-group fiter_ul" id="myList">
+                <li class="list-group-item" *ngFor="let itm of stations | filter:filterdd" (click)="filterBoxShow(itm)"
+                  [value]="itm.id">{{itm.name}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="form-group required">
+          <label>Document Type</label>
+          <select [(ngModel)]="documentTypeId" name="documentTypeId" class="form-control"
+            (change)="onDocumentTypeChange()">
+            <option [ngValue]="0">-- Select Document Type --</option>
+            <option *ngFor="let dt of documentTypes" [ngValue]="dt.DocumentTypeId">{{ dt.TypeName }}</option>
+          </select>
+        </div>
+
+        <div class="form-group hidden">
+          <label>Type Code</label>
+          <input type="text" [(ngModel)]="docmentTypeCode" name="docmentTypeCode" class="form-control" readonly>
+        </div>
+        <div class="form-group hiffen">
+          <label>Upload File</label>
+          <input type="file" (change)="onFileSelected($event)" class="form-control">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
