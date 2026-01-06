@@ -1,0 +1,13 @@
+.unlinkPopup, .addPopup{
+    display: block!important;
+}
+.divTableBody > .divTableRow a{
+    color: red;
+}
+.divTableBody > .divTableRow:hover a{
+    color: white;
+}
+.tblA{
+    color: red;
+    
+}

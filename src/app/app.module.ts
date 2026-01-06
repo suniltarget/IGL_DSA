@@ -92,6 +92,7 @@ import { ECDCreditComponent } from './Station/ecdcredit/ecdcredit.component';
 import { ECDMasterComponent } from './HO/ecdmaster/ecdmaster.component';
 import { LCVvehicleComponent } from './Station/lcvvehicle/lcvvehicle.component';
 import { DocumentListComponent } from './HO/document-list/document-list.component';
+import { StationRelationComponent } from './HO/station-relation/station-relation.component';
 const appRoutes = [
   { path: '', component: LoginComponent },
   { path: 'Mom', component: MktofficemgmntlistComponent, canActivate: [RouteGuardService] },
@@ -162,6 +163,7 @@ const appRoutes = [
   { path: 'ECDMaster', component: ECDMasterComponent, canActivate: [RouteGuardService] },
   { path: 'LCVvehicle', component: LCVvehicleComponent, canActivate: [RouteGuardService] },
   { path: 'StationDocuments', component: DocumentListComponent, canActivate: [RouteGuardService] },
+  { path: 'STATIONRELATIONS', component: StationRelationComponent, canActivate: [RouteGuardService] },
 ];
 @NgModule({
   declarations: [
@@ -240,6 +242,7 @@ const appRoutes = [
     ECDMasterComponent,
     LCVvehicleComponent,
     DocumentListComponent,
+    StationRelationComponent,
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

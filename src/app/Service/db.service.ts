@@ -853,4 +853,27 @@ export class dbService implements OnInit {
             { DocumentId: documentId }
         );
     }
+
+    SaveStationRelation(obj: {}) {
+        var api = this.apiUrl + 'ApiService/' + 'saveStationRelation';
+        return this.objHttp.post(api, obj);
+    }
+    
+    GetOnlineAndHybridStations(obj: {}) {
+        var api = this.apiUrl + 'ApiService/' + 'GetOnlineAndHybridStations';
+        return this.objHttp.post(api, obj);
+    }
+    UnlinkStationRelation(obj: {}) {
+        var api = this.apiUrl + 'ApiService/' + 'UnlinkStationRelation';
+        return this.objHttp.post(api, obj);
+    }
+
+    AddStationRelation(obj: {}) {
+        var api = this.apiUrl + 'ApiService/' + 'AddStationRelation';
+        return this.objHttp.post(api, obj);
+    }
+     GetStationRelations(obj: {}) {
+        var api = this.apiUrl + 'ApiService/' + 'GetStationRelations';
+        return this.objHttp.post(api, obj);
+    }
 }
