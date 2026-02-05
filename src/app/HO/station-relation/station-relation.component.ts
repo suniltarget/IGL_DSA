@@ -34,6 +34,7 @@ export class StationRelationComponent implements OnInit {
   unlinkTarget: any = null;
 
   loader: boolean = false;
+  filter: string = '';
 
   constructor(
     private objDbServ: dbService,

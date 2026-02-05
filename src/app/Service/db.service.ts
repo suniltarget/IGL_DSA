@@ -74,8 +74,10 @@ export class dbService implements OnInit {
             this.apiImageAttachment = 'http://localhost:9758';
         }
         else {
-            this.apiUrl = 'https://igldpr.igl.co.in/api/';
-            this.apiImageAttachment = 'https://igldpr.igl.co.in/';
+            // this.apiUrl = 'https://igldpr.igl.co.in/api/';
+            // this.apiImageAttachment = 'https://igldpr.igl.co.in/';
+            this.apiUrl = 'http://172.16.20.248:9011/api/';
+            this.apiImageAttachment = 'http://172.16.20.248:9011/';
         }
     }
     CommonGetData(obj: {}) {
