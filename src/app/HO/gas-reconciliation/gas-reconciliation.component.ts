@@ -21,6 +21,7 @@ export class GasReconciliationComponent implements OnInit {
   key: string = 'Name';
   reverse: boolean = true;
   CaseSeletionCasesJson = [{ Text: 'Case1' }, { Text: 'Case2'}, { Text: 'Case3'}];
+  SeletionStatusJson = [{ Text: 'Operational' }, { Text: 'Non_Operational'}];
   Loginid:string= this.objCook.get('LoginId');
   GasReconciliationCaseList:any = [];
   constructor(private objDbServ: dbService, private objCook: CookieService) {

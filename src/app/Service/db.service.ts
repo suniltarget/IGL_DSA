@@ -74,10 +74,10 @@ export class dbService implements OnInit {
             this.apiImageAttachment = 'http://localhost:9758';
         }
         else {
-            // this.apiUrl = 'https://igldpr.igl.co.in/api/';
-            // this.apiImageAttachment = 'https://igldpr.igl.co.in/';
-            this.apiUrl = 'http://172.16.20.248:9011/api/';
-            this.apiImageAttachment = 'http://172.16.20.248:9011/';
+            this.apiUrl = 'https://igldpr.igl.co.in/api/';
+            this.apiImageAttachment = 'https://igldpr.igl.co.in/';
+            // this.apiUrl = 'http://172.16.20.248:9011/api/';
+            // this.apiImageAttachment = 'http://172.16.20.248:9011/';
         }
     }
     CommonGetData(obj: {}) {
@@ -876,6 +876,14 @@ export class dbService implements OnInit {
     }
      GetStationRelations(obj: {}) {
         var api = this.apiUrl + 'ApiService/' + 'GetStationRelations';
+        return this.objHttp.post(api, obj);
+    }
+    GetAvgDispencePressureList(obj: {}) {
+        var api = this.apiUrl + 'DSA/' + 'GetAvgDispencePressureList';
+        return this.objHttp.post(api, obj);
+    }
+    InsertUpdateAvgDispencePressure(obj: {}) {
+        var api = this.apiUrl + 'DSA/' + 'InsertUpdateAvgDispencePressure';
         return this.objHttp.post(api, obj);
     }
 }

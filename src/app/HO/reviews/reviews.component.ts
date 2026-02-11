@@ -47,8 +47,10 @@ options:DatepickerOptions = {
     this.objDbServ.LeftMenu.emit(true);
   }
   ngOnInit() {
-    this.apiURL = this.objDbServ.apiImageAttachment + '/Attachments/Excel/';
-    this.DPREntryDate = this.objCook.get('CurrentDate'); 
+    this.apiURL = this.objDbServ.apiImageAttachment + '/Attachments/Excel/'; 
+    const currentDate = new Date(this.objCook.get('CurrentDate'));
+    currentDate.setDate(currentDate.getDate() - 1);
+    this.DPREntryDate= currentDate.getDate() + "-" + this.monthNames[currentDate.getMonth()] + "-" + currentDate.getFullYear();
     this.getReviewData();
   }
   OnDateChnagefrom(val){

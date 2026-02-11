@@ -23,6 +23,9 @@
 					<div [ngClass]="sortingColumn == 'Region' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" style="width:150px;">
 						Case Selection <i [className]="sortingColumn == 'Region' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
 					</div>
+					<div [ngClass]="sortingColumn == 'StationStatus' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" style="width:150px;">
+						Status <i [className]="sortingColumn == 'StationStatus' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>
 					<div [ngClass]="sortingColumn == 'Remarks' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" style="width:450px;">
 						Remark <i [className]="sortingColumn == 'Remarks' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
 					</div>
@@ -36,6 +39,11 @@
 					<div class="divTableCell" >
 						<select class="form-control select" [(ngModel)]="itm.StationCase"  name="resetTypeJsonSelectedEFM" (change)="resetchange($event.target.value, 'EFM')">
 							<option *ngFor="let itm of CaseSeletionCasesJson" [value]="itm.Text">{{itm.Text}}</option>
+						</select> 
+					</div>
+					<div class="divTableCell" >
+						<select class="form-control select" [(ngModel)]="itm.StationStatus"  name="resetTypeJsonSelectedStatus" (change)="resetchange($event.target.value, 'Status')">
+							<option *ngFor="let itm of SeletionStatusJson" [value]="itm.Text">{{itm.Text}}</option>
 						</select> 
 					</div>
 					<div class="divTableCell last_cell">

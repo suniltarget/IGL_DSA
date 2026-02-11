@@ -1,0 +1,63 @@
+<div class="main_heading">
+	<span class="heading_span">
+		<h1>Average Station Dispense Pressure</h1>
+	</span>
+	<div class="head_right_div">
+		<span class="dwnld_btn_span">
+			<button type="button" title="Save" (click)="OnSubmit();"><i class="fa fa-floppy-o"></i></button>
+		</span>
+	</div>
+</div>
+<div class="mycard">
+	<div class="main_table_container">
+		<div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+			<div style="margin-left: auto;display: flex; align-items: center;">
+				<div style="margin-right: 15px;">
+					<div class="label_container">
+						<label> Date <i class="far fa-calendar-alt date_icon"></i></label>
+					</div>
+					<div class="input_container">
+						<ng-datepicker [(ngModel)]="EntryDate" [options]="options" class="ngx-datepicker-container"
+							(ngModelChange)="OnEntryDateChnage($event)"></ng-datepicker>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="vertScrollTbl">
+			<div class="divTableHeader">
+				<div class="divTableRow">
+					<div class="divTableCell" style="width:70px;">
+						Sr No.
+					</div>
+					<div
+						[ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'">
+						Station Code <i
+							[className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>
+					<div
+						[ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'">
+						Station Name <i
+							[className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>
+					<div [ngClass]="sortingColumn == 'AvgDispPressure' ? 'divTableCell highlighted_tableCell' : 'divTableCell'"
+						style="width:450px;">
+						AvgDispPressure <i
+							[className]="sortingColumn == 'AvgDispPressure' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+					</div>
+				</div>
+			</div>
+			<div class="divTableBody">
+				<div class="divTableRow" *ngFor="let itm of AvgDispencePressureList, let i = index">
+					<div class="divTableCell">{{i+1}}</div>
+					<div class="divTableCell">{{itm.StationCode}}</div>
+					<div class="divTableCell">{{itm.Station_Name}}</div>
+					<div class="divTableCell last_cell">
+						<input type="number" [(ngModel)]="itm.AvgDispPressure"
+							(input)="Readingvalue($event.target.value)" (input)="DocumentName=$event.target.value"
+							class="form-control" placeholder="AvgDispPressure">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
