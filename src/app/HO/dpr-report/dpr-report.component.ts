@@ -209,7 +209,7 @@ export class DPRReportComponent implements OnInit {
     if (this.selectedRegion != "All") {
       this.selectedStation = '';
       this.IsStationDisable = false;
-      this.objDbServ.getStationDetails({ControlRoomCode: this.ControlRoomCode, Region: this.selectedRegion, Flag: this.ReportFlag }).subscribe(
+      this.objDbServ.getStationDetails({ControlRoomCode: this.ControlRoomCode, Region: this.selectedRegion, Flag: this.ReportFlag, LoginId: this.LoginID }).subscribe(
         (resp: any) => {
           this.StationList = JSON.parse(resp.json()).Table;
         },
@@ -221,7 +221,7 @@ export class DPRReportComponent implements OnInit {
     else if (this.selectedRegion == "All") {
       this.selectedStation = '';
       this.IsStationDisable = false;
-      this.objDbServ.getStationDetails({ControlRoomCode: this.ControlRoomCode, Region: this.selectedRegion, Flag: this.ReportFlag }).subscribe(
+      this.objDbServ.getStationDetails({ControlRoomCode: this.ControlRoomCode, Region: this.selectedRegion, Flag: this.ReportFlag, LoginId: this.LoginID }).subscribe(
         (resp: any) => {
           this.StationList = JSON.parse(resp.json()).Table;
         },
@@ -238,7 +238,7 @@ export class DPRReportComponent implements OnInit {
     if (this.ReportFlag == 'CO') {
        this.selectedRegion='All';
        this.IsStationDisable=true;
-      this.objDbServ.getStationDetails({ControlRoomCode: this.ControlRoomCode, Region: this.selectedRegion, Flag: this.ReportFlag }).subscribe(
+      this.objDbServ.getStationDetails({ControlRoomCode: this.ControlRoomCode, Region: this.selectedRegion, Flag: this.ReportFlag, LoginId: this.LoginID }).subscribe(
         (resp: any) => {
           this.StationList = JSON.parse(resp.json()).Table;
         },

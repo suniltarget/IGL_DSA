@@ -69,7 +69,7 @@ export class DPRRejectStationComponent implements OnInit {
 
   
   getRejectDetails() {
-    this.objDbServ.getRejectDetails({ControlRoomCode:this.SelectedCRoom, Flag:'FillStation', Rejectiondate: this.Rejectiondate}).subscribe(
+    this.objDbServ.getRejectDetails({ControlRoomCode:this.SelectedCRoom, Flag:'FillStation', Rejectiondate: this.Rejectiondate, LoginId: this.LoginCode}).subscribe(
       (resp: Response) => {
         this.listStation=JSON.parse(resp.json()).Table
       },
@@ -81,7 +81,7 @@ export class DPRRejectStationComponent implements OnInit {
   UpdateRejectStation() {
     this.errorFound = true;
     if(this.ValidationRejection()) {
-      this.objDbServ.getRejectDetails({ControlRoomCode:this.SelectedCRoom, Flag: this.SelectedStationCode, RejectionDate:this.Rejectiondate}).subscribe(
+      this.objDbServ.getRejectDetails({ControlRoomCode:this.SelectedCRoom, Flag: this.SelectedStationCode, RejectionDate:this.Rejectiondate, LoginId: this.LoginCode}).subscribe(
         (resp: Response) => {
           const data = JSON.parse(resp.json());
          if(data.Table[0].Messages != "") {        

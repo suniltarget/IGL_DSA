@@ -69,7 +69,7 @@ export class DispUnlockComponent implements OnInit {
   }
    
   getRejectDetails() {
-    this.objDbServ.getRejectDetails({ControlRoomCode:this.SelectedCRoom, Flag:'FillStation', Rejectiondate: this.Rejectiondate}).subscribe(
+    this.objDbServ.getRejectDetails({ControlRoomCode:this.SelectedCRoom, Flag:'FillStation', Rejectiondate: this.Rejectiondate, LoginId: this.LoginCode}).subscribe(
       (resp: Response) => {
         this.listStation=JSON.parse(resp.json()).Table
       },

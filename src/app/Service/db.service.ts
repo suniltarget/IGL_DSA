@@ -76,8 +76,8 @@ export class dbService implements OnInit {
         else {
             this.apiUrl = 'https://igldpr.igl.co.in/api/';
             this.apiImageAttachment = 'https://igldpr.igl.co.in/';
-            // this.apiUrl = 'http://172.16.20.248:9011/api/';
-            // this.apiImageAttachment = 'http://172.16.20.248:9011/';
+            // this.apiUrl = 'http://45.119.10.174:9011/api/';
+            // this.apiImageAttachment = 'http://45.119.10.174:9011/';
         }
     }
     CommonGetData(obj: {}) {
@@ -820,7 +820,7 @@ export class dbService implements OnInit {
         return this.objHttp.post(api, obj);
     }
 
-   
+
     // Add in db.service.ts
     uploadStationDocument(formData: FormData) {
         return this.objHttp.post(this.apiUrl + 'ApiService/UploadStationDocument', formData);
@@ -860,7 +860,7 @@ export class dbService implements OnInit {
         var api = this.apiUrl + 'ApiService/' + 'saveStationRelation';
         return this.objHttp.post(api, obj);
     }
-    
+
     GetOnlineAndHybridStations(obj: {}) {
         var api = this.apiUrl + 'ApiService/' + 'GetOnlineAndHybridStations';
         return this.objHttp.post(api, obj);
@@ -874,7 +874,7 @@ export class dbService implements OnInit {
         var api = this.apiUrl + 'ApiService/' + 'AddStationRelation';
         return this.objHttp.post(api, obj);
     }
-     GetStationRelations(obj: {}) {
+    GetStationRelations(obj: {}) {
         var api = this.apiUrl + 'ApiService/' + 'GetStationRelations';
         return this.objHttp.post(api, obj);
     }
@@ -884,6 +884,14 @@ export class dbService implements OnInit {
     }
     InsertUpdateAvgDispencePressure(obj: {}) {
         var api = this.apiUrl + 'DSA/' + 'InsertUpdateAvgDispencePressure';
+        return this.objHttp.post(api, obj);
+    }
+    AutoFetchTotalizers(obj: {}) {
+         var api = this.apiUrl + 'DSA/' + 'AutoFetchTotalizers';
+        return this.objHttp.post(api, obj);
+    }
+    GetTotalizersFromScada(obj: {}) {
+        var api = this.apiUrl + 'DSA/' + 'GetTotalizersFromScada';
         return this.objHttp.post(api, obj);
     }
 }

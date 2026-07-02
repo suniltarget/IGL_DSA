@@ -59,7 +59,7 @@ export class SAPJMRComponent implements OnInit {
     if (this.selectedRegion != "All") {
       this.selectedStation = '';
       this.IsStationDisable = false;
-      this.objDbServ.getStationDetails({ControlRoomCode: this.ControlRoomCode, Region: this.selectedRegion, Flag: this.ReportFlag }).subscribe(
+      this.objDbServ.getStationDetails({ControlRoomCode: this.ControlRoomCode, Region: this.selectedRegion, Flag: this.ReportFlag, LoginId: this.ControlRoomCode }).subscribe(
         (resp: any) => {
           this.StationList = JSON.parse(resp.json()).Table;
         },
@@ -71,7 +71,7 @@ export class SAPJMRComponent implements OnInit {
     else if (this.selectedRegion == "All") {
       this.selectedStation = '';
       this.IsStationDisable = false;
-      this.objDbServ.getStationDetails({ControlRoomCode: this.ControlRoomCode, Region: this.selectedRegion, Flag: this.ReportFlag }).subscribe(
+      this.objDbServ.getStationDetails({ControlRoomCode: this.ControlRoomCode, Region: this.selectedRegion, Flag: this.ReportFlag, LoginId: this.ControlRoomCode }).subscribe(
         (resp: any) => {
           this.StationList = JSON.parse(resp.json()).Table;
         },

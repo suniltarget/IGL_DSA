@@ -124,7 +124,7 @@ export class DispenserEntryComponent implements OnInit {
         this.submittedflag = value
       );
     }
-    this.SelectedDate = this.objCook.get('CurrentDate'); 
+    this.SelectedDate = this.objCook.get('CurrentDate');
     this.selectedStation = Number(this.objCook.get('stationId'));
     this.OnDateChnage(this.SelectedDate);
     this.JRSValidate();
@@ -138,7 +138,7 @@ export class DispenserEntryComponent implements OnInit {
       this.submittedflag = true;
     else
       this.submittedflag = false;
-      this.CheckDispencerLockUnlock();
+    this.CheckDispencerLockUnlock();
   }
   FetchDSASubmittedData() {
     var Obj = {
@@ -188,8 +188,8 @@ export class DispenserEntryComponent implements OnInit {
           this.selectedSubShiftId = '-1';
           this.CurrentRate = '0.00';
         }
-      if (this.CompanyId == '1' || this.CompanyId == '2' || this.CompanyId == '4' ||
-          this.CompanyId == '5' || this.CompanyId == '6' || this.CompanyId == '8' || 
+        if (this.CompanyId == '1' || this.CompanyId == '2' || this.CompanyId == '4' ||
+          this.CompanyId == '5' || this.CompanyId == '6' || this.CompanyId == '8' ||
           this.CompanyId == '9') {
           this.selectedShiftId = '4';
           this.selectedSubShiftId = '6';
@@ -216,7 +216,7 @@ export class DispenserEntryComponent implements OnInit {
       (resp: any) => {
         this.CompanyName = JSON.parse(resp.json()).Table[0].CompanyName;
         this.CompanyId = JSON.parse(resp.json()).Table[0].CompanyId;
-      if (this.CompanyId == '1' || this.CompanyId == '2' || this.CompanyId == '4' ||
+        if (this.CompanyId == '1' || this.CompanyId == '2' || this.CompanyId == '4' ||
           this.CompanyId == '5' || this.CompanyId == '6' || this.CompanyId == '8' ||
           this.CompanyId == '9') {
           this.selectedShiftId = '4';
@@ -240,8 +240,8 @@ export class DispenserEntryComponent implements OnInit {
     }
   }
   GetReadingbyShift() {
-  if (this.CompanyId == '1' || this.CompanyId == '2' || this.CompanyId == '4' ||
-      this.CompanyId == '5' || this.CompanyId == '6' || this.CompanyId == '8' || 
+    if (this.CompanyId == '1' || this.CompanyId == '2' || this.CompanyId == '4' ||
+      this.CompanyId == '5' || this.CompanyId == '6' || this.CompanyId == '8' ||
       this.CompanyId == '9') {
       this.selectedShiftId = '1';
       this.selectedSubShiftId = '1';
@@ -264,7 +264,7 @@ export class DispenserEntryComponent implements OnInit {
           this.allDispenserData = JSON.parse(resp.json()).Table;
           this.totalDispenser = JSON.parse(resp.json()).Table4.length;
           this.cmbShiftData = JSON.parse(resp.json()).Table1;
-        if (this.CompanyId != '1' && this.CompanyId != '2' && this.CompanyId != '4' &&
+          if (this.CompanyId != '1' && this.CompanyId != '2' && this.CompanyId != '4' &&
             this.CompanyId != '5' && this.CompanyId != '6' && this.CompanyId != '8' &&
             this.CompanyId != '9') {
             this.cmbSubShiftData = JSON.parse(resp.json()).Table2;
@@ -272,7 +272,7 @@ export class DispenserEntryComponent implements OnInit {
           else {
             this.cmbSubShiftData = JSON.parse(resp.json()).Table5
           }
-        if (this.CompanyId == '1' || this.CompanyId == '2' || this.CompanyId == '4' ||
+          if (this.CompanyId == '1' || this.CompanyId == '2' || this.CompanyId == '4' ||
             this.CompanyId == '5' || this.CompanyId == '6' || this.CompanyId == '8' ||
             this.CompanyId == '9') {
             this.selectedShiftId = '4';
@@ -292,6 +292,7 @@ export class DispenserEntryComponent implements OnInit {
           else
             this.CurrentRate = this.NormalRate;
           this.SubShiftCount = JSON.parse(resp.json()).Table2.length;
+          setTimeout(() => { this.AutoFetchFromScada(); });
           var element = 0;
           if (this.selectedShiftId == '-1' || this.selectedSubShiftId == '-1')
             this.jumppopup = true;
@@ -300,7 +301,7 @@ export class DispenserEntryComponent implements OnInit {
           this.ArmASale = (parseFloat(JSON.parse(resp.json()).Table[0].TotA).toFixed(2)).toString()
           this.ArmBSale = (parseFloat(JSON.parse(resp.json()).Table[0].TotB).toFixed(2)).toString()
           this.TArmSale = (parseFloat(JSON.parse(resp.json()).Table[0].FinalTot).toFixed(2)).toString()
-        if (this.CompanyId != '1' && this.CompanyId != '2' && this.CompanyId != '4' &&
+          if (this.CompanyId != '1' && this.CompanyId != '2' && this.CompanyId != '4' &&
             this.CompanyId != '5' && this.CompanyId != '6' && this.CompanyId != '8' &&
             this.CompanyId != '9') {
             for (let index = 0; index < this.cmbSubShiftData.length; index++) {
@@ -430,31 +431,28 @@ export class DispenserEntryComponent implements OnInit {
     const TArmSaleCal = ((parseFloat(itm.TotB) + parseFloat(itm.TotA)).toFixed(2)).toString();
     itm.FinalTot = Number((isNaN(parseFloat(TArmSaleCal)) ? '0.00' : TArmSaleCal));
   }
-  CheckDispencerLockUnlock()
-  {
+  CheckDispencerLockUnlock() {
     const obj = {
       EntryDate: this.SummeryDate,
       StationId: Number(this.objCook.get('stationId')),
       StationCode: this.StationCode,
     };
     this.objDbServ.ShowLoaders.emit(true);
-        this.objDbServ.CheckDispencerLockUnlockStatus(obj).subscribe(
-          (resp: any) => {
-            const data = JSON.parse(resp.json());
-            if(data.Table[0].Status == "1")
-            {
-              this.isDispencerLocked = false;
-              this.DispLockMsg = data.Table[0].Message;
-            }
-            else
-            {
-              this.isDispencerLocked = true;
-              this.DispLockMsg = "";
-            }
-            this.objDbServ.ShowLoaders.emit(false);
-          },
-          (error) => { alert("Something went wrong."); this.objDbServ.ShowLoaders.emit(false); }
-        )
+    this.objDbServ.CheckDispencerLockUnlockStatus(obj).subscribe(
+      (resp: any) => {
+        const data = JSON.parse(resp.json());
+        if (data.Table[0].Status == "1") {
+          this.isDispencerLocked = false;
+          this.DispLockMsg = data.Table[0].Message;
+        }
+        else {
+          this.isDispencerLocked = true;
+          this.DispLockMsg = "";
+        }
+        this.objDbServ.ShowLoaders.emit(false);
+      },
+      (error) => { alert("Something went wrong."); this.objDbServ.ShowLoaders.emit(false); }
+    )
   }
   saveAll() {
     if (this.checkSale()) {
@@ -501,6 +499,54 @@ export class DispenserEntryComponent implements OnInit {
       }
     }
   }
+
+  autoFetchInProgress = false;
+
+  AutoFetchFromScada() {
+    if (this.autoFetchInProgress) return;
+    if (this.selectedShiftId == "-1" || isNullOrUndefined(this.selectedShiftId)) return;
+    if (this.selectedSubShiftId == "-1" || isNullOrUndefined(this.selectedSubShiftId)) return;
+
+    const obj = {
+      UserId: this.objCook.get('UID'),
+      EntryDate: this.SummeryDate,
+      StationId: Number(this.objCook.get('stationId')),
+      ShiftId: this.selectedShiftId,
+      SubShiftId: this.selectedSubShiftId,
+      StationCode: this.StationCode,
+      CurrentRate: this.CurrentRate
+    };
+
+    this.autoFetchInProgress = true;
+    this.objDbServ.ShowLoaders.emit(true);
+
+    this.objDbServ.GetTotalizersFromScada(obj).subscribe(
+      (resp: any) => {
+        const data = JSON.parse(resp.json());
+        const rows = (data && data.ScadaData) ? data.ScadaData : [];
+        for (const row of rows) {
+          const itm = this.allDispenserData.find((d: any) => d.DispenserId == row.DispenserId);
+          if (!itm) continue;
+          if (row.ArmReadingA != null) {
+            itm.ArmReadingA = row.ArmReadingA;
+            this.OnchangeA(itm);
+          }
+          if (row.ArmReadingB != null) {
+            itm.ArmReadingB = row.ArmReadingB;
+            this.OnchangeB(itm);
+          }
+        }
+        this.objDbServ.ShowLoaders.emit(false);
+        this.autoFetchInProgress = false;
+      },
+      () => {
+        this.objDbServ.ShowLoaders.emit(false);
+        this.autoFetchInProgress = false;
+      }
+    );
+  }
+
+
   checkSale() {
     var sumArmASale = 0.00;
     var sumArmBSale = 0.00;
@@ -631,7 +677,7 @@ export class DispenserEntryComponent implements OnInit {
     }
     else if (parseFloat(ArmReadingB) <= parseFloat(PreArmReadingB)) {
       const ret = confirm('There is a suspecious entry in Arm B. Do you want to continue?')
-      return false; 
+      return false;
     }
     else if (ArmReadingB == '') {
       alert('Please enter reading for Arm B.');
@@ -780,10 +826,8 @@ export class DispenserEntryComponent implements OnInit {
       (resp: any) => {
         const data = JSON.parse(resp._body);
         alert(data);
-        if (data.indexOf('Error:') == -1) 
-        {
-          if (data.indexOf('Error') > -1)
-          {
+        if (data.indexOf('Error:') == -1) {
+          if (data.indexOf('Error') > -1) {
             this.objCook.set('UID', '');
             this.objRoute.navigate(['']);
           }
