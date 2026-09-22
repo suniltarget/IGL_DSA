@@ -292,7 +292,6 @@ export class DispenserEntryComponent implements OnInit {
           else
             this.CurrentRate = this.NormalRate;
           this.SubShiftCount = JSON.parse(resp.json()).Table2.length;
-          setTimeout(() => { this.AutoFetchFromScada(); });
           var element = 0;
           if (this.selectedShiftId == '-1' || this.selectedSubShiftId == '-1')
             this.jumppopup = true;
@@ -499,53 +498,6 @@ export class DispenserEntryComponent implements OnInit {
       }
     }
   }
-
-  autoFetchInProgress = false;
-
-  AutoFetchFromScada() {
-    if (this.autoFetchInProgress) return;
-    if (this.selectedShiftId == "-1" || isNullOrUndefined(this.selectedShiftId)) return;
-    if (this.selectedSubShiftId == "-1" || isNullOrUndefined(this.selectedSubShiftId)) return;
-
-    const obj = {
-      UserId: this.objCook.get('UID'),
-      EntryDate: this.SummeryDate,
-      StationId: Number(this.objCook.get('stationId')),
-      ShiftId: this.selectedShiftId,
-      SubShiftId: this.selectedSubShiftId,
-      StationCode: this.StationCode,
-      CurrentRate: this.CurrentRate
-    };
-
-    this.autoFetchInProgress = true;
-    this.objDbServ.ShowLoaders.emit(true);
-
-    this.objDbServ.GetTotalizersFromScada(obj).subscribe(
-      (resp: any) => {
-        const data = JSON.parse(resp.json());
-        const rows = (data && data.ScadaData) ? data.ScadaData : [];
-        for (const row of rows) {
-          const itm = this.allDispenserData.find((d: any) => d.DispenserId == row.DispenserId);
-          if (!itm) continue;
-          if (row.ArmReadingA != null) {
-            itm.ArmReadingA = row.ArmReadingA;
-            this.OnchangeA(itm);
-          }
-          if (row.ArmReadingB != null) {
-            itm.ArmReadingB = row.ArmReadingB;
-            this.OnchangeB(itm);
-          }
-        }
-        this.objDbServ.ShowLoaders.emit(false);
-        this.autoFetchInProgress = false;
-      },
-      () => {
-        this.objDbServ.ShowLoaders.emit(false);
-        this.autoFetchInProgress = false;
-      }
-    );
-  }
-
 
   checkSale() {
     var sumArmASale = 0.00;

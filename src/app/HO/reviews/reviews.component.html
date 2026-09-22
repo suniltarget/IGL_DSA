@@ -82,43 +82,16 @@
           <div [ngClass]="sortingColumn == 'BreakdownHours' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('BreakdownHours')">
               Breakdown Hours <i [className]="sortingColumn == 'BreakdownHours' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
           </div>
+          <div [ngClass]="sortingColumn == 'Loss' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Loss')">
+              Gass Loss <i [className]="sortingColumn == 'Loss' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+          </div>
           <div [ngClass]="sortingColumn == 'Remark' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Remark')">
               Remarks <i [className]="sortingColumn == 'Remark' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
           </div>
          </div>
       </div>  
       <div class="divTableBody">
-         <div *ngFor="let itm of arrReviewData | orderBy: key: reverse | filter:filter let i = index"  class="divTableRow">
-                <div id="rejectpopup" class="modal fade" >
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h4 class="modal-title">Remark
-                            <span class="popup_save_span">
-                              <button type="button" class="close_popup_btn" (click)="rejectionPopup(false, '')" data-dismiss="modal"><i class="fas fa-times"></i></button>
-                            </span>
-                          </h4>
-                        </div>
-                        <div class="modal-body">
-                          <div id="conts1"  >
-                            <div class="popup_container">
-                              <div class="content_div">
-                                <form >
-                                  <div class="conent">
-                                    <textarea class="form-control" rows="5" #remark placeholder="Remarks"></textarea>
-                                  </div>
-                                  <br/>
-                                  <div class="popup-buttons">
-                                    <button type="button" class="btn btn-success btn-sm pull-left" (click)="finalRejection(remark.value);">Save</button>
-                                  </div>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                        </div> 
-                      </div>
-                    </div>  
-                  </div>
+         <div *ngFor="let itm of arrReviewData | orderBy: key: reverse | filter:filter; let i = index; trackBy: trackByStation"  class="divTableRow">
             <div class="divTableCell first_cell">
 				<input type="checkbox" style="transform:scale(1.2,1.2);line-height:auto;height: auto!important;" [(ngModel)]="itm.selected" *ngIf="itm.isSentToHo != 1 && itm.SubmitStatus == 1" (change)="checkIfAllSelected();"> 
 			  	<span *ngIf="itm.SubmitStatus == 1">
@@ -152,8 +125,39 @@
             <div class="divTableCell" >{{itm.ScheduleShutdownHours}}</div>
             <div class="divTableCell" >{{itm.UnscheduledShutdownHours}}</div>
             <div class="divTableCell" >{{itm.BreakdownHours}}</div>
+            <div class="divTableCell" >{{itm.Loss}}</div>
             <div class="divTableCell" >{{itm.Remark}}</div>
          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="rejectpopup" class="modal fade" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Remark
+          <span class="popup_save_span">
+            <button type="button" class="close_popup_btn" (click)="rejectionPopup(false, '')" data-dismiss="modal"><i class="fas fa-times"></i></button>
+          </span>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div id="conts1"  >
+          <div class="popup_container">
+            <div class="content_div">
+              <form >
+                <div class="conent">
+                  <textarea class="form-control" rows="5" #remark placeholder="Remarks"></textarea>
+                </div>
+                <br/>
+                <div class="popup-buttons">
+                  <button type="button" class="btn btn-success btn-sm pull-left" (click)="finalRejection(remark.value);">Save</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

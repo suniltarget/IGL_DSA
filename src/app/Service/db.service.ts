@@ -74,10 +74,10 @@ export class dbService implements OnInit {
             this.apiImageAttachment = 'http://localhost:9758';
         }
         else {
-            this.apiUrl = 'https://igldpr.igl.co.in/api/';
-            this.apiImageAttachment = 'https://igldpr.igl.co.in/';
-            // this.apiUrl = 'http://45.119.10.174:9011/api/';
-            // this.apiImageAttachment = 'http://45.119.10.174:9011/';
+            // this.apiUrl = 'https://igldpr.igl.co.in/api/';
+            // this.apiImageAttachment = 'https://igldpr.igl.co.in/';
+            this.apiUrl = 'http://45.119.10.174:9011/api/';
+            this.apiImageAttachment = 'http://45.119.10.174:9011/';
         }
     }
     CommonGetData(obj: {}) {
@@ -268,6 +268,15 @@ export class dbService implements OnInit {
     }
     InsertAttendance(obj: {}) {
         return this.objHttp.post(this.apiUrl + 'DSA/' + 'InsertAttendance', obj);
+    }
+    getMOSalesAnalytics(obj: {}) {
+        return this.objHttp.post(this.apiUrl + 'DSA/' + 'GetMOSalesAnalytics', obj);
+    }
+    getStationAssetStatus(obj: {}) {
+        return this.objHttp.post(this.apiUrl + 'DSA/' + 'GetStationAssetStatus', obj);
+    }
+    InsertStationAssetStatus(obj: {}) {
+        return this.objHttp.post(this.apiUrl + 'DSA/' + 'InsertStationAssetStatus', obj);
     }
     GetStationDetail(obj: {}) {
         var api = this.apiUrl + 'ApiService/' + 'GetStationDetail';
@@ -888,10 +897,6 @@ export class dbService implements OnInit {
     }
     AutoFetchTotalizers(obj: {}) {
          var api = this.apiUrl + 'DSA/' + 'AutoFetchTotalizers';
-        return this.objHttp.post(api, obj);
-    }
-    GetTotalizersFromScada(obj: {}) {
-        var api = this.apiUrl + 'DSA/' + 'GetTotalizersFromScada';
         return this.objHttp.post(api, obj);
     }
 }

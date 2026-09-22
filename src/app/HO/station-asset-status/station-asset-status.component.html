@@ -1,0 +1,261 @@
+<div class="main_heading">
+    <span class="heading_span"><h1>Station Asset Status</h1></span>
+    <div class="head_right_div">
+        <span class="dwnld_btn_span" title="Download" (click)="exportFile()">
+            <button><i class="fas fa-download"></i></button>
+        </span>
+    </div>
+</div>
+<div class="mycard" *ngIf="!IsStationLogin">
+    <form class="stn_form">
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Station</label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_select">
+                        <select class="form-control" name="optStationFilter" [(ngModel)]='StationId' (change)="onStationSelect($event.target.value)">
+                            <option value="">All My Stations</option>
+                            <option *ngFor="let itm of StationList" [value]="itm.StationId">{{itm.StationName}} ({{itm.StationCode}})</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="mycard" *ngIf="IsStationLogin">
+    <form class="stn_form">
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Station <span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_input" *ngIf="IsStationLogin">
+                        <input type="text" class="form-control" [value]="StationName" readonly />
+                    </div>
+                    <div class="only_select" *ngIf="!IsStationLogin">
+                        <select class="form-control" name="optStationId" [(ngModel)]='StationId' (change)="onStationSelect($event.target.value)">
+                            <option value="">--Select Station--</option>
+                            <option *ngFor="let itm of StationList" [value]="itm.StationId">{{itm.StationName}} ({{itm.StationCode}})</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Asset <span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_select">
+                        <select class="form-control" name="optAssetKey" [(ngModel)]='AssetKey'>
+                            <option value="Station|0">Whole Station (Shutdown)</option>
+                            <option *ngFor="let itm of AssetList" [value]="itm.AssetType + '|' + itm.AssetId">{{itm.AssetDetails}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Date From <span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_input date_inuput">
+                        <ng-datepicker name="DateFrom" [(ngModel)]="DateFrom" [options]="options" class="date_first dt_for-rep" (ngModelChange)="OnDateChnageFrom($event)"></ng-datepicker>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Shift (From)<span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_select">
+                        <select class="form-control" name="optShiftId" [(ngModel)]='SelectedShiftId' (change)="onShiftSelect($event.target.value)">
+                            <option value="">--Select Shift--</option>
+                            <option *ngFor="let itm of ShiftList" [value]="itm.ShiftId">{{itm.ShiftDetails}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Sub Shift (From)</label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_select">
+                        <select class="form-control" name="optSubShiftId" [(ngModel)]='SubShiftId'>
+                            <option value="">--Select Sub-Shift--</option>
+                            <option *ngFor="let itm of SubShiftList" [value]="itm.SubShiftId">{{itm.SubShiftDetails}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Date To <span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_input date_inuput">
+                        <ng-datepicker name="DateTo" [(ngModel)]="DateTo" [options]="options" class="ngx-datepicker-container dt_for-rep" (ngModelChange)="OnDateChnageTo($event)"></ng-datepicker>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Shift (To)<span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_select">
+                        <select class="form-control" name="optShiftId_To" [(ngModel)]='SelectedShiftId_To' (change)="onShiftSelect_To($event.target.value)">
+                            <option value="">--Select Shift--</option>
+                            <option *ngFor="let itm of ShiftList" [value]="itm.ShiftId">{{itm.ShiftDetails}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Sub Shift (To)</label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_select">
+                        <select class="form-control" name="optSubShiftId_To" [(ngModel)]='SubShiftId_To'>
+                            <option value="">--Select Sub-Shift--</option>
+                            <option *ngFor="let itm of SubShiftList_To" [value]="itm.SubShiftId">{{itm.SubShiftDetails}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_grp_row for_margin">
+            <div class="left_label_cont">
+                <label>Status</label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_input">
+                        <label class="radio-inline"><input type="radio" name="StatusFlag" value="Active" [(ngModel)]="StatusFlag" /> Operational</label>
+                        <label class="radio-inline"><input type="radio" name="StatusFlag" value="InActive" [(ngModel)]="StatusFlag" /> Non Operational</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_grp_row for_margin">
+            <div class="left_label_cont">
+                <label>Email Alert</label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_input">
+                        <label class="radio-inline"><input type="radio" name="AlertMode" value="Email" [(ngModel)]="AlertMode" /> Send Email Alert</label>
+                        <label class="radio-inline"><input type="radio" name="AlertMode" value="None" [(ngModel)]="AlertMode" /> No Alert</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_grp_row" *ngIf="AlertMode != 'None'">
+            <div class="left_label_cont">
+                <label>Alert Goes To</label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_input">
+                        <span class="recipient_note" *ngIf="RecipientList?.length > 0">
+                            <span *ngFor="let r of RecipientList; let last = last">
+                                {{r.RecipientName}} ({{r.Source}}){{ last ? '' : ' | ' }}
+                            </span>
+                        </span>
+                        <span class="recipient_none" *ngIf="!RecipientList || RecipientList.length == 0">
+                            No e-mail id is available for this station's MO - no alert will be sent.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont">
+                <label>Remark<span class="star">*</span></label>
+            </div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_input">
+                        <textarea class="form-control" [value]="Remark" (input)="Remark=$event.target.value"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form_grp_row">
+            <div class="left_label_cont"></div>
+            <div class="right_input_cont">
+                <div class="for_input">
+                    <div class="only_button">
+                        <button type="button" class="mybtn" (click)="insertRecord();">{{ Id == '0' ? 'Save' : 'Update' }}</button>
+                        <button type="button" class="mybtn btn_cancel" (click)="resetForm();">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="main_heading sub_heading">
+    <span class="heading_span"><h1>{{ IsStationLogin ? 'Reported Status (last 30 days)' : 'Station Asset Status - My Stations (last 30 days)' }}</h1></span>
+    <span class="search_span">
+        <input type="text" name="search" [(ngModel)]="filter" placeholder="Search" class="form-control" autocomplete="off">
+    </span>
+</div>
+<div class="mycard">
+    <div class="main_table_container">
+        <div class="vertScrollTbl">
+            <div class="divTableHeader">
+                <div class="divTableRow">
+                    <div class="divTableCell cell_sr">Sr. No.</div>
+                    <div [ngClass]="sortingColumn == 'StationName' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationName')" *ngIf="!IsStationLogin">
+                        Station <i [className]="sortingColumn == 'StationName' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div [ngClass]="sortingColumn == 'AssetType' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('AssetType')">
+                        Asset <i [className]="sortingColumn == 'AssetType' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div class="divTableCell">From</div>
+                    <div class="divTableCell">To</div>
+                    <div [ngClass]="sortingColumn == 'Status' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('Status')">
+                        Status <i [className]="sortingColumn == 'Status' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
+                    </div>
+                    <div class="divTableCell cell_remark">Remark</div>
+                    <div class="divTableCell">Alert</div>
+                    <div class="divTableCell">Reported On</div>
+                </div>
+            </div>
+            <div class="divTableBody">
+                <div *ngFor="let itm of listData | filter : filter | orderBy: key: reverse ; let i = index" [ngClass]="IsStationLogin ? 'divTableRow row_clickable' : 'divTableRow'" (click)="editRecord(itm)">
+                    <div class="divTableCell cell_sr">{{i+1}}</div>
+                    <div class="divTableCell" *ngIf="!IsStationLogin">{{itm.StationName}} ({{itm.StationCode}})</div>
+                    <div class="divTableCell">{{ itm.AssetType == 'Station' ? 'Whole Station' : itm.AssetType + ' - ' + itm.AssetName }}</div>
+                    <div class="divTableCell">{{itm.FromDate}} {{itm.ShiftFrom}}</div>
+                    <div class="divTableCell">{{itm.ToDate}} {{itm.ShiftTo}}</div>
+                    <div class="divTableCell" [ngClass]="itm.Status == 'InActive' ? 'status_down' : 'status_up'">{{itm.StatusDetails}}</div>
+                    <div class="divTableCell cell_remark">{{itm.Remark}}</div>
+                    <div class="divTableCell">{{itm.AlertMode}} - {{itm.AlertStatus}}</div>
+                    <div class="divTableCell">{{itm.CreatedOn}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -65,10 +65,10 @@ options:DatepickerOptions = {
       (resp: any) => {
         const data = JSON.parse(resp._body);
         if(data) {
-          this.arrReviewData = JSON.parse(resp._body);
+          this.arrReviewData = data;
           this.stationToSubmit = this.arrReviewData.filter(
             arrayobj => arrayobj.SubmitStatus == "1"
-          ); 
+          );
           if (this.arrReviewData[0].isSentToHo == 1)
                     this.outerCheck = 1;
                 else
@@ -294,6 +294,9 @@ options:DatepickerOptions = {
       this.objDbServ.ShowLoaders.emit(false);
     }
     )
+  }
+  trackByStation(index: number, itm: any) {
+    return itm.StationCode;
   }
   sortCol(key:string){
     this.sortingColumn = key;

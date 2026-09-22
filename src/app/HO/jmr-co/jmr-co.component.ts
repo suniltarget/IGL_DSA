@@ -507,6 +507,28 @@ UserId:string= this.objCook.get('loginId');
       )
     }
   }
+  GetPdfForStation(itm: any) {
+    if (!this.ValidationReports()) return;
+    const obj = {
+      ControlRoomCode: itm.StationCode,
+      flag: 'Export',
+      FromDate: this.dateFrom,
+      ToDate: this.dateTo
+    };
+    this.objDbServ.ShowLoaders.emit(true);
+    this.objDbServ.GetPdFReport(obj).subscribe(
+      (resp: any) => {
+        this.objDbServ.ShowLoaders.emit(false);
+        const PdfUrl = this.objDbServ.apiUrl.substring(0, this.objDbServ.apiUrl.length - 4) + JSON.parse(resp.json());
+        const FileSaver = require('file-saver');
+        FileSaver.saveAs(PdfUrl);
+      },
+      () => {
+        alert('Something went wrong.');
+        this.objDbServ.ShowLoaders.emit(false);
+      }
+    );
+  }
   GetPDF() {
     const dt = new Date();
     if(this.selectedMonth =="Jan"){

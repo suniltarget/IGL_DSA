@@ -1,0 +1,199 @@
+/* This page stacks several cards, while the global .mycard rule sizes a single
+   card to the whole content pane. Own the scrolling and let cards size to content. */
+:host
+{
+    display: block;
+    height: 100%;
+    overflow: auto;
+    padding-right: 6px;
+}
+:host .mycard
+{
+    height: auto;
+    margin-bottom: 12px;
+    padding: 12px 14px;
+}
+:host .main_table_container
+{
+    height: auto;
+    max-height: 40vh;
+    overflow: auto;
+}
+.analytics_page
+{
+    padding-top: 4px;
+}
+
+/* ---------- filters ---------- */
+.filter_row
+{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+.filter_item
+{
+    margin-right: 18px;
+    min-width: 170px;
+    margin-bottom: 4px;
+}
+.filter_item.filter_wide
+{
+    min-width: 320px;
+    flex: 1 1 320px;
+}
+.filter_item label
+{
+    display: block;
+    font-weight: 600;
+    font-size: 12px;
+    margin-bottom: 3px;
+    color: #444;
+}
+.tab_btns
+{
+    display: flex;
+}
+.tab_btn
+{
+    border: 1px solid #ccc;
+    background: #f4f4f4;
+    padding: 6px 14px;
+    font-size: 13px;
+    cursor: pointer;
+}
+.tab_btn:first-child { border-radius: 3px 0 0 3px; }
+.tab_btn:last-child  { border-radius: 0 3px 3px 0; border-left: none; }
+.tab_btn.tab_on
+{
+    background: #047943;
+    border-color: #047943;
+    color: #fff;
+    font-weight: 600;
+}
+.date_inuput
+{
+    border: 1px solid #ccc;
+    background: #fff;
+}
+
+/* ---------- KPI tiles ---------- */
+.tile_row
+{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+.tile
+{
+    background: #fff;
+    box-shadow: 3px 3px 3px rgba(0,0,0,0.07);
+    padding: 10px 16px;
+    margin: 0 10px 10px 0;
+    min-width: 168px;
+    flex: 1 1 168px;
+    border-left: 3px solid #047943;
+}
+.tile_lbl
+{
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    color: #777;
+    margin-bottom: 4px;
+}
+.tile_val
+{
+    display: block;
+    font-size: 21px;
+    font-weight: 600;
+    color: #222;
+}
+.tile_val.tile_muted { color: #777; font-weight: 500; }
+
+/* ---------- charts ---------- */
+.chart_card { padding-bottom: 6px; }
+.chart_head
+{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 6px;
+    margin-bottom: 8px;
+}
+.chart_head h2
+{
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    color: #333;
+}
+.legend { font-size: 12px; color: #555; }
+.legend .lg { margin-left: 14px; white-space: nowrap; }
+.sw
+{
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    margin-right: 5px;
+    vertical-align: -1px;
+    border-radius: 2px;
+}
+.sw_curr     { background: #047943; }
+.sw_prev     { background: #b9c6bd; }
+.sw_prevline { background: #d08b28; }
+
+.chart_scroll { overflow-x: auto; }
+.chart_svg { display: block; }
+.grid      { stroke: #ececec; stroke-width: 1; }
+.axis      { stroke: #bbb; stroke-width: 1; }
+.axis_lbl  { font-size: 10px; fill: #666; }
+.axis_sub  { font-size: 9px;  fill: #999; }
+.axis_unit { font-size: 10px; fill: #999; }
+.bar_curr    { fill: #047943; }
+.bar_prev    { fill: #b9c6bd; }
+.bar_partial { fill: #86c4a5; }
+.line_curr { fill: none; stroke: #047943; stroke-width: 2; }
+.line_prev { fill: none; stroke: #d08b28; stroke-width: 2; stroke-dasharray: 4 3; }
+.dot_curr  { fill: #047943; }
+.dot_prev  { fill: #d08b28; }
+.chart_note
+{
+    font-size: 11px;
+    color: #888;
+    margin: 6px 0 2px 0;
+    line-height: 1.45;
+}
+
+/* ---------- tables ---------- */
+:host .divTableRow>.divTableCell.num
+{
+    text-align: right;
+    white-space: nowrap;
+}
+:host .divTableRow>.divTableCell.strong { font-weight: 600; }
+:host .divTableRow>.divTableCell.muted  { color: #888; }
+:host .divTableRow>.divTableCell.no_rec
+{
+    text-align: center;
+    color: #888;
+    padding: 14px 4px;
+}
+.days { color: #aaa; font-size: 10px; }
+.nv_up   { color: #1e8449; font-weight: 600; }
+.nv_down { color: #c0392b; font-weight: 600; }
+.nv_flat { color: #888; }
+.pill
+{
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 9px;
+    font-size: 10px;
+    white-space: nowrap;
+}
+.pill_done { background: #e5f3ea; color: #1e8449; }
+.pill_prog { background: #fdf2e0; color: #a86a12; }
+.pill_none { background: #f0f0f0; color: #888; }

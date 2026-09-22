@@ -1,0 +1,234 @@
+<div class="main_heading">
+    <span class="heading_span"><h1>Sales Analytics</h1></span>
+    <div class="head_right_div">
+        <span class="dwnld_btn_span" title="Download" (click)="activeTab == 'quarter' ? exportQuarter() : exportWeekly()">
+            <button><i class="fas fa-download"></i></button>
+        </span>
+    </div>
+</div>
+
+<div class="analytics_page">
+
+    <!-- ===================== filters ===================== -->
+    <div class="mycard filter_card">
+        <div class="filter_row">
+            <div class="filter_item">
+                <label>Financial Year</label>
+                <select class="form-control" name="optYear" [(ngModel)]="SelectedYear" (change)="onYearSelect($event.target.value)">
+                    <option *ngFor="let y of YearList" [value]="y.FinYear">{{y.FinYearName}}</option>
+                </select>
+            </div>
+            <div class="filter_item filter_wide">
+                <label>Station</label>
+                <select class="form-control" name="optStation" [(ngModel)]="StationId" (change)="onStationSelect($event.target.value)">
+                    <option value="">All My Stations</option>
+                    <option *ngFor="let s of StationList" [value]="s.StationId">{{s.StationName}} ({{s.StationCode}})</option>
+                </select>
+            </div>
+            <div class="filter_item tab_item">
+                <label>Report</label>
+                <div class="tab_btns">
+                    <button type="button" [ngClass]="activeTab == 'quarter' ? 'tab_btn tab_on' : 'tab_btn'" (click)="setTab('quarter')">Quarterly / YoY</button>
+                    <button type="button" [ngClass]="activeTab == 'weekly' ? 'tab_btn tab_on' : 'tab_btn'" (click)="setTab('weekly')">Weekly</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== QUARTERLY / YoY ===================== -->
+    <div *ngIf="activeTab == 'quarter'">
+
+        <div class="tile_row" *ngIf="Summary">
+            <div class="tile">
+                <span class="tile_lbl">{{Summary.CurrFYName}} (to date)</span>
+                <span class="tile_val">{{fmtT(Summary.CurrFYKg)}}</span>
+            </div>
+            <div class="tile">
+                <span class="tile_lbl">{{Summary.PrevFYName}} (same period)</span>
+                <span class="tile_val">{{fmtT(Summary.PrevFYComparableKg)}}</span>
+            </div>
+            <div class="tile">
+                <span class="tile_lbl">Year on Year</span>
+                <span class="tile_val" [ngClass]="pctClass(Summary.FYGrowthPct)">{{fmtPct(Summary.FYGrowthPct)}}</span>
+            </div>
+            <div class="tile">
+                <span class="tile_lbl">{{Summary.PrevFYName}} (full year)</span>
+                <span class="tile_val tile_muted">{{fmtT(Summary.PrevFYKg)}}</span>
+            </div>
+            <div class="tile">
+                <span class="tile_lbl">Stations</span>
+                <span class="tile_val tile_muted">{{Summary.StationCount}}</span>
+            </div>
+        </div>
+
+        <!-- quarter chart -->
+        <div class="mycard chart_card">
+            <div class="chart_head">
+                <h2>Quarter comparison &mdash; {{Summary?.CurrFYName}} vs {{Summary?.PrevFYName}}</h2>
+                <div class="legend">
+                    <span class="lg"><i class="sw sw_curr"></i>{{Summary?.CurrFYName}}</span>
+                    <span class="lg"><i class="sw sw_prev"></i>{{Summary?.PrevFYName}} (comparable)</span>
+                </div>
+            </div>
+            <div class="chart_scroll">
+                <svg [attr.width]="chartW" [attr.height]="chartH" class="chart_svg">
+                    <g *ngFor="let g of gridLines(QuarterList, ['CurrKg','ComparableKg'])">
+                        <line [attr.x1]="padL" [attr.y1]="g.y" [attr.x2]="chartW - padR" [attr.y2]="g.y" class="grid" />
+                        <text [attr.x]="padL - 8" [attr.y]="g.y + 4" class="axis_lbl" text-anchor="end">{{g.label}}</text>
+                    </g>
+                    <line [attr.x1]="padL" [attr.y1]="axisY" [attr.x2]="chartW - padR" [attr.y2]="axisY" class="axis" />
+                    <g *ngFor="let b of groupedBars(QuarterList, 'CurrKg', 'ComparableKg')">
+                        <rect [attr.x]="b.aX" [attr.y]="b.aY" [attr.width]="b.bw" [attr.height]="b.aH" class="bar_curr" />
+                        <rect [attr.x]="b.bX" [attr.y]="b.bY" [attr.width]="b.bw" [attr.height]="b.bH" class="bar_prev" />
+                        <text [attr.x]="b.labelX" [attr.y]="axisY + 16" class="axis_lbl" text-anchor="middle">{{b.row.QtrName}}</text>
+                        <text [attr.x]="b.labelX" [attr.y]="axisY + 28" class="axis_sub" text-anchor="middle">{{b.row.QtrMonths}}</text>
+                    </g>
+                    <text [attr.x]="12" [attr.y]="padT + 4" class="axis_unit">Tonnes</text>
+                </svg>
+            </div>
+            <p class="chart_note">
+                A quarter still in progress is compared against the same number of days in the previous
+                year, so a part finished quarter is not read as a fall in sales.
+            </p>
+        </div>
+
+        <!-- quarter table -->
+        <div class="mycard">
+            <div class="main_table_container">
+                <div class="vertScrollTbl">
+                    <div class="divTableHeader">
+                        <div class="divTableRow">
+                            <div class="divTableCell">Quarter</div>
+                            <div class="divTableCell">Months</div>
+                            <div class="divTableCell">State</div>
+                            <div class="divTableCell num">{{Summary?.CurrFYName}}</div>
+                            <div class="divTableCell num">{{Summary?.PrevFYName}} (comparable)</div>
+                            <div class="divTableCell num">{{Summary?.PrevFYName}} (full)</div>
+                            <div class="divTableCell num">Growth</div>
+                        </div>
+                    </div>
+                    <div class="divTableBody">
+                        <div class="divTableRow" *ngFor="let q of QuarterList">
+                            <div class="divTableCell strong">{{q.QtrName}}</div>
+                            <div class="divTableCell">{{q.QtrMonths}}</div>
+                            <div class="divTableCell">
+                                <span [ngClass]="q.QtrState == 'Complete' ? 'pill pill_done' : (q.QtrState == 'In progress' ? 'pill pill_prog' : 'pill pill_none')">{{q.QtrState}}</span>
+                            </div>
+                            <div class="divTableCell num">{{fmtT(q.CurrKg)}}<span class="days" *ngIf="q.CurrDays > 0"> · {{q.CurrDays}}d</span></div>
+                            <div class="divTableCell num">{{fmtT(q.ComparableKg)}}</div>
+                            <div class="divTableCell num muted">{{fmtT(q.PrevKg)}}<span class="days" *ngIf="q.PrevDays > 0"> · {{q.PrevDays}}d</span></div>
+                            <div class="divTableCell num" [ngClass]="pctClass(q.GrowthPct)">{{fmtPct(q.GrowthPct)}}</div>
+                        </div>
+                        <div class="divTableRow" *ngIf="!QuarterList || QuarterList.length == 0">
+                            <div class="divTableCell no_rec">No sale data for this selection.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- monthly YoY line chart -->
+        <div class="mycard chart_card">
+            <div class="chart_head">
+                <h2>Month by month &mdash; Year on Year</h2>
+                <div class="legend">
+                    <span class="lg"><i class="sw sw_curr"></i>{{Summary?.CurrFYName}}</span>
+                    <span class="lg"><i class="sw sw_prevline"></i>{{Summary?.PrevFYName}}</span>
+                </div>
+            </div>
+            <div class="chart_scroll">
+                <svg [attr.width]="chartW" [attr.height]="chartH" class="chart_svg">
+                    <g *ngFor="let g of gridLines(MonthList, ['CurrKg','PrevKg'])">
+                        <line [attr.x1]="padL" [attr.y1]="g.y" [attr.x2]="chartW - padR" [attr.y2]="g.y" class="grid" />
+                        <text [attr.x]="padL - 8" [attr.y]="g.y + 4" class="axis_lbl" text-anchor="end">{{g.label}}</text>
+                    </g>
+                    <line [attr.x1]="padL" [attr.y1]="axisY" [attr.x2]="chartW - padR" [attr.y2]="axisY" class="axis" />
+                    <polyline [attr.points]="linePoints(MonthList, 'PrevKg', ['CurrKg','PrevKg'])" class="line_prev" />
+                    <polyline [attr.points]="linePoints(MonthList, 'CurrKg', ['CurrKg','PrevKg'])" class="line_curr" />
+                    <circle *ngFor="let d of lineDots(MonthList, 'PrevKg', ['CurrKg','PrevKg'])" [attr.cx]="d.cx" [attr.cy]="d.cy" r="3" class="dot_prev" />
+                    <circle *ngFor="let d of lineDots(MonthList, 'CurrKg', ['CurrKg','PrevKg'])" [attr.cx]="d.cx" [attr.cy]="d.cy" r="3" class="dot_curr" />
+                    <text *ngFor="let d of lineDots(MonthList, 'CurrKg', ['CurrKg','PrevKg'])"
+                          [attr.x]="d.cx" [attr.y]="axisY + 16" class="axis_lbl" text-anchor="middle">{{d.row.MonthName}}</text>
+                    <text [attr.x]="12" [attr.y]="padT + 4" class="axis_unit">Tonnes</text>
+                </svg>
+            </div>
+            <p class="chart_note">
+                Months with no bar in the current year have not happened yet. The previous year is shown in full.
+            </p>
+        </div>
+    </div>
+
+    <!-- ===================== WEEKLY ===================== -->
+    <div *ngIf="activeTab == 'weekly'">
+
+        <div class="mycard filter_card">
+            <div class="filter_row">
+                <div class="filter_item">
+                    <label>From</label>
+                    <div class="date_inuput">
+                        <ng-datepicker name="WeekFrom" [(ngModel)]="WeekFrom" [options]="options" (ngModelChange)="OnWeekFrom($event)"></ng-datepicker>
+                    </div>
+                </div>
+                <div class="filter_item">
+                    <label>To</label>
+                    <div class="date_inuput">
+                        <ng-datepicker name="WeekTo" [(ngModel)]="WeekTo" [options]="options" (ngModelChange)="OnWeekTo($event)"></ng-datepicker>
+                    </div>
+                </div>
+                <div class="filter_item">
+                    <label>&nbsp;</label>
+                    <button type="button" class="mybtn" (click)="getWeeklyData()">Show</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mycard chart_card">
+            <div class="chart_head">
+                <h2>Weekly sales (week beginning Monday)</h2>
+                <div class="legend"><span class="lg"><i class="sw sw_curr"></i>Sale</span></div>
+            </div>
+            <div class="chart_scroll">
+                <svg [attr.width]="chartW" [attr.height]="chartH" class="chart_svg">
+                    <g *ngFor="let g of gridLines(WeekList, ['SaleKg'])">
+                        <line [attr.x1]="padL" [attr.y1]="g.y" [attr.x2]="chartW - padR" [attr.y2]="g.y" class="grid" />
+                        <text [attr.x]="padL - 8" [attr.y]="g.y + 4" class="axis_lbl" text-anchor="end">{{g.label}}</text>
+                    </g>
+                    <line [attr.x1]="padL" [attr.y1]="axisY" [attr.x2]="chartW - padR" [attr.y2]="axisY" class="axis" />
+                    <g *ngFor="let b of singleBars(WeekList, 'SaleKg')">
+                        <rect [attr.x]="b.x" [attr.y]="b.y" [attr.width]="b.bw" [attr.height]="b.h"
+                              [ngClass]="b.row.Days < 7 ? 'bar_partial' : 'bar_curr'" />
+                        <text [attr.x]="b.labelX" [attr.y]="axisY + 16" class="axis_sub" text-anchor="middle">{{b.row.WeekShort}}</text>
+                    </g>
+                    <text [attr.x]="12" [attr.y]="padT + 4" class="axis_unit">Tonnes</text>
+                </svg>
+            </div>
+            <p class="chart_note">A lighter bar is a week with fewer than 7 days of data reported.</p>
+        </div>
+
+        <div class="mycard">
+            <div class="main_table_container">
+                <div class="vertScrollTbl">
+                    <div class="divTableHeader">
+                        <div class="divTableRow">
+                            <div class="divTableCell">Week</div>
+                            <div class="divTableCell num">Sale</div>
+                            <div class="divTableCell num">Days</div>
+                            <div class="divTableCell num">Avg / day</div>
+                        </div>
+                    </div>
+                    <div class="divTableBody">
+                        <div class="divTableRow" *ngFor="let w of WeekList">
+                            <div class="divTableCell">{{w.WeekStartText}} &ndash; {{w.WeekEndText}}</div>
+                            <div class="divTableCell num strong">{{fmtT(w.SaleKg)}}</div>
+                            <div class="divTableCell num" [ngClass]="w.Days < 7 ? 'nv_down' : ''">{{w.Days}}</div>
+                            <div class="divTableCell num">{{fmtT(w.AvgPerDayKg)}}</div>
+                        </div>
+                        <div class="divTableRow" *ngIf="!WeekList || WeekList.length == 0">
+                            <div class="divTableCell no_rec">No sale data in this date range.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

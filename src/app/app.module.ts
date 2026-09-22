@@ -66,6 +66,8 @@ import { DSASortingComponent } from './HO/dsa-sorting/dsa-sorting.component';
 import { DSAMailEscalationComponent } from './HO/dsa-mail-escalation/dsa-mail-escalation.component';
 import { DsaSummaryComponent } from './Station/dsa-summary/dsa-summary.component';
 import { StationStatusComponent } from './HO/station-status/station-status.component';
+import { StationAssetStatusComponent } from './HO/station-asset-status/station-asset-status.component';
+import { MOSalesAnalyticsComponent } from './HO/mo-sales-analytics/mo-sales-analytics.component';
 import { JumpReportSystemComponent } from './HO/jump-report-system/jump-report-system.component';
 import { PaymentModeMgtComponent } from './HO/payment-mode-mgt/payment-mode-mgt.component';
 import { StationAttachmenttComponent } from './Station/station-attachmentt/station-attachmentt.component';
@@ -140,6 +142,8 @@ const appRoutes = [
   { path: 'DSASorting', component: DSASortingComponent, canActivate: [RouteGuardService] },
   { path: 'MailEscalation', component: DSAMailEscalationComponent, canActivate: [RouteGuardService] },
   { path: 'StationStatus', component: StationStatusComponent, canActivate: [RouteGuardService] },
+  { path: 'StationAssetStatus', component: StationAssetStatusComponent, canActivate: [RouteGuardService] },
+  { path: 'MOSalesAnalytics', component: MOSalesAnalyticsComponent, canActivate: [RouteGuardService] },
   { path: 'JumpReadingSystem', component: JumpReportSystemComponent, canActivate: [RouteGuardService] },
   { path: 'PaymentManagement', component: PaymentModeMgtComponent, canActivate: [RouteGuardService] },
   { path: 'StationAttachment', component: StationAttachmenttComponent, canActivate: [RouteGuardService] },
@@ -220,6 +224,8 @@ const appRoutes = [
     DSAMailEscalationComponent,
     DsaSummaryComponent,
     StationStatusComponent,
+    StationAssetStatusComponent,
+    MOSalesAnalyticsComponent,
     JumpReportSystemComponent,
     PaymentModeMgtComponent,
     StationAttachmenttComponent,

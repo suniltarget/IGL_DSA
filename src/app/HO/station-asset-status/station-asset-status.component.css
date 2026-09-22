@@ -1,0 +1,120 @@
+/* This screen stacks two heading + card blocks, while the global .mycard rule
+   sizes a single card to the full height of the content pane. Scope the page to
+   its own scroll container and let each card size to its content instead. */
+:host
+{
+    display: block;
+    height: 100%;
+    overflow: auto;
+    padding-right: 6px;
+}
+:host .mycard
+{
+    height: auto;
+}
+:host .main_table_container
+{
+    height: auto;
+    max-height: 45vh;
+    overflow: auto;
+}
+.stn_form
+{
+    padding-top:25px;
+}
+.form_grp_row
+{
+    overflow: unset;
+}
+.form_grp_row .left_label_cont
+{
+    width: 185px;
+}
+.form_grp_row .right_input_cont
+{
+    width: calc(100% - 185px);
+    overflow: unset;
+}
+.form_grp_row .left_label_cont label
+{
+    font-weight: 600;
+}
+.radio-inline
+{
+    padding-left: 24px;
+}
+.radio-inline input[type=radio]
+{
+    margin-left: -23px;
+    bottom: -8px;
+    transform: scale(1.5,1.5);
+}
+.radio-inline+.radio-inline
+{
+    margin-left: 20px;
+}
+.for_margin
+{
+    margin-top:25px!important;
+    margin-bottom: 25px!important;
+}
+.date_inuput
+{
+    border: 1px solid #ccc!important;
+}
+.date_first>div
+{
+    z-index: 500!important;
+}
+.ngx-datepicker-container {
+    z-index: 500!important;
+}
+.btn_cancel
+{
+    margin-left: 10px;
+    background: #8a8a8a;
+}
+.sub_heading
+{
+    margin-top: 20px;
+}
+:host .divTableBody .divTableRow.row_clickable
+{
+    cursor: pointer;
+}
+/* Remark is free text - allow it to wrap so the table does not grow sideways. */
+:host .divTableRow>.divTableCell.cell_remark
+{
+    white-space: normal;
+    min-width: 180px;
+    max-width: 320px;
+    word-break: break-word;
+}
+:host .divTableRow>.divTableCell.cell_sr
+{
+    width: 55px;
+}
+.status_down
+{
+    color: #c0392b;
+    font-weight: 600;
+}
+.status_up
+{
+    color: #1e8449;
+    font-weight: 600;
+}
+.recipient_note
+{
+    display: inline-block;
+    padding-top: 6px;
+    font-size: 13px;
+    color: #1e8449;
+}
+.recipient_none
+{
+    display: inline-block;
+    padding-top: 6px;
+    font-size: 13px;
+    color: #c0392b;
+}

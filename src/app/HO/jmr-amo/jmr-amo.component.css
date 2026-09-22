@@ -1,3 +1,25 @@
+    .pdf-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-width: 68px;
+        height: 30px;
+        padding: 0 10px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #fff;
+        background-color: #d9534f;
+        border: 1px solid #c9302c;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.15s ease-in-out;
+    }
+    .pdf-btn i {
+        font-size: 15px;
+    }
+    .pdf-btn:hover {
+        background-color: #c9302c;
+    }
     .reject{
         background-color: green;
         padding: 5px 13px;

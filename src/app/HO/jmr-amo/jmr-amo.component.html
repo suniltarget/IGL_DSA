@@ -69,6 +69,7 @@
               <input type="checkbox" style="height:auto!important;" [(ngModel)]="selectedAll"
                (change)="selectAll()">&nbsp;Action
             </div>
+            <div class="divTableCell">Download Pdf</div>
           <div [ngClass]="sortingColumn == 'StationCode' ? 'divTableCell highlighted_tableCell' : 'divTableCell'" (click)="sortCol('StationCode')">
             Station Code <i [className]="sortingColumn == 'StationCode' && reverse==true ? 'fa fa-sort-desc':'fa fa-sort-asc'"></i>
           </div>
@@ -127,6 +128,12 @@
                 <span *ngIf="itm.SubmitStatusCR == false" style="color:red;">Pending</span>
                 <span *ngIf="itm.SubmitStatusMO == true" style="color:green;">Approved</span>
               </div>
+            </div>
+            <div class="divTableCell">
+              <button type="button" class="pdf-btn" title="Download Pdf" (click)="GetPdfForStation(itm)">
+                <i class="fas fa-file-pdf"></i>
+                <span>PDF</span>
+              </button>
             </div>
             <div class="divTableCell" >{{itm.StationCode}}</div>
             <div class="divTableCell" >{{itm.StationName}}</div>
