@@ -828,6 +828,9 @@ export class dbService implements OnInit {
         var api = this.apiUrl + 'ApiService/' + 'GetPdFReportCR_MO';
         return this.objHttp.post(api, obj);
     }
+    uploadMOSignature(formData: FormData) {
+        return this.objHttp.post(this.apiUrl + 'ApiService/UploadMOSignature', formData);
+    }
 
 
     // Add in db.service.ts

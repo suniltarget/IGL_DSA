@@ -9,6 +9,8 @@
       <a title="Send to HO" (click)="showRemarkPopupSendToMO(true)" data-toggle="modal" data-target="#reviewpoup" *ngIf="outerCheck != 1"><i class="fas fa-share"></i></a>
       <a title="Download_Excel" (click)="GetExportJMRreports()"><i class="fas fa-file-excel"></i></a>
       <a title="Download_PDF" (click)="GetPDF()" data-popup-open="popup-1"><i class="fas fa-file-pdf"></i></a>
+      <a title="Upload Signature" (click)="signatureFileInput.click()"><i class="fas fa-signature"></i></a>
+      <input #signatureFileInput type="file" accept="image/*" style="display:none" (change)="uploadSignature($event)" />
     </span>
 </div> 
 </div>

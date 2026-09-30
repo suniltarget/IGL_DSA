@@ -661,4 +661,22 @@ listMO:{Email}[];
       }
     }
   }
+  uploadSignature(event: any) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('SignatureImage', file, file.name);
+    formData.append('LoginId', localStorage.getItem('LoginId') || '');
+    this.objDbServ.ShowLoaders.emit(true);
+    this.objDbServ.uploadMOSignature(formData).subscribe(
+      (resp: any) => {
+        this.objDbServ.ShowLoaders.emit(false);
+        alert('Signature uploaded successfully.');
+      },
+      (error) => {
+        this.objDbServ.ShowLoaders.emit(false);
+        alert('Something went wrong.');
+      }
+    );
+  }
 }
