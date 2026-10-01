@@ -294,10 +294,11 @@ export class JMRStationsComponent implements OnInit {
     this.objDbServ.GetPdFReport(obj).subscribe(
       (resp: any) => {
         this.objDbServ.ShowLoaders.emit(false);
-        var PdfUrl: string = "";
-        PdfUrl = this.objDbServ.apiUrl.substring(0, this.objDbServ.apiUrl.length - 4) + JSON.parse(resp.json());
+        const respPath = JSON.parse(resp.json());
+        const PdfUrl = this.objDbServ.apiUrl.substring(0, this.objDbServ.apiUrl.length - 4) + respPath;
+        const fileName = respPath.substring(respPath.lastIndexOf('/') + 1);
         const FileSaver = require('file-saver');
-        FileSaver.saveAs(PdfUrl);
+        FileSaver.saveAs(PdfUrl, fileName);
       },
       (error) => {
         alert('Something went wrong.');
