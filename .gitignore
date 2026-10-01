@@ -22,4 +22,21 @@ src/api.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-src/api.js
+
+# Angular CLI build cache
+/.angular
+
+# logs
+*.log
+
+# IDE / editor
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+
+# OS files
+Thumbs.db
