@@ -17,6 +17,8 @@
       <span class="pop_btn_span">
         <a title="Download_Excel" (click)="GetExportJMRreports()" data-popup-open="popup-1"><i class="fas fa-file-excel"></i></a>
         <a title="Download_PDF" (click)="GetPDF()" data-popup-open="popup-1"><i class="fas fa-file-pdf"></i></a>
+        <a title="Upload Signature" (click)="signatureFileInput.click()"><i class="fas fa-signature"></i></a>
+        <input #signatureFileInput type="file" accept="image/*" style="display:none" (change)="uploadSignature($event)" />
       </span>
   </div> 
 </div>
@@ -117,4 +119,35 @@
   </div>
   </div>
 </div>
-  
+<div id="signaturepopup" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Signature
+          <span class="popup_save_span">
+            <button type="button" class="close_popup_btn" data-dismiss="modal"><i class="fas fa-times"></i></button>
+          </span>
+        </h4>
+      </div>
+      <div class="modal-body">
+        <div class="popup_container">
+          <div class="content_div" style="text-align:center;">
+            <div *ngIf="signaturePreviewUrl">
+              <img [src]="signaturePreviewUrl" style="max-width:250px;max-height:120px;border:1px solid #ccc;padding:4px;" />
+            </div>
+            <div *ngIf="!signaturePreviewUrl" style="color:#888;padding:10px;">
+              No signature uploaded yet.
+            </div>
+            <br/>
+            <input type="file" accept="image/*" (change)="onSignatureFileSelected($event)" />
+            <br/><br/>
+            <div class="popup-buttons">
+              <button type="button" class="btn btn-success btn-sm" (click)="applySignature()">Apply Signature</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" (click)="downloadWithoutSignature()">Download without Signature</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

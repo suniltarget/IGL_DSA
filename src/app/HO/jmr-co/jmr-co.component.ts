@@ -49,6 +49,9 @@ selectedfortnight: string='';
 dateFrom: string='';
 dateTo: string='';
 errorFound: boolean = true;
+pendingDownloadFn: ((skipSignature: boolean) => void) | null = null;
+pendingSignatureFile: File | null = null;
+signaturePreviewUrl: string = '';
 listMO:{Email}[];
 UserId:string= this.objCook.get('loginId');
   emailid: any;
@@ -509,11 +512,17 @@ UserId:string= this.objCook.get('loginId');
   }
   GetPdfForStation(itm: any) {
     if (!this.ValidationReports()) return;
+    this.pendingDownloadFn = (skipSignature: boolean) => this.downloadStationPdf(itm, skipSignature);
+    this.openSignatureModal();
+  }
+  downloadStationPdf(itm: any, skipSignature: boolean = false) {
     const obj = {
       ControlRoomCode: itm.StationCode,
       flag: 'Export',
       FromDate: this.dateFrom,
-      ToDate: this.dateTo
+      ToDate: this.dateTo,
+      SkipSignature: skipSignature,
+      LoginId: localStorage.getItem('LoginId') || ''
     };
     this.objDbServ.ShowLoaders.emit(true);
     this.objDbServ.GetPdFReport(obj).subscribe(
@@ -526,6 +535,70 @@ UserId:string= this.objCook.get('loginId');
       () => {
         alert('Something went wrong.');
         this.objDbServ.ShowLoaders.emit(false);
+      }
+    );
+  }
+  openSignatureModal() {
+    this.pendingSignatureFile = null;
+    this.signaturePreviewUrl = '';
+    const loginId = localStorage.getItem('LoginId') || '';
+    this.objDbServ.getMOSignature({ LoginId: loginId }).subscribe(
+      (resp: any) => {
+        const path = JSON.parse(resp.json());
+        this.signaturePreviewUrl = path ? (this.objDbServ.apiImageAttachment + path) : '';
+      },
+      () => { this.signaturePreviewUrl = ''; }
+    );
+    $('#signaturepopup').modal('show');
+  }
+  onSignatureFileSelected(event: any) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+    this.pendingSignatureFile = file;
+    const reader = new FileReader();
+    reader.onload = (e: any) => { this.signaturePreviewUrl = e.target.result; };
+    reader.readAsDataURL(file);
+  }
+  applySignature() {
+    if (this.pendingSignatureFile) {
+      const formData = new FormData();
+      formData.append('SignatureImage', this.pendingSignatureFile, this.pendingSignatureFile.name);
+      formData.append('LoginId', localStorage.getItem('LoginId') || '');
+      this.objDbServ.ShowLoaders.emit(true);
+      this.objDbServ.uploadMOSignature(formData).subscribe(
+        () => { this.objDbServ.ShowLoaders.emit(false); this.proceedWithDownload(false); },
+        () => { this.objDbServ.ShowLoaders.emit(false); alert('Something went wrong uploading the signature.'); }
+      );
+    } else {
+      this.proceedWithDownload(false);
+    }
+  }
+  downloadWithoutSignature() {
+    this.pendingSignatureFile = null;
+    this.proceedWithDownload(true);
+  }
+  proceedWithDownload(skipSignature: boolean) {
+    $('#signaturepopup').modal('hide');
+    if (this.pendingDownloadFn) {
+      this.pendingDownloadFn(skipSignature);
+      this.pendingDownloadFn = null;
+    }
+  }
+  uploadSignature(event: any) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append('SignatureImage', file, file.name);
+    formData.append('LoginId', localStorage.getItem('LoginId') || '');
+    this.objDbServ.ShowLoaders.emit(true);
+    this.objDbServ.uploadMOSignature(formData).subscribe(
+      (resp: any) => {
+        this.objDbServ.ShowLoaders.emit(false);
+        alert('Signature uploaded successfully.');
+      },
+      (error) => {
+        this.objDbServ.ShowLoaders.emit(false);
+        alert('Something went wrong.');
       }
     );
   }
@@ -599,26 +672,30 @@ UserId:string= this.objCook.get('loginId');
       }
       {
         if (this.selectedMonth != null && this.selectedfortnight != null ) {
-          this.objDbServ.ShowLoaders.emit(true);
-          this.objDbServ.GetPdFReportCR_MO(obj).subscribe(
-            (resp: any) => {
-              const data = JSON.parse(resp.json());
-              this.objDbServ.ShowLoaders.emit(false);
-                var PdfUrl:string="";
-                PdfUrl = this.objDbServ.apiUrl.substring(0,this.objDbServ.apiUrl.length-4)+JSON.parse(resp.json());
-                const FileSaver = require('file-saver');
-                FileSaver.saveAs(PdfUrl);
-            },
-            (error) => {
-              alert('Something went wrong.');
-              this.objDbServ.ShowLoaders.emit(false);
-            }
-          )
+          this.pendingDownloadFn = (skipSignature: boolean) => this.downloadAllStationsPdf(obj, skipSignature);
+          this.openSignatureModal();
         }
         else {
           alert('Please Select Reporting Date.');
         }
       }
     }
+  }
+  downloadAllStationsPdf(obj: any, skipSignature: boolean = false) {
+    obj = { ...obj, SkipSignature: skipSignature, LoginId: localStorage.getItem('LoginId') || '' };
+    this.objDbServ.ShowLoaders.emit(true);
+    this.objDbServ.GetPdFReportCR_MO(obj).subscribe(
+      (resp: any) => {
+        this.objDbServ.ShowLoaders.emit(false);
+        var PdfUrl: string = "";
+        PdfUrl = this.objDbServ.apiUrl.substring(0, this.objDbServ.apiUrl.length - 4) + JSON.parse(resp.json());
+        const FileSaver = require('file-saver');
+        FileSaver.saveAs(PdfUrl);
+      },
+      (error) => {
+        alert('Something went wrong.');
+        this.objDbServ.ShowLoaders.emit(false);
+      }
+    )
   }
 }
